@@ -4,6 +4,6 @@ class SupportPrivacyMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        if request.path.startswith('/support/'):
+        if request.path.startswith(('/support/', '/chat/')):
             response['Cache-Control'] = 'no-store'
         return response

@@ -1,0 +1,72 @@
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 1 test(s).
+Operations to perform:
+  Apply all migrations: auth, chat, contenttypes, membership, sessions, support
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying membership.0001_initial... OK
+  Applying membership.0002_auditevent... OK
+  Applying membership.0003_membership_session_version... OK
+  Applying membership.0004_nasbinding... OK
+  Applying membership.0005_authattempt... OK
+  Applying membership.0006_membership_membership_valid_status_and_more... OK
+  Applying membership.0007_tenant_signup_enabled... OK
+  Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+  Applying membership.0009_membership_quota_bytes... OK
+  Applying membership.0010_seed_existing_capacity... OK
+  Applying chat.0001_initial... OK
+  Applying chat.0002_message... OK
+  Applying chat.0003_ratewindow... OK
+  Applying sessions.0001_initial... OK
+  Applying support.0001_initial... OK
+  Applying support.0002_ticketreply...test_two_clients_automatic_updates_disconnect_resume_and_plain_text (browser_tests.chat.ChatBrowserTests.test_two_clients_automatic_updates_disconnect_resume_and_plain_text) ... FAIL
+
+======================================================================
+FAIL: test_two_clients_automatic_updates_disconnect_resume_and_plain_text (browser_tests.chat.ChatBrowserTests.test_two_clients_automatic_updates_disconnect_resume_and_plain_text)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/browser_tests/chat.py", line 29, in test_two_clients_automatic_updates_disconnect_resume_and_plain_text
+    expect(first.get_by_role('button', name='내 대화 시작')).to_be_visible()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/myeong-gyeongmin/Synology-Admin/.venv/lib/python3.14/site-packages/playwright/sync_api/_generated.py", line 20523, in to_be_visible
+    self._sync(self._impl_obj.to_be_visible(visible=visible, timeout=timeout))
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/Synology-Admin/.venv/lib/python3.14/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/Users/myeong-gyeongmin/Synology-Admin/.venv/lib/python3.14/site-packages/playwright/_impl/_assertions.py", line 765, in to_be_visible
+    await self._expect_impl(
+    ...<5 lines>...
+    )
+  File "/Users/myeong-gyeongmin/Synology-Admin/.venv/lib/python3.14/site-packages/playwright/_impl/_assertions.py", line 85, in _expect_impl
+    raise AssertionError(
+        f"{out_message}\nActual value: {actual}{error_message} {format_call_log(result.get('log'))}"
+    )
+AssertionError: Locator expected to be visible
+Actual value: None
+Error: element(s) not found
+Call log:
+  - Expect "to_be_visible" with timeout 5000ms
+  - waiting for get_by_role("button", name="내 대화 시작")
+
+
+----------------------------------------------------------------------
+Ran 1 test in 8.221s
+
+FAILED (failures=1)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
+System check identified no issues (0 silenced).
