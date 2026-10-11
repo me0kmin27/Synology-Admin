@@ -11,7 +11,8 @@ Django 내장 auth 테이블 설치는 회원 승인 기능 완성을 뜻하지 
 계정/그룹별 할당·사용·잔여 용량, 고객지원 티켓/채팅, 동의 기반 원격지원.
 제안: Django 단일 앱, 초기 개발 SQLite, 운영 PostgreSQL 검토, NAS 연결은 별도 adapter/worker.
 미결정: NAS 모델·DSM·파일시스템·API capability, 사용자/그룹 quota 지원 및 중복 그룹 집계,
-갱신 주기·SLO, 그룹 사용량 열람 범위, 인증 연동, 보존기한·RPO/RTO·과금.
+갱신 주기·SLO, 그룹 사용량 열람 범위, NAS 연결 상세 절차, 보존기한·RPO/RTO·과금.
+인증 방식 확정: 독립 포털 계정으로 웹 가입·관리자 승인 후 NAS 계정 연결. DSM 비밀번호로 포털 로그인하지 않는다. `membership-auth-decision.md` 참조.
 어떠한 API 지원이나 웹 원격지원 가능 여부도 아직 입증되지 않았다.
 
 ## 역할과 격리 수용 기준 (미구현)

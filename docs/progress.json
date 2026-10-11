@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "local_and_initial_remote_ci_verified_parent_review_pending",
+  "status": "foundation_independently_verified_other_stages_pending",
   "completion_authority": "parent independent verification; no overall percentage claimed",
   "stages": [
     {
@@ -28,7 +28,7 @@
       "id": 2,
       "name": "실행 앱·DB·테스트·CI 기반",
       "weight": 15,
-      "status": "in_progress",
+      "status": "completed",
       "acceptance": [
         {
           "criterion": "고정 의존성·최소 앱·실제 DB 마이그레이션",
@@ -49,8 +49,8 @@
         },
         {
           "criterion": "원격 브랜치 CI 성공·독립 검토",
-          "verified": false,
-          "evidence": []
+          "verified": true,
+          "evidence": ["docs/evidence/ci.json", "docs/evidence/independent-review.md", "docs/evidence/independent-verification.txt"]
         }
       ]
     },
@@ -170,14 +170,14 @@
     "ci": {
       "verified_run": {
         "conclusion": "success",
-        "databaseId": 38137203138,
-        "headSha": "459f468bc48fdb9e4b5b303f308fd47f0507eb00",
+        "databaseId": 38137264465,
+        "headSha": "58cde91a94e5c3f9fa043721ddf3be531aead411",
         "status": "completed",
-        "url": "https://github.com/me0kmin27/Synology-Admin/actions/runs/38137203138"
+        "url": "https://github.com/me0kmin27/Synology-Admin/actions/runs/38137264465"
       },
-      "subsequent_commit_note": "CI runtime updated to Node 24 actions / Ubuntu 24.04 after initial successful run; final head verified separately by parent/return evidence"
+      "subsequent_commit_note": "Reviewed application SHA CI verified; subsequent documentation-only final head CI returned separately to parent"
     },
-    "independent_review": "pending_parent"
+    "independent_review": "approved_foundation_only: docs/evidence/independent-review.md"
   },
   "prohibited_actions_performed": []
 }

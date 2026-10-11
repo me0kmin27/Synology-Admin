@@ -46,4 +46,5 @@ SECRET_KEY는 재시작 간 유지가 필요한 실제 서비스에서 secret st
 - `docs/deployment-design.md`: 미배포 설계와 health 한계
 
 Git에는 소스/문서/비밀 없는 설정만 저장합니다. 회원·티켓·채팅·NAS 파일·운영 DB·접속 비밀은 금지입니다.
-NAS 모델/DSM/API, 그룹 quota 의미, 배포 호스트, 인증 연동, RustDesk 웹 capability/라이선스는 미확정입니다.
+NAS 모델/DSM/API, 그룹 quota 의미, 배포 호스트, NAS 연결 상세 절차, RustDesk 웹 capability/라이선스는 미확정입니다.
+인증 방식은 독립 포털 계정 → 관리자 승인 → NAS 연결로 사용자 확정했습니다. DSM 비밀번호 포털 로그인은 제공하지 않습니다. `docs/membership-auth-decision.md` 참조.
