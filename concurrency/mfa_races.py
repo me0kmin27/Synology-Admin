@@ -30,6 +30,29 @@ class MFARaces(TransactionTestCase):
         self.assertEqual(self.browsers[0].post('/mfa/verify/', {'token': token}).status_code, 429)
         print('MFA PostgreSQL: pg_blocking_pids proved overlap; single OTP winner; failure committed')
 
+    def test_queued_verified_request_rechecks_device_and_global_role(self):
+        from concurrent.futures import ThreadPoolExecutor
+        from tests.mfa_helpers import Client
+        from membership.locking import policy_transaction
+        from concurrency.reply_races import ReplyRaces
+        for mutation in ('device', 'role'):
+            with self.subTest(mutation=mutation):
+                self.user.refresh_from_db()
+                browser = Client()
+                browser.force_login(self.user)
+                with ThreadPoolExecutor(max_workers=1) as pool:
+                    with policy_transaction():
+                        future = pool.submit(self.request, browser, '/manage/1/approve/', 'mfa-revoked-waiter')
+                        ReplyRaces.assert_blocked(self, 'mfa-revoked-waiter', future)
+                        if mutation == 'device':
+                            from membership.models import AdminOTPDevice
+                            AdminOTPDevice.objects.filter(user=self.user).delete()
+                        else:
+                            User.objects.filter(pk=self.user.pk).update(is_superuser=False)
+                    self.assertEqual(future.result(timeout=10), 403)
+                self.assertNotIn('_auth_user_id', browser.session)
+        print('MFA PostgreSQL: queued request denied after device deletion/global role change, session flushed')
+
     def test_concurrent_enrollment_is_one_device(self):
         self.device.delete()
         results = self.simultaneous([(browser, '/mfa/enroll/', {'password': 'Disposable-race-password-827!'}) for browser in self.browsers])
