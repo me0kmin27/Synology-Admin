@@ -1,0 +1,10 @@
+[2026-10-12 08:23:14 +0900] [74800] [INFO] Starting gunicorn 26.2.0
+[2026-10-12 08:23:14 +0900] [74800] [INFO] Listening at: http://127.0.0.1:52004 (74800)
+[2026-10-12 08:23:14 +0900] [74800] [INFO] Using worker: gthread
+[2026-10-12 08:23:14 +0900] [74801] [INFO] Booting worker with pid: 74801
+[2026-10-12 08:23:14 +0900] [74802] [INFO] Booting worker with pid: 74802
+PACKAGED UI PASS: 3 public routes x desktop/mobile; rendered local CSS, responsive computed styles, CSRF forms, no external requests or JS errors
+[2026-10-12 08:23:14 +0900] [74800] [INFO] Handling signal: term
+[2026-10-11 18:23:14 -0500] [74801] [INFO] Worker exiting (pid: 74801)
+[2026-10-11 18:23:14 -0500] [74802] [INFO] Worker exiting (pid: 74802)
+[2026-10-12 08:23:15 +0900] [74800] [INFO] Shutting down: Master

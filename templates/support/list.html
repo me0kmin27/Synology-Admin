@@ -1,5 +1,9 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><title>지원 티켓</title><h1>지원 티켓</h1>
-<a href="/support/new/">새 지원 요청</a>
-<ul>{% for ticket in page %}<li><a href="/support/{{ ticket.pk }}/">{{ ticket.title }}</a></li>{% empty %}<li>티켓 없음</li>{% endfor %}</ul>
-<nav aria-label="티켓 페이지"><a href="/support/">최신 목록</a>
-{% if next_cursor %}<a rel="next" href="?before={{ next_cursor }}">이전 티켓</a>{% endif %}</nav></html>
+{% extends "base.html" %}
+{% block title %}지원 티켓{% endblock %}
+{% block nav_support %}aria-current="page"{% endblock %}
+{% block breadcrumb %}지원 요청{% endblock %}
+{% block content %}
+<div class="page-heading heading-row"><div><p class="eyebrow">SUPPORT DESK</p><h1>지원 티켓</h1><p>문의 내역과 담당자의 답변을 확인하세요.</p></div><a class="button" href="/support/new/">새 지원 요청</a></div>
+<section class="panel"><h2>문의 내역</h2><ul class="link-list">{% for ticket in page %}<li><a href="/support/{{ ticket.pk }}/"><span>{{ ticket.title }}<small>#{{ ticket.pk }}</small></span><span aria-hidden="true">→</span></a></li>{% empty %}<li class="empty-state"><strong>티켓 없음</strong><p>새 지원 요청을 등록하면 이곳에서 확인할 수 있습니다.</p></li>{% endfor %}</ul></section>
+<nav class="pagination" aria-label="티켓 페이지"><a href="/support/">최신 목록</a>{% if next_cursor %}<a rel="next" href="?before={{ next_cursor }}">이전 티켓</a>{% endif %}</nav>
+{% endblock %}

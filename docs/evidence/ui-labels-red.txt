@@ -1,0 +1,21 @@
+Creating test database for alias 'default'...
+F.
+======================================================================
+FAIL: test_all_pages_real_forms_and_screenshots (browser_tests.portal_ui.PortalUIBrowserTests.test_all_pages_real_forms_and_screenshots)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/browser_tests/portal_ui.py", line 167, in test_all_pages_real_forms_and_screenshots
+    capture('manage')
+    ~~~~~~~^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/browser_tests/portal_ui.py", line 80, in capture
+    self.assertEqual(page.locator('input[type=password]').evaluate_all('els => els.filter(e => !e.labels?.length).length'), 0, 'Reauthentication needs visible labels, not only aria-label')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 9 != 0 : Reauthentication needs visible labels, not only aria-label
+
+----------------------------------------------------------------------
+Ran 2 tests in 7.949s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 2 test(s).
+System check identified no issues (0 silenced).

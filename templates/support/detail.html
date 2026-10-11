@@ -1,7 +1,11 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><title>지원 티켓</title>
-<h1>{{ ticket.title }}</h1><p>{{ ticket.created_at }}</p><pre>{{ ticket.body }}</pre><h2>답변</h2>
-{% for reply in replies %}<article><p>{{ reply.author.username }} · {{ reply.created_at }}</p><pre>{{ reply.body }}</pre></article>{% empty %}<p>답변 없음</p>{% endfor %}
-<nav aria-label="답변 페이지"><a href="/support/{{ ticket.pk }}/">처음 답변</a>
-{% if next_cursor %}<a rel="next" href="/support/{{ ticket.pk }}/?after={{ next_cursor }}">다음 답변</a>{% endif %}</nav>
-<form method="post" action="/support/{{ ticket.pk }}/replies/">{% csrf_token %}{{ form.as_p }}<button type="submit">답변 등록</button></form>
-<a href="/support/">목록</a></html>
+{% extends "base.html" %}
+{% block title %}지원 티켓{% endblock %}
+{% block nav_support %}aria-current="page"{% endblock %}
+{% block breadcrumb %}지원 요청 / #{{ ticket.pk }}{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">REQUEST #{{ ticket.pk }}</p><h1>{{ ticket.title }}</h1><p>{{ ticket.created_at }}</p></div>
+<section class="panel"><h2>문의 내용</h2><pre>{{ ticket.body }}</pre></section>
+<section class="panel thread"><h2>답변</h2>{% for reply in replies %}<article><p>{{ reply.author.username }} · {{ reply.created_at }}</p><pre>{{ reply.body }}</pre></article>{% empty %}<p class="muted">답변 없음</p>{% endfor %}
+<nav class="pagination" aria-label="답변 페이지"><a href="/support/{{ ticket.pk }}/">처음 답변</a>{% if next_cursor %}<a rel="next" href="/support/{{ ticket.pk }}/?after={{ next_cursor }}">다음 답변</a>{% endif %}</nav></section>
+<section class="panel"><h2>답변 작성</h2><form method="post" action="/support/{{ ticket.pk }}/replies/">{% csrf_token %}{% include "ui/fields.html" %}<div class="actions"><button type="submit">답변 등록</button><a class="button secondary" href="/support/">목록</a></div></form></section>
+{% endblock %}

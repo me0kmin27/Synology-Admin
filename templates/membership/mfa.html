@@ -1,6 +1,12 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><title>관리자 OTP</title>
-<h1>관리자 OTP</h1>
-{% if seed %}<p>인증 앱에 직접 입력하세요. TOTP / SHA1 / 6자리 / 30초</p><code id="otp-seed">{{ seed }}</code>{% endif %}
-{% if enroll %}<form method="post">{% csrf_token %}<label>현재 비밀번호 <input type="password" name="password" autocomplete="current-password" required></label><button>등록 시작</button></form>
-{% else %}<form method="post" action="/mfa/verify/">{% csrf_token %}<label>OTP <input name="token" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></label><button>OTP 확인</button></form>{% endif %}
-<form method="post" action="/logout/">{% csrf_token %}<button>로그아웃</button></form></html>
+{% extends "base.html" %}
+{% block title %}관리자 OTP{% endblock %}
+{% block breadcrumb %}관리자 보안 인증{% endblock %}
+{% block content_class %}auth-layout{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">SECURITY CHECK</p><h1>관리자 OTP</h1><p>관리 기능에 접근하려면 추가 인증이 필요합니다.</p></div>
+<section class="panel auth-panel">
+{% if seed %}<h2>인증 앱에 계정 추가</h2><p>인증 앱에 직접 입력하세요. TOTP / SHA1 / 6자리 / 30초</p><code class="otp-seed" id="otp-seed">{{ seed }}</code><p class="supporting-text">이 등록 키는 비밀 정보입니다. 다른 사람에게 공유하지 마세요.</p>{% endif %}
+{% if enroll %}<h2>인증 앱 등록 시작</h2><p class="muted">현재 포털 비밀번호로 본인 확인을 진행합니다.</p><form method="post">{% csrf_token %}<label>현재 비밀번호 <input type="password" name="password" autocomplete="current-password" required></label><div class="actions"><button>등록 시작</button></div></form>
+{% else %}<form method="post" action="/mfa/verify/">{% csrf_token %}<label>OTP <input name="token" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></label><div class="actions"><button>OTP 확인</button></div></form>{% endif %}
+<div class="auth-footer"><form method="post" action="/logout/">{% csrf_token %}<button class="secondary">로그아웃</button></form></div></section>
+{% endblock %}

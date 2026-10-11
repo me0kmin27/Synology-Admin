@@ -1,0 +1,146 @@
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 5 test(s).
+Operations to perform:
+  Apply all migrations: auth, chat, contenttypes, membership, sessions, support
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying membership.0001_initial... OK
+  Applying membership.0002_auditevent... OK
+  Applying membership.0003_membership_session_version... OK
+  Applying membership.0004_nasbinding... OK
+  Applying membership.0005_authattempt... OK
+  Applying membership.0006_membership_membership_valid_status_and_more... OK
+  Applying membership.0007_tenant_signup_enabled... OK
+  Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+  Applying membership.0009_membership_quota_bytes... OK
+  Applying membership.0010_seed_existing_capacity... OK
+  Applying chat.0001_initial... OK
+  Applying chat.0002_message... OK
+  Applying chat.0003_ratewindow... OK
+  Applying chat.0004_conversation_conversation_tenant_cursor... OK
+  Applying membership.0011_adminotpdevice... OK
+  Applying sessions.0001_initial... OK
+  Applying support.0001_initial... OK
+  Applying support.0002_ticketreply... OK
+  Applying support.0003_ticket_ticket_tenant_cursor_and_more...test_two_clients_automatic_updates_disconnect_resume_and_plain_text (browser_tests.chat.ChatBrowserTests.test_two_clients_automatic_updates_disconnect_resume_and_plain_text) ... FAIL
+test_unconnected_account_and_admin_group_with_real_login (browser_tests.storage.StorageBrowserTests.test_unconnected_account_and_admin_group_with_real_login) ... ok
+test_real_enrollment_gate_logout_and_replay (browser_tests.mfa.MFABrowserTests.test_real_enrollment_gate_logout_and_replay) ... ok
+test_all_pages_real_forms_and_screenshots (browser_tests.portal_ui.PortalUIBrowserTests.test_all_pages_real_forms_and_screenshots) ... ERROR
+test_responsive_keyboard_shell (browser_tests.portal_ui.PortalUIBrowserTests.test_responsive_keyboard_shell) ... ok
+
+======================================================================
+ERROR: test_all_pages_real_forms_and_screenshots (browser_tests.portal_ui.PortalUIBrowserTests.test_all_pages_real_forms_and_screenshots)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/backends/sqlite3/base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database table is locked
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/browser_tests/portal_ui.py", line 114, in test_all_pages_real_forms_and_screenshots
+    db_call(lambda: Membership.objects.filter(user__username='ui-member-test').update(status='approved'))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/browser_tests/portal_ui.py", line 57, in db_call
+    return pool.submit(run).result(timeout=10)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/tools/python-3.14.7+20260901-darwin-arm64/lib/python3.14/concurrent/futures/_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/myeong-gyeongmin/.hermes/tools/python-3.14.7+20260901-darwin-arm64/lib/python3.14/concurrent/futures/_base.py", line 396, in __get_result
+    raise self._exception
+  File "/Users/myeong-gyeongmin/.hermes/tools/python-3.14.7+20260901-darwin-arm64/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/myeong-gyeongmin/.hermes/tools/python-3.14.7+20260901-darwin-arm64/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/browser_tests/portal_ui.py", line 53, in run
+    return function()
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/browser_tests/portal_ui.py", line 114, in <lambda>
+    db_call(lambda: Membership.objects.filter(user__username='ui-member-test').update(status='approved'))
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/models/query.py", line 1263, in update
+    rows = query.get_compiler(self.db).execute_sql(ROW_COUNT)
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/models/sql/compiler.py", line 2060, in execute_sql
+    row_count = super().execute_sql(result_type)
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/models/sql/compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/django/db/backends/sqlite3/base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: database table is locked
+
+======================================================================
+FAIL: test_two_clients_automatic_updates_disconnect_resume_and_plain_text (browser_tests.chat.ChatBrowserTests.test_two_clients_automatic_updates_disconnect_resume_and_plain_text)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/browser_tests/chat.py", line 56, in test_two_clients_automatic_updates_disconnect_resume_and_plain_text
+    expect(second.locator('#messages li')).to_have_count(2, timeout=12000)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/playwright/sync_api/_generated.py", line 19651, in to_have_count
+    self._sync(self._impl_obj.to_have_count(count=count, timeout=timeout))
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_assertions.py", line 382, in to_have_count
+    await self._expect_impl(
+    ...<5 lines>...
+    )
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_assertions.py", line 85, in _expect_impl
+    raise AssertionError(
+        f"{out_message}\nActual value: {actual}{error_message} {format_call_log(result.get('log'))}"
+    )
+AssertionError: Locator expected to have count '2'
+Actual value: 0
+Call log:
+  - Expect "to_have_count" with timeout 12000ms
+  - waiting for locator("#messages li")
+    16 × locator resolved to 0 elements
+       - unexpected value "0"
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 40.963s
+
+FAILED (failures=1, errors=1)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
+System check identified no issues (0 silenced).
+STORAGE BROWSER PASS: real login/HTTP; no-I/O reader unknown; own account; restricted group; forged scope ignored; no-store; no portal quotas presented as NAS data
+MFA BROWSER PASS: password login gated; enrollment seed only on protected response; OTP confirms; logout/new login requires fresh OTP

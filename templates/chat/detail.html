@@ -1,14 +1,14 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><title>채팅 #{{ conversation.pk }}</title>
-<h1>채팅 #{{ conversation.pk }} — 준실시간</h1>
-<p>3초 간격 자동 갱신. 접속/읽음 상태 아님. 첨부파일은 지원하지 않습니다.</p>
-<p>이 화면은 최근 수신한 최대 500개를 표시합니다. 새로 열면 처음부터 순서대로 가져옵니다.</p>
-<p id="transport" role="status">메시지 불러오는 중</p>
-<ol id="messages" aria-live="polite" style="white-space:pre-wrap"></ol>
-<form id="send" method="post" action="events/">{% csrf_token %}
-<label>메시지 <textarea name="body" maxlength="2000" required></textarea></label>
-<button>보내기</button></form><p id="send-status" role="status"></p>
-<noscript>자동 채팅에는 JavaScript가 필요합니다.</noscript>
-<a href="/chat/">대화 목록</a>
+{% extends "base.html" %}
+{% block title %}채팅 #{{ conversation.pk }}{% endblock %}
+{% block nav_chat %}aria-current="page"{% endblock %}
+{% block breadcrumb %}메시지 / #{{ conversation.pk }}{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">CONVERSATION #{{ conversation.pk }}</p><h1>채팅 #{{ conversation.pk }} — 준실시간</h1><p>3초 간격 자동 갱신. 접속/읽음 상태 아님. 첨부파일은 지원하지 않습니다.</p></div>
+<section class="panel"><h2>메시지</h2><p id="transport" role="status">메시지 불러오는 중</p><ol id="messages" aria-live="polite" aria-label="대화 메시지"></ol>
+<form id="send" method="post" action="events/">{% csrf_token %}<label>메시지 <textarea name="body" maxlength="2000" required></textarea></label><button>보내기</button></form><p id="send-status" role="status"></p><noscript>자동 채팅에는 JavaScript가 필요합니다.</noscript></section>
+<p class="supporting-text">이 화면은 최근 수신한 최대 500개를 표시합니다. 새로 열면 처음부터 순서대로 가져옵니다.</p><a href="/chat/">대화 목록</a>
+{% endblock %}
+{% block scripts %}
 <script>
 (() => {
   const form = document.querySelector('#send');
@@ -89,4 +89,5 @@
   });
   poll();
 })();
-</script></html>
+</script>
+{% endblock %}
