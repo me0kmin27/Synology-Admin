@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 import uuid
 from django_otp.models import Device, ThrottlingMixin, TimestampMixin
+from django.views.decorators.debug import sensitive_variables
 
 
 class AdminOTPDevice(TimestampMixin, ThrottlingMixin, Device):
@@ -17,6 +18,7 @@ class AdminOTPDevice(TimestampMixin, ThrottlingMixin, Device):
         from .mfa_crypto import unseal
         return unseal(self)
 
+    @sensitive_variables()
     def verify_token(self, token):
         import re
         from django_otp.oath import TOTP

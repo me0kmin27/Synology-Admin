@@ -4,7 +4,7 @@ from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import build_opener, HTTPCookieProcessor
 from django.contrib.auth.models import User
-from django.test import LiveServerTestCase, override_settings
+from tests.mfa_helpers import LiveServerTestCase, override_settings
 from membership.models import Membership, Tenant
 from tests.test_membership_http import Tokens
 from support.models import Ticket, TicketAudit

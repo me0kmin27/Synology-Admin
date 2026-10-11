@@ -4,12 +4,12 @@
 
 ## 확정 결정 (후속 지시가 과거 제안보다 우선)
 
-- **1A:** 고객사 전용 공유폴더 정책 채택. 실제 NAS 모델/API·데이터 귀속 검증과 NAS 접속/변경 승인은 별도이다.
+- **1A:** 고객사 전용 공유폴더 정책 채택. NAS 모델·파일시스템은 정보표시/회원관리 개발의 선행조건이 아니며 특정 기종이나 Btrfs를 강제하지 않는다. 선택 메타데이터 및 실제 adapter capability/데이터 귀속 검증은 분리한다. 관측 없이 NAS quota enforcement 성공을 주장하지 않는다.
 - **2A:** RustDesk 브라우저 UI까지 완전 자가 호스팅. public hosted web client는 채택하지 않는다. 구매·라이선스 계약은 승인하지 않았으며 필요 조건/예산 검증 후 별도 승인한다. 기존 Rustdesk-Quicksupport 저장소 변경 금지.
 - **3A:** 포털 자체 관리자 OTP, DB에는 암호화 seed만 보관하고 전용 암호화 키는 DB 밖에서 주입. 전역/그룹 관리자 등록·확인·접근 강제를 먼저 구현한다. 그룹 관리자 복구의 전역 관리자 승인 원칙은 확정. **전역 관리자 복구 승인/보관 책임자 및 키 백업 책임자는 미정**이며 배포 게이트이다. 복구/우회 구현은 이번 범위에서 제외.
-- **4A:** 포털과 DB는 NAS와 분리된 별도 서버에 배치. 서버 제공자/호스트는 미선정이며 임의 구매·배포하지 않는다.
+- **4A:** 포털과 DB는 NAS와 분리된 별도 서버에 배치. 사용자 지정 배포 서버는 `192.168.1.14`, 계정은 `me0kmin27`로 확정. 실제 접속/배포는 부모의 별도 확인이 필요하며 현재 운영 수정 금지. 비밀번호/키 값은 수집·기록하지 않는다.
 
-네 선택은 더 이상 pending이 아니다. 남은 운영 입력은 실제 시험 대상, 라이선스/구매 승인, 배포 호스트, 복구 trustee·키 백업 책임자와 복구 훈련이다.
+네 선택과 배포 호스트는 더 이상 pending이 아니다. 단독/복수 전체Admin을 모두 지원하며 단독 운영 고정이나 반드시 두 사람 복구를 강제하지 않는다. 단독은 지정된 외부 복구 trustee 또는 신뢰된 호스트 관리자 확인, 복수는 지정된 다른 전체Admin 승인 등 선택 가능한 정책 구조를 별도 확정한다. 자동복구/인증 우회는 제공하지 않는다. 남은 운영 입력은 실제 capability 시험, 라이선스/구매 승인, 선택한 복구 승인·키 백업 책임자와 복구 훈련이다.
 
 기준: `me0kmin27/Synology-Admin`의 refreshed `origin/main` = `5af1f14bc0e79e6d31a634fc9069ba75e1ac42e6` (PR #8 병합 확인).
 조사는 2026-10-11 23시대 KST에 시작했으며 자정을 넘긴 조회는 2026-10-12로 기록한다. 출처별 정확한 UTC 조회시각·방법·본문 해시는 `evidence/next-decisions-sources.json` 참조.
@@ -88,7 +88,7 @@
 
 ## D3 — 최소 배포 가능한 MFA 설계 제안
 
-현재 `requirements.txt`에는 Django 등만 있고 django-otp는 없으며 MFA는 미구현이다. 기존 비밀번호 재인증을 2차 인증으로 계산하지 않는다.
+조사 당시에는 MFA가 미구현이었다. 3A 확정 후 첫 등록·확인·접근 강제 구현 계약과 검증은 `admin-mfa.md` 및 `evidence/mfa-implementation.md`로 갱신한다. 기존 비밀번호 재인증만을 2차 인증으로 계산하지 않는다.
 django-otp TOTPDevice는 hex seed `CharField`, `last_t`, drift와 실패 throttle을 가진다. hex는 암호화가 아니다. `django_otp.verify_token()`은 transaction과 `for_verify=True` device load를 사용한다.[10][11]
 cryptography의 Fernet은 인증된 암호화와 MultiFernet 키 회전을 제공한다. 키 유출 시 복호화가 가능하고 키 분실 시 복구가 불가능하므로 DB 암호화만으로 운영 보안이 완성되지 않는다.[12]
 
@@ -118,7 +118,7 @@ cryptography의 Fernet은 인증된 암호화와 MultiFernet 키 회전을 제�
 
 **대안 B:** seed 자체를 외부 secret store에 두고 Device에는 secret reference만 저장. key custody 요구에 더 직접적이지만 store 선택/배포·권한·장애 대응이 선행한다. 추가 인프라가 이미 존재한다고 가정하지 않는다.
 
-**승인 전 가능한 작업:** enrollment/verify/recovery 상태 머신과 gate 부정 테스트, synthetic key를 쓰는 암호화 wrapper spike, PostgreSQL 동시 replay/실패 throttle commit/키 누락·변조·row swap/QR 누출·세션 폐기 테스트 설계. 실제 비밀 생성·migration 적용·운영 공개는 하지 않는다. 관리자 MFA 수용 점수는 구현·독립 리뷰·복구 훈련 전 부여하지 않는다.
+**과거 승인 전 작업 목록 (현재 등록·검증·접근 강제는 승인됨):** enrollment/verify/recovery 상태 머신과 gate 부정 테스트, synthetic key를 쓰는 암호화 wrapper spike, PostgreSQL 동시 replay/실패 throttle commit/키 누락·변조·row swap/QR 누출·세션 폐기 테스트 설계. 실제 비밀 생성·migration 적용·운영 공개는 하지 않는다. 관리자 MFA 수용 점수는 구현·독립 리뷰·복구 훈련 전 부여하지 않는다.
 
 ## 세분화 로드맵 제안 — 합계 100 유지, 점수 반영 아님
 
@@ -136,9 +136,9 @@ cryptography의 Fernet은 인증된 암호화와 MultiFernet 키 회전을 제�
 
 ## 이번 PR의 수용 범위와 다음 순서
 
-- 이 PR: 공식 출처·기존 저장소 읽기 전용 근거, 결정 세 개, 미확인 경계, 안전한 다음 작업과 소단계 제안만. 앱 코드/의존성/설정 변경 없음.
+- 원 조사 PR은 문서만 다뤘다. 현재 후속 PR은 확정된 네 선택 반영과 `admin-mfa.md`의 bounded OTP slice를 구현·검증한다. 복구나 전체 단계 완료를 주장하지 않는다.
 - 부모: 문서 주장·원본 근거·배점 제안 검토, exact head CI 확인 후 병합 판단. 본 작업자는 병합하지 않음.
-- 후속: 확정된 1A/2A/3A/4A를 다시 묻지 않는다. MFA 등록·검증·강제는 사용자 승인 범위. 복구 trustee/키 백업 책임자, 구매 승인, 실제 호스트 등 남은 운영 입력만 별도 확정한다.
+- 후속: 확정된 1A/2A/3A/4A를 다시 묻지 않는다. MFA 등록·검증·강제는 사용자 승인 범위. 복구 trustee/키 백업 책임자, 구매 승인, 실제 접속/배포 승인 등 남은 운영 입력만 별도 확정한다.
 - 운영 NAS/원격지원 서버 접속, credential 사용, 포트/인프라 변경, 결제, 알림 전송은 이번 작업에 포함하지 않았다.
 
 ## Sources

@@ -1,6 +1,6 @@
 """Real Chromium/HTTP, real no-I/O reader; no injected NAS observations."""
 from django.contrib.auth.models import User
-from django.test import LiveServerTestCase, override_settings
+from tests.mfa_helpers import LiveServerTestCase, override_settings
 from membership.models import Membership, Tenant
 from playwright.sync_api import sync_playwright, expect
 
@@ -25,7 +25,12 @@ class StorageBrowserTests(LiveServerTestCase):
                 page.locator('[name=username]').fill(user.username)
                 page.locator('[name=password]').fill(password)
                 page.locator('button').click()
-                page.wait_for_url('**/account/')
+                if user.username.endswith('admin'):
+                    from tests.mfa_helpers import browser_enroll
+                    browser_enroll(page, password)
+                    page.goto(self.live_server_url + '/account/')
+                else:
+                    page.wait_for_url('**/account/')
                 page.get_by_role('link', name='서비스 상태').click()
                 expect(page.get_by_role('heading', name='스토리지 대시보드')).to_be_visible()
                 response = page.goto(self.live_server_url + '/service/?tenant=999&account=other&scope=volume')

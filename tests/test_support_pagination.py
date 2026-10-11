@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import connection
-from django.test import TestCase, override_settings
+from tests.mfa_helpers import TestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from membership.models import Membership, Tenant
 from support.models import Ticket, TicketReply
@@ -61,11 +61,14 @@ class SupportPaginationTests(TestCase):
         self.assertEqual(self.client.get(f'/chat/{other_conversation.pk}/events/?after=0').status_code, 404)
         self.member.tenant = other_tenant
         self.member.save()
+        self.assertEqual(self.client.get(self.path).status_code, 302)
+        self.client.force_login(self.user)
         self.assertEqual(self.client.get(self.path + '?after=0').status_code, 404)
         self.assertEqual(self.client.get('/support/?before=9223372036854775807').context['page'], [])
         self.assertEqual(self.client.get('/chat/?before=9223372036854775807').context['page'], [])
         self.member.status = 'suspended'
         self.member.save()
+        self.client.force_login(self.user)
         for path in ('/support/?before=0', self.path + '?after=0', '/chat/?before=0', f'/chat/{conversation.pk}/events/?after=0'):
             response = self.client.get(path)
             self.assertEqual(response.status_code, 403)
@@ -133,6 +136,7 @@ class SupportPaginationTests(TestCase):
         from chat.models import Conversation
         self.member.role = 'admin'
         self.member.save()
+        self.client.force_login(self.user)
         tickets = [self.ticket] + Ticket.objects.bulk_create([
             Ticket(tenant=self.tenant, author=self.user, title=f'Ticket {i}', body='secret body') for i in range(52)
         ])

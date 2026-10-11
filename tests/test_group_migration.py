@@ -1,6 +1,6 @@
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
-from django.test import TransactionTestCase
+from tests.mfa_helpers import TransactionTestCase
 
 
 class GroupMigrationTests(TransactionTestCase):

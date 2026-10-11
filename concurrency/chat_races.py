@@ -5,7 +5,7 @@ from unittest.mock import patch
 from uuid import uuid4
 
 from django.db import connection, connections
-from django.test import TransactionTestCase, override_settings
+from tests.mfa_helpers import TransactionTestCase, override_settings
 from concurrency import races, reply_races
 from membership import views as membership_views
 from chat import views

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from unittest.mock import patch
-from django.test import TestCase, override_settings
+from tests.mfa_helpers import TestCase, override_settings
 
 
 @override_settings(SECURE_SSL_REDIRECT=False)
@@ -42,7 +42,7 @@ class SignupTests(TestCase):
 
     def test_revoke_ends_all_active_sessions_and_prevents_replay(self):
         from membership.models import Membership, Tenant, AuditEvent
-        from django.test import Client
+        from tests.mfa_helpers import Client
         from django.contrib.sessions.models import Session
         tenant = Tenant.objects.create(max_accounts=100, name='A')
         admin = User.objects.create_superuser('root', password='Operator-passphrase-829!')
@@ -118,7 +118,7 @@ class SignupTests(TestCase):
     @override_settings(AUTH_ATTEMPT_LIMIT=3)
     @patch('membership.throttle.time.time', return_value=1800000000)
     def test_login_throttle_is_shared_across_clients(self, clock):
-        from django.test import Client
+        from tests.mfa_helpers import Client
         for _ in range(3):
             self.assertEqual(Client().post('/login/', {'username': 'absent', 'password': 'wrong'}).status_code, 200)
         response = Client().post('/login/', {'username': 'absent', 'password': 'wrong'})

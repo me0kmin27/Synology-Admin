@@ -11,12 +11,14 @@ from .models import AuthAttempt
 
 class AuthThrottleMiddleware(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
-        if request.method != "POST" or not request.path.startswith(("/login/", "/signup/", "/manage/")):
+        if request.method != "POST" or not request.path.startswith(("/login/", "/signup/", "/manage/", "/mfa/")):
             return None
         now = int(time.time())
         window = now // 900
         scope = "manage" if request.path.startswith("/manage/") else request.path
-        if scope == "manage":
+        if request.path.startswith("/mfa/"):
+            scope = "mfa"
+        if scope in ("manage", "mfa"):
             identity = str(request.user.pk) if request.user.is_authenticated else "anonymous"
         else:
             # Match Django's username normalization, regardless of existing login.

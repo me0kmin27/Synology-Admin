@@ -21,8 +21,26 @@ def is_admin(user):
         user=user, status='approved', role='admin').exists())
 
 
+def role_binding(user):
+    member = Membership.objects.filter(user=user).values_list(
+        'role', 'status', 'tenant_id', 'session_version').first()
+    return [user.is_active, user.is_staff, user.is_superuser, list(member) if member else None]
+
+
 def device_binding(device):
     return salted_hmac('mfa-device', f'{device.identity}:{device.ciphertext}').hexdigest()
+
+
+def verified_session(request, actor, device):
+    if (not device or not device.confirmed
+            or request.session.get('auth_scope') != role_binding(actor)
+            or request.session.get('mfa_device') != device_binding(device)):
+        return False
+    age = timezone.now().timestamp() - request.session.get('mfa_at', 0)
+    if not 0 <= age <= 900:
+        return False
+    device.bin_key
+    return True
 
 
 def session_binding(request):
@@ -45,8 +63,11 @@ def enroll(request):
         elif not actor.check_password(request.POST.get('password', '')):
             return HttpResponse(status=403)
         else:
-            if AdminOTPDevice.objects.filter(user=actor).exists():
-                return HttpResponse(status=409)
+            existing = AdminOTPDevice.objects.select_for_update().filter(user=actor).first()
+            if existing:
+                if existing.confirmed or (timezone.now() - existing.created_at).total_seconds() <= 300:
+                    return HttpResponse(status=409)
+                existing.delete()
             device = AdminOTPDevice(user=actor, name='Portal administrator', enrollment_session=session_binding(request))
             seed = bytes.fromhex(random_hex(20))
             try:
@@ -77,6 +98,10 @@ def verify(request):
             response = render(request, 'membership/mfa.html')
             response['Cache-Control'] = 'no-store'
             return response
+        if not device.confirmed and (
+                device.enrollment_session != session_binding(request)
+                or not 0 <= (timezone.now() - device.created_at).total_seconds() <= 300):
+            return HttpResponse(status=403)
         if not device.verify_is_allowed()[0]:
             return HttpResponse(status=429)
         try:

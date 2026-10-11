@@ -1,7 +1,7 @@
 """Regression expansion of the TDD slices: real middleware and database."""
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
-from django.test import Client, TestCase, override_settings
+from tests.mfa_helpers import Client, TestCase, override_settings
 from membership.models import Membership, Tenant, AuditEvent, NasBinding
 
 
@@ -46,6 +46,9 @@ class BoundaryTests(TestCase):
         self.operator_member.save()
         self.operator.is_staff = True
         self.operator.save()
+        self.assertEqual(self.client.get("/manage/").status_code, 302)
+        self.assertNotIn("_auth_user_id", self.client.session)
+        self.client.force_login(self.operator)
         self.assertEqual(self.client.get("/manage/").status_code, 403)
         self.assertEqual(self.client.post(f"/manage/{self.subject.pk}/approve/", {"password": self.password, "role": "admin"}).status_code, 403)
 

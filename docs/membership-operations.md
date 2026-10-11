@@ -1,6 +1,8 @@
 # 회원 기능 운영 경계와 로컬 확인
 
-포털 그룹 정책 구현/수용 기준은 `membership-group-acceptance.md`, TDD·실제 PostgreSQL 증거는 `evidence/groups-implementation.md` 참조. 이전 보안 리뷰(`evidence/membership-security-review.md`)는 당시 기준선 기록이다. 관리자 MFA 미구현으로 운영 공개와 3단계 전체 수용은 금지다.
+최신 결정: 2026-10-12 1A/2A/3A/4A 사용자 확정 (`next-decisions.md`). 관리자 OTP 등록·확인·강제의 첫 구현은 `admin-mfa.md` 참조. 배포 서버 `192.168.1.14`/계정 `me0kmin27`은 확정이나 접속·배포는 부모 별도 확인 전 금지. 단독/복수 전체Admin 모두 지원하며 복구 승인 정책 선택·키 백업/훈련은 별도 운영 게이트이고 이전 문구의 custody/hosting 미결정을 대체한다.
+
+포털 그룹 정책 구현/수용 기준은 `membership-group-acceptance.md`, TDD·실제 PostgreSQL 증거는 `evidence/groups-implementation.md` 참조. 이전 보안 리뷰(`evidence/membership-security-review.md`)는 당시 기준선 기록이다. 관리자 OTP 첫 slice 후에도 복구·운영 게이트가 남아 운영 공개와 3단계 전체 수용은 금지다.
 
 ## 지원 흐름
 
@@ -28,7 +30,7 @@ README 개발 설정·migrate 후 사람이 신뢰된 터미널에서 `manage.py
 
 ## 계속 미완료인 별도 게이트
 
-- 관리자 MFA secret custody/최초 등록/복구 결정과 구현. stock OTP 비밀 DB 저장을 임의 도입하지 않았다.
+- MFA custody/최초 등록은 3A와 `admin-mfa.md`로 갱신. 전역 복구 승인자·키 백업 책임자/복구 구현·훈련은 미완료. stock 평문 seed 저장 없음.
 - 이메일 소유 검증, 웹 비밀번호 복구, 개인정보/감사 보존·백업 정책.
 - 실제 NAS 모델/API capability, quota 적용·실사용량, 부분 실패 보상.
 - 다중 프로세스 lock timeout·장애/부하·백업 복구 시험, 목록 pagination, 감사 tamper resistance.

@@ -5,7 +5,7 @@ from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import build_opener, HTTPCookieProcessor
 from django.contrib.auth.models import User
-from django.test import LiveServerTestCase, override_settings
+from tests.mfa_helpers import LiveServerTestCase, override_settings
 from membership.models import Membership, Tenant, AuditEvent, NasBinding
 
 
@@ -50,8 +50,15 @@ class MembershipHTTPTests(LiveServerTestCase):
         self.assertEqual(self.request(member_browser, "/manage/")[0], 403)
         self.form(admin_browser, "/login/", "/login/", {"username": "root", "password": password})
         self.assertEqual(self.request(admin_browser, f"/manage/{subject.pk}/approve/", {"password": password})[0], 403)
+        self.assertEqual(self.form(admin_browser, '/mfa/enroll/', '/mfa/enroll/', {'password': password})[0], 200)
+        from membership.models import AdminOTPDevice
+        from django_otp.oath import TOTP
+        device = AdminOTPDevice.objects.get(user=root)
+        otp = f'{TOTP(device.bin_key).token():06d}'
+        self.assertEqual(self.form(admin_browser, '/mfa/verify/', '/mfa/verify/', {'token': otp})[0], 200)
         self.assertEqual(self.form(admin_browser, "/manage/", f"/manage/{subject.pk}/assign/", {"password": password, "tenant": tenant.pk})[0], 409)
         self.assertEqual(self.form(admin_browser, "/manage/", f"/manage/{subject.pk}/approve/", {"password": password})[0], 200)
+        self.form(member_browser, "/login/", "/login/", {"username": "http-member", "password": password})
         status, html, _ = self.request(member_browser, "/service/")
         self.assertEqual(status, 200)
         self.assertIn("용량 미수집", html)

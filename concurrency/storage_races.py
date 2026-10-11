@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 import time
 
 from django.db import connection, connections
-from django.test import RequestFactory, TransactionTestCase, override_settings
+from tests.mfa_helpers import RequestFactory, TransactionTestCase, override_settings
 from concurrency.races import PostgreSQLRaces
 from membership.locking import policy_transaction
 from membership.models import Membership
