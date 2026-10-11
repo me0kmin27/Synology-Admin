@@ -1,0 +1,160 @@
+{
+  "purpose": "Read-only primary-source discovery; not operational capability verification",
+  "base_sha": "5af1f14bc0e79e6d31a634fc9069ba75e1ac42e6",
+  "rustdesk_repository": "me0kmin27/Rustdesk-Quicksupport",
+  "rustdesk_readonly_sha": "7d14a63c4a30ad11a23b18f038921a4537b04a85",
+  "dsm_observed_top_release": {
+    "version": "7.4.1-90080",
+    "publish_date": "2026-07-23",
+    "is_rc": false,
+    "is_rolling": true
+  },
+  "sources": [
+    {
+      "id": 1,
+      "url": "https://www.synology.com/api/releaseNote/findChangeLog?identify=DSM&lang=en-global",
+      "checked_at": "2026-10-11T15:00:15.462682+00:00",
+      "method": "HTTPS GET",
+      "sha256_text": "ae1503f94cb910d6ca37d67a7a24abd25055093a49afa02828600a035d6ae1b8",
+      "evidence_excerpt": "After installing this update, you will not be able to downgrade to a previous DSM version.",
+      "checked_at_kst": "2026-10-12T00:00:15.462682+09:00"
+    },
+    {
+      "id": 2,
+      "url": "https://archive.synology.com/download/Os/DSM",
+      "checked_at": "2026-10-11T15:00:16.112185+00:00",
+      "method": "HTTPS GET",
+      "sha256_text": "b74cb830c617807ec80a105a6481fbd10064958fddfc9b489a69dd1f60d01844",
+      "evidence_excerpt": "Synology Archive Download Site",
+      "checked_at_kst": "2026-10-12T00:00:16.112185+09:00"
+    },
+    {
+      "id": 3,
+      "url": "https://kb.synology.com/en-global/DSM/help/DSM/AdminCenter/file_group_edit?version=7",
+      "checked_at": "2026-10-11T14:59:24.602550+00:00",
+      "method": "live browser rendered text",
+      "sha256_text": "b8a20515d4aac92ecff713d7b00620b59834d5478d203d4ea07a1d4fea0b52a8",
+      "evidence_excerpt": "The group usage quota is not shared between each group member.",
+      "checked_at_kst": "2026-10-11T23:59:24.602550+09:00"
+    },
+    {
+      "id": 4,
+      "url": "https://kb.synology.com/en-global/DSM/help/DSM/AdminCenter/file_share_create?version=7",
+      "checked_at": "2026-10-11T14:59:26.315767+00:00",
+      "method": "live browser rendered text",
+      "sha256_text": "e298203a1e087cfd149ac276cddb1c6597044de777c5e9c5a386bff7d6aab2d4",
+      "evidence_excerpt": "Only when the storage is using Btrfs file system will the option of Enable shared folder quota be available for shared folders.",
+      "checked_at_kst": "2026-10-11T23:59:26.315767+09:00"
+    },
+    {
+      "id": 5,
+      "url": "https://kb.synology.com/en-global/DSM/help/DSM/AdminCenter/file_user_create?version=7",
+      "checked_at": "2026-10-11T14:59:26.976269+00:00",
+      "method": "live browser rendered text",
+      "sha256_text": "f866e8e11f59ae1f26c6fd04f7d037363d549c050a4d5e07a148456ef80648d0",
+      "evidence_excerpt": "The quota specified in User Quota has priority over group quota.",
+      "checked_at_kst": "2026-10-11T23:59:26.976269+09:00"
+    },
+    {
+      "id": 6,
+      "url": "https://global.download.synology.com/download/Document/Software/DeveloperGuide/Package/FileStation/All/enu/Synology_File_Station_API_Guide.pdf",
+      "checked_at": "2026-10-11T15:00:16.633243+00:00",
+      "method": "HTTPS GET; pypdf text",
+      "sha256_text": "fe4903495a26245e0985857cac46ac2e3d1300f14c9ffd31a84631b888697873",
+      "evidence_excerpt": "Check if a logged-in user has permission to do file operations on a given folder/file.",
+      "checked_at_kst": "2026-10-12T00:00:16.633243+09:00"
+    },
+    {
+      "id": 7,
+      "url": "https://raw.githubusercontent.com/rustdesk/doc.rustdesk.com/master/content/self-host/_index.en.md",
+      "checked_at": "2026-10-11T15:00:17.528279+00:00",
+      "method": "HTTPS GET",
+      "sha256_text": "0ca10cea82751882b6c2c978344701e5e3f3ad1da3586bcfbd4051d84822ce52",
+      "evidence_excerpt": "TCP `21118`: Used for WebSocket communication.",
+      "checked_at_kst": "2026-10-12T00:00:17.528279+09:00"
+    },
+    {
+      "id": 8,
+      "url": "https://raw.githubusercontent.com/rustdesk/doc.rustdesk.com/master/content/self-host/rustdesk-server-pro/_index.en.md",
+      "checked_at": "2026-10-11T15:00:17.605013+00:00",
+      "method": "HTTPS GET",
+      "sha256_text": "bbe71577b76776fc405f59ec37a2a05fd02ccb3b54626705cba5f30f15564dd5",
+      "evidence_excerpt": "Web client self-host",
+      "checked_at_kst": "2026-10-12T00:00:17.605013+09:00"
+    },
+    {
+      "id": 9,
+      "url": "https://raw.githubusercontent.com/rustdesk/doc.rustdesk.com/master/v3/src/content/post/en/web-client-v2-preview.mdx",
+      "checked_at": "2026-10-11T15:00:18.146825+00:00",
+      "method": "HTTPS GET",
+      "sha256_text": "0bb156e370a1e3e4822a3fd42fd8128db5190d4268e3c85e39a84169729cda7e",
+      "evidence_excerpt": "a browser tab cannot act as an unattended host.",
+      "checked_at_kst": "2026-10-12T00:00:18.146825+09:00"
+    },
+    {
+      "id": 10,
+      "url": "https://raw.githubusercontent.com/django-otp/django-otp/master/src/django_otp/plugins/otp_totp/models.py",
+      "checked_at": "2026-10-11T15:00:18.245209+00:00",
+      "method": "HTTPS GET",
+      "sha256_text": "aeaeded70db67d114ab83a3222705689ac7cf51e0e0993d9a6682b380fcdaf03",
+      "evidence_excerpt": "A hex-encoded secret key of up to 40 bytes.",
+      "checked_at_kst": "2026-10-12T00:00:18.245209+09:00"
+    },
+    {
+      "id": 11,
+      "url": "https://raw.githubusercontent.com/django-otp/django-otp/master/src/django_otp/__init__.py",
+      "checked_at": "2026-10-11T15:00:18.808437+00:00",
+      "method": "HTTPS GET",
+      "sha256_text": "e95cb85c1b32c580846e8d53ad4d5059a43d199ab8550a8e57afaf7d362fb1f7",
+      "evidence_excerpt": "This wraps the verification process in a transaction",
+      "checked_at_kst": "2026-10-12T00:00:18.808437+09:00"
+    },
+    {
+      "id": 12,
+      "url": "https://raw.githubusercontent.com/pyca/cryptography/main/docs/fernet.rst",
+      "checked_at": "2026-10-11T15:00:19.367614+00:00",
+      "method": "HTTPS GET",
+      "sha256_text": "e698f24a432bc45e39feea26764d8d154de3bf7d346ad947a1fc6850f8ad7d49",
+      "evidence_excerpt": "This class implements key rotation for Fernet.",
+      "checked_at_kst": "2026-10-12T00:00:19.367614+09:00"
+    },
+    {
+      "id": 13,
+      "url": "https://github.com/me0kmin27/Rustdesk-Quicksupport/blob/7d14a63c4a30ad11a23b18f038921a4537b04a85/README.md",
+      "checked_at": "2026-10-11T15:06:24.135407+00:00",
+      "method": "gh contents at pinned commit; allowlisted sentence only retained",
+      "private": true,
+      "blob_sha": "c7581df248fb120b72955440848b9ce96e0d27f6",
+      "evidence_excerpt": "Windows x64 무설치 지원 클라이언트의 소스 패치와 GitHub Actions 빌드 저장소입니다.",
+      "checked_at_kst": "2026-10-12T00:06:24.135407+09:00"
+    },
+    {
+      "id": 14,
+      "url": "https://github.com/me0kmin27/Rustdesk-Quicksupport/blob/7d14a63c4a30ad11a23b18f038921a4537b04a85/portal/README.md",
+      "checked_at": "2026-10-11T15:06:24.522597+00:00",
+      "method": "gh contents at pinned commit; allowlisted sentence only retained",
+      "private": true,
+      "blob_sha": "20cb92d572407efc870e0c8b1ac46ccd1a39402e",
+      "evidence_excerpt": "리눅스용 원격지원 클라이언트를 만드는 구성은 아닙니다.",
+      "checked_at_kst": "2026-10-12T00:06:24.522597+09:00"
+    },
+    {
+      "id": 15,
+      "url": "https://github.com/me0kmin27/Rustdesk-Quicksupport/blob/7d14a63c4a30ad11a23b18f038921a4537b04a85/SEGANG-README.md",
+      "checked_at": "2026-10-11T15:06:24.873658+00:00",
+      "method": "gh contents at pinned commit; allowlisted sentence only retained",
+      "private": true,
+      "blob_sha": "5ba174a51e5a13dd4c2a677c26d9252d28ba3bce",
+      "evidence_excerpt": "OSS 서버를 사용하므로 Pro API 서버 및 로그인 불필요",
+      "checked_at_kst": "2026-10-12T00:06:24.873658+09:00"
+    }
+  ],
+  "limitations": [
+    "No production or NAS access; no runtime secrets or configuration values read.",
+    "sha256_text hashes fetched raw/text representations, not remote deployment binaries.",
+    "Official documentation development-branch URLs can change; timestamps and hashes identify what was read.",
+    "Public HTML extraction returned JS shells for Synology KB; rendered browser text used.",
+    "ReadTheDocs and cryptography docs direct fetch returned HTTP 403; official source repositories used instead.",
+    "Configured web_extract backend unavailable; direct HTTPS, official source GitHub, and live browser used."
+  ]
+}
