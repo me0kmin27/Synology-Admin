@@ -1,0 +1,1 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>계정 설정</title></head><body><main><h1>아이디·비밀번호 변경</h1><p>변경하면 다른 기기의 로그인이 해제됩니다.</p><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">변경 저장</button></form><a href="/account/">내 계정</a></main></body></html>
