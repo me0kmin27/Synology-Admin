@@ -27,7 +27,8 @@ from the current stack, not a claim that Django cannot implement SSE.
   No ticket dependency or copied ticket content. One conversation per owner/tenant;
   creation derives both from the authenticated approved membership. An administrator
   replies to an existing customer conversation, not on behalf of another owner.
-- `/chat/`: GET lists 25 scoped conversations per page; POST starts/reuses the
+- `/chat/`: GET lists 25 scoped conversations per ID-keyset page (`before`; see
+  `support-pagination.md`); POST starts/reuses the
   caller's conversation. `/chat/<id>/`: GET browser UI.
   `/chat/<id>/events/`: GET cursor page; POST plain-text message.
 - Approved member: own conversations within current tenant only. Approved group

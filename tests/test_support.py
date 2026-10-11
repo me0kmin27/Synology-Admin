@@ -83,7 +83,8 @@ class TicketTests(TestCase):
         for i in range(26):
             Ticket.objects.create(tenant=self.tenant, author=self.user, title=f'Ticket {i}', body='B')
         self.assertEqual(len(self.client.get('/support/').context['page']), 25)
-        self.assertEqual(len(self.client.get('/support/?page=2').context['page']), 2)
+        cursor = self.client.get('/support/').context['next_cursor']
+        self.assertEqual(len(self.client.get('/support/', {'before': cursor}).context['page']), 2)
 
     def test_stale_inflight_session_and_sqlite_default_fail_closed(self):
         from django.test import RequestFactory

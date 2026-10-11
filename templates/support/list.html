@@ -1,5 +1,5 @@
 <!doctype html><html lang="ko"><meta charset="utf-8"><title>지원 티켓</title><h1>지원 티켓</h1>
 <a href="/support/new/">새 지원 요청</a>
 <ul>{% for ticket in page %}<li><a href="/support/{{ ticket.pk }}/">{{ ticket.title }}</a></li>{% empty %}<li>티켓 없음</li>{% endfor %}</ul>
-{% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">이전</a>{% endif %}
-{% if page.has_next %}<a href="?page={{ page.next_page_number }}">다음</a>{% endif %}</html>
+<nav aria-label="티켓 페이지"><a href="/support/">최신 목록</a>
+{% if next_cursor %}<a rel="next" href="?before={{ next_cursor }}">이전 티켓</a>{% endif %}</nav></html>

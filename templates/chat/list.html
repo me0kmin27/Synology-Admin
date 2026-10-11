@@ -3,6 +3,6 @@
 <p>일반적으로 3초 간격으로 갱신합니다. 접속/읽음 상태를 표시하지 않습니다.</p>
 {% if can_start %}<form method="post">{% csrf_token %}<button>내 대화 시작</button></form>{% endif %}
 <ul>{% for conversation in page %}<li><a href="/chat/{{ conversation.pk }}/">대화 #{{ conversation.pk }} — {{ conversation.owner.username }}</a></li>{% empty %}<li>대화가 없습니다.</li>{% endfor %}</ul>
-{% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">이전</a>{% endif %}
-{% if page.has_next %}<a href="?page={{ page.next_page_number }}">다음</a>{% endif %}
+<nav aria-label="대화 페이지"><a href="/chat/">최신 목록</a>
+{% if next_cursor %}<a rel="next" href="?before={{ next_cursor }}">이전 대화</a>{% endif %}</nav>
 <a href="/account/">내 계정</a></html>
