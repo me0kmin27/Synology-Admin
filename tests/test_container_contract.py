@@ -7,12 +7,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ContainerContractTests(unittest.TestCase):
-    def test_loopback_only_and_bounded_services(self):
+    def test_loopback_default_explicit_lan_opt_in_and_bounded_services(self):
         path = ROOT / 'compose.internal.json'
         self.assertTrue(path.exists(), 'Internal compose definition must exist')
         config = json.loads(path.read_text())
         web, db = config['services']['web'], config['services']['db']
-        self.assertEqual(web['ports'], ['127.0.0.1:18080:8000'])
+        self.assertEqual(web['ports'], ['${INTERNAL_BIND_HOST:-127.0.0.1}:18080:8000'])
+        self.assertEqual(web['environment']['DJANGO_ALLOWED_HOSTS'],
+                         'localhost,127.0.0.1,${INTERNAL_BIND_HOST:-127.0.0.1}')
         self.assertNotIn('ports', db)
         self.assertTrue(config['networks']['default']['internal'])
         self.assertEqual(db.get('networks', ['default']), ['default'])

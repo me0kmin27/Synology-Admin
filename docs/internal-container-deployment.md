@@ -1,7 +1,8 @@
 # Internal-only Docker validation (not a production release)
 
 Scope: the separately authorized Debian deployment server, never the NAS or
-RustDesk host. HTTP is published **only** on `127.0.0.1:18080`. No database host
+RustDesk host. HTTP defaults to `127.0.0.1:18080`; explicit operator opt-in may
+bind one approved private LAN IPv4 address. No database host
 port, domain, TLS termination, public firewall rule, administrator seed, or NAS
 credential is created. Main merge `1e60ca457ed858ec63dfaefd99a0355f47e68733`
 (PR #12 administrator MFA) is integrated; no gate is disabled.
@@ -20,7 +21,8 @@ credential is created. Main merge `1e60ca457ed858ec63dfaefd99a0355f47e68733`
   credential is configured. Host/docker administrators can access containers and
   environment; secrets are not protected from Docker administrators.
 - `DJANGO_LOCAL_HTTP=1` deliberately disables HTTPS redirect/secure cookies for
-  loopback validation. **Do not use this compose file for production.**
+  loopback or explicitly approved trusted-LAN validation. LAN HTTP is unencrypted;
+  never enter real operator credentials over it. **Do not use this compose file for production.**
 - No proxy is trusted: Gunicorn `forwarded_allow_ips=''` and
   `secure_scheme_headers={}`; Django's existing settings do not trust forwarded
   HTTPS headers. A real TLS proxy requires a separately reviewed trust boundary.
@@ -61,12 +63,44 @@ an independently random Fernet key, generated exclusively on the target host,
 separate from database and Django secrets. Never rerun/replace an existing key.
 Its backup/restore and operator recovery procedures are NOT verified.
 
+## Explicit trusted-LAN opt-in
+
+`INTERNAL_BIND_HOST` selects the published interface and adds that exact address
+to `DJANGO_ALLOWED_HOSTS`; localhost remains allowed for container healthchecks.
+Unset or empty means loopback. Select only a specific private IPv4 address owned
+by this host (authorized deployment: `192.168.1.14`); do not use `0.0.0.0`, `::`,
+wildcards, hostnames or a comma-separated list. This is an operator-controlled
+Compose input, not an application input validator or firewall. No wildcard host
+is added automatically. Do not add router forwarding, public firewall openings,
+or publish PostgreSQL. LAN mode replaces rather than adds the loopback host port.
+
+For a newly reviewed release using this parameterized definition, retain the
+same explicit selection for **every** Compose invocation (including restart):
+
+```sh
+export INTERNAL_BIND_HOST=192.168.1.14
+export SOURCE_REVISION=<exact-built-source-SHA>
+export COMPOSE_FILE=compose.internal.json
+export COMPOSE_ENV_FILES=../../.env,../../.mfa.env
+docker compose config --quiet
+docker compose up -d --no-build --no-deps --wait --wait-timeout 120 web
+curl --fail http://192.168.1.14:18080/health/
+```
+
+Do not substitute the PR head as `SOURCE_REVISION` unless that image has actually
+been built. The current server retains the older image and a literal LAN patch
+in its release Compose file; exact repeatable invocation and drift are recorded
+in `evidence/container-lan.md`. Repository reconciliation does not redeploy it.
+Retain the existing secret files unchanged; do not print interpolated config.
+
 ## Verification and rollback
 
 Run container CI and the foundation suite. Confirm `migrate --check`, empty user
 and tenant tables for first deploy, UID 10001, healthy states, exact image label
-and ID, loopback socket, no DB published port, and inability to connect to the
-server LAN address port 18080. Compare migration records before/after restart and
+and ID, no DB published port, and the selected publication. Default mode must
+reject LAN connections. Approved LAN mode must bind only the selected address,
+serve landing/health 200 from another host, reject invalid Host with 400, and
+redirect anonymous `/manage/` and `/mfa/enroll/` to login (302). Compare migration records before/after restart and
 confirm the same named volume remains mounted. Do not use `down -v` or prune.
 
 For this first deployment there is no older app release. Safe rollback is

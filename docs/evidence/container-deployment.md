@@ -1,5 +1,10 @@
 # Internal deployment evidence — 2026-10-12 KST
 
+**Historical loopback baseline.** A later explicit user approval changed the
+runtime to trusted-LAN-only publication at `192.168.1.14:18080`. See
+`container-lan.md` for current state and read-only verification; loopback-only
+and LAN-refused observations below describe the earlier deployment, not current state.
+
 ## Exact scope and identities
 
 - Repository: `me0kmin27/Synology-Admin`; PR #13; branch `feat/loopback-docker`.

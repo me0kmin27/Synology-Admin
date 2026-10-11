@@ -71,12 +71,12 @@
       ],
       "networks": ["default", "frontend"],
       "ports": [
-        "127.0.0.1:18080:8000"
+        "${INTERNAL_BIND_HOST:-127.0.0.1}:18080:8000"
       ],
       "environment": {
         "DJANGO_SECRET_KEY": "${DJANGO_SECRET_KEY:?Generate remote secrets first}",
         "MFA_ENCRYPTION_KEYS": "${MFA_ENCRYPTION_KEYS:?Generate independent remote MFA key first}",
-        "DJANGO_ALLOWED_HOSTS": "localhost,127.0.0.1",
+        "DJANGO_ALLOWED_HOSTS": "localhost,127.0.0.1,${INTERNAL_BIND_HOST:-127.0.0.1}",
         "DJANGO_LOCAL_HTTP": "1",
         "DJANGO_DB_ENGINE": "postgresql",
         "PGHOST": "db",
