@@ -1,6 +1,6 @@
 {
-  "pages": 19,
-  "captures": 38,
+  "pages": 22,
+  "captures": 44,
   "console_errors": [],
   "external_requests": [],
   "records": [
@@ -63,6 +63,36 @@
       "page": "account-approved",
       "width": 390,
       "screenshot": "docs/evidence/ui-screenshots/account-approved-390.png"
+    },
+    {
+      "page": "settings",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/settings-1440.png"
+    },
+    {
+      "page": "settings",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/settings-390.png"
+    },
+    {
+      "page": "settings-error",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/settings-error-1440.png"
+    },
+    {
+      "page": "settings-error",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/settings-error-390.png"
+    },
+    {
+      "page": "settings-saved",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/settings-saved-1440.png"
+    },
+    {
+      "page": "settings-saved",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/settings-saved-390.png"
     },
     {
       "page": "service",

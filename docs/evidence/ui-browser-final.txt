@@ -32,6 +32,8 @@ Running migrations:
   Applying chat.0003_ratewindow... OK
   Applying chat.0004_conversation_conversation_tenant_cursor... OK
   Applying membership.0011_adminotpdevice... OK
+  Applying membership.0012_bootstrap_admin... OK
+  Applying membership.0013_credential_audit... OK
   Applying sessions.0001_initial... OK
   Applying support.0001_initial... OK
   Applying support.0002_ticketreply... OK
@@ -41,12 +43,12 @@ test_unconnected_account_and_admin_group_with_real_login (browser_tests.storage.
 test_real_enrollment_gate_logout_and_replay (browser_tests.mfa.MFABrowserTests.test_real_enrollment_gate_logout_and_replay) ... ok
 
 ----------------------------------------------------------------------
-Ran 4 tests in 10.857s
+Ran 4 tests in 11.839s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
  OK
 System check identified no issues (0 silenced).
-PORTAL UI: 19 page states, 38 desktop/mobile captures; real signup/login/OTP/ticket/reply/chat/logout; no external requests or JS errors
+PORTAL UI: 22 page states, 44 desktop/mobile captures; real signup/login/OTP/ticket/reply/chat/logout; no external requests or JS errors
 STORAGE BROWSER PASS: real login/HTTP; no-I/O reader unknown; own account; restricted group; forged scope ignored; no-store; no portal quotas presented as NAS data
 MFA BROWSER PASS: password login gated; enrollment seed only on protected response; OTP confirms; logout/new login requires fresh OTP

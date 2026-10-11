@@ -1,6 +1,6 @@
 System check identified no issues (0 silenced).
 Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
-Found 117 test(s).
+Found 134 test(s).
 Operations to perform:
   Apply all migrations: auth, chat, contenttypes, membership, sessions, support
 Running migrations:
@@ -33,10 +33,29 @@ Running migrations:
   Applying chat.0003_ratewindow... OK
   Applying chat.0004_conversation_conversation_tenant_cursor... OK
   Applying membership.0011_adminotpdevice... OK
+  Applying membership.0012_bootstrap_admin... OK
+  Applying membership.0013_credential_audit... OK
   Applying sessions.0001_initial... OK
   Applying support.0001_initial... OK
   Applying support.0002_ticketreply... OK
-  Applying support.0003_ticket_ticket_tenant_cursor_and_more...test_cross_tenant_reads_writes_and_forged_query_scope (tests.test_boundaries.BoundaryTests.test_cross_tenant_reads_writes_and_forged_query_scope) ... ok
+  Applying support.0003_ticket_ticket_tenant_cursor_and_more...test_admin_requires_mfa_and_cannot_edit_privileges (tests.test_account_settings.AccountSettingsTests.test_admin_requires_mfa_and_cannot_edit_privileges) ... ok
+test_audit_records_only_change_flags (tests.test_account_settings.AccountSettingsTests.test_audit_records_only_change_flags) ... ok
+test_bootstrap_forces_change_after_mfa_before_privileged_access (tests.test_account_settings.AccountSettingsTests.test_bootstrap_forces_change_after_mfa_before_privileged_access) ... ok
+test_bootstrap_gate_is_rechecked_inside_mutation_boundary (tests.test_account_settings.AccountSettingsTests.test_bootstrap_gate_is_rechecked_inside_mutation_boundary) ... ok
+test_csrf_denial_redacts_credential_fields (tests.test_account_settings.AccountSettingsTests.test_csrf_denial_redacts_credential_fields) ... ok
+test_deleted_inflight_session_cannot_change_credentials (tests.test_account_settings.AccountSettingsTests.test_deleted_inflight_session_cannot_change_credentials) ... ok
+test_gate_rechecks_deleted_session_and_password_hash_after_policy_wait (tests.test_account_settings.AccountSettingsTests.test_gate_rechecks_deleted_session_and_password_hash_after_policy_wait) ... ok
+test_identifier_change_normalizes_and_revokes_other_sessions (tests.test_account_settings.AccountSettingsTests.test_identifier_change_normalizes_and_revokes_other_sessions) ... ok
+test_normalized_duplicate_rejected_without_partial_password_change (tests.test_account_settings.AccountSettingsTests.test_normalized_duplicate_rejected_without_partial_password_change) ... ok
+test_password_change_validates_and_updates_hash (tests.test_account_settings.AccountSettingsTests.test_password_change_validates_and_updates_hash) ... ok
+test_reauth_throttle_and_secret_redaction (tests.test_account_settings.AccountSettingsTests.test_reauth_throttle_and_secret_redaction) ... ok
+test_rejects_csrf_invalid_password_and_weak_mismatched_passwords (tests.test_account_settings.AccountSettingsTests.test_rejects_csrf_invalid_password_and_weak_mismatched_passwords) ... ok
+test_activation_requires_tty_and_validated_secret_then_is_one_time (tests.test_bootstrap_admin.BootstrapTests.test_activation_requires_tty_and_validated_secret_then_is_one_time) ... ok
+test_default_is_inactive_unusable_and_repeat_does_not_overwrite (tests.test_bootstrap_admin.BootstrapTests.test_default_is_inactive_unusable_and_repeat_does_not_overwrite) ... ok
+test_existing_identifier_or_admin_never_overwritten (tests.test_bootstrap_admin.BootstrapTests.test_existing_identifier_or_admin_never_overwritten) ... ok
+test_generated_password_is_file_only_private_and_never_overwrites (tests.test_bootstrap_admin.BootstrapTests.test_generated_password_is_file_only_private_and_never_overwrites) ... ok
+test_unsafe_existing_or_symlink_file_fails_without_activation (tests.test_bootstrap_admin.BootstrapTests.test_unsafe_existing_or_symlink_file_fails_without_activation) ... ok
+test_cross_tenant_reads_writes_and_forged_query_scope (tests.test_boundaries.BoundaryTests.test_cross_tenant_reads_writes_and_forged_query_scope) ... ok
 test_csrf_and_method_boundaries_for_every_mutation (tests.test_boundaries.BoundaryTests.test_csrf_and_method_boundaries_for_every_mutation) ... ok
 test_input_validation_and_no_audit_secrets (tests.test_boundaries.BoundaryTests.test_input_validation_and_no_audit_secrets) ... ok
 test_login_rotates_session_and_rejects_external_redirect (tests.test_boundaries.BoundaryTests.test_login_rotates_session_and_rejects_external_redirect) ... ok
@@ -155,7 +174,7 @@ test_unconfigured_account_has_no_invented_measurements (tests.test_nas_usage.Usa
 test_values_require_valid_observation_provenance_and_limit_semantics (tests.test_nas_usage.UsageBoundaryTests.test_values_require_valid_observation_provenance_and_limit_semantics) ... ok
 
 ----------------------------------------------------------------------
-Ran 117 tests in 17.138s
+Ran 134 tests in 20.031s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
@@ -193,12 +212,14 @@ Running migrations:
   Applying chat.0003_ratewindow... OK
   Applying chat.0004_conversation_conversation_tenant_cursor... OK
   Applying membership.0011_adminotpdevice... OK
+  Applying membership.0012_bootstrap_admin... OK
+  Applying membership.0013_credential_audit... OK
   Applying sessions.0001_initial... OK
   Applying support.0001_initial... OK
   Applying support.0002_ticketreply... OK
   Applying support.0003_ticket_ticket_tenant_cursor_and_more... OK
 No changes detected
-127.0.0.1 - - [11/Oct/2026 18:27:02] "GET /health/ HTTP/1.1" 200 59
-127.0.0.1 - - [11/Oct/2026 18:27:02] "GET / HTTP/1.1" 200 15935
-127.0.0.1 - - [11/Oct/2026 18:27:02] "GET / HTTP/1.1" 400 143
-{"http_smoke": {"landing": 200, "health": 200, "invalid_host": 400}, "health_body": {"status": "ok", "database": "ok", "nas": "not_configured"}, "applied_migrations": 33, "deployment": "not_performed", "nas_access": "not_performed"}
+127.0.0.1 - - [11/Oct/2026 18:36:39] "GET /health/ HTTP/1.1" 200 59
+127.0.0.1 - - [11/Oct/2026 18:36:39] "GET / HTTP/1.1" 200 15935
+127.0.0.1 - - [11/Oct/2026 18:36:39] "GET / HTTP/1.1" 400 143
+{"http_smoke": {"landing": 200, "health": 200, "invalid_host": 400}, "health_body": {"status": "ok", "database": "ok", "nas": "not_configured"}, "applied_migrations": 35, "deployment": "not_performed", "nas_access": "not_performed"}

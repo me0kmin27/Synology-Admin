@@ -1,1 +1,12 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>계정 설정</title></head><body><main><h1>아이디·비밀번호 변경</h1><p>변경하면 다른 기기의 로그인이 해제됩니다.</p><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">변경 저장</button></form><a href="/account/">내 계정</a></main></body></html>
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}계정 설정{% endblock %}
+{% block nav_account %}aria-current="page"{% endblock %}
+{% block breadcrumb %}내 계정 / 설정{% endblock %}
+{% block content_class %}auth-layout{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">ACCOUNT SETTINGS</p><h1>아이디·비밀번호 변경</h1><p>계정 정보를 변경하려면 현재 포털 비밀번호를 확인하세요.</p></div>
+<div class="notice"><strong>다른 기기의 로그인 해제</strong><p>변경하면 다른 기기의 로그인이 해제됩니다. DSM 계정 정보는 변경되지 않습니다.</p></div>
+<section class="panel auth-panel"><form method="post">{% csrf_token %}{% language "ko" %}{{ form.as_p }}{% endlanguage %}<div class="actions"><button type="submit">변경 저장</button><a class="button secondary" href="/account/">내 계정</a></div></form></section>
+<p class="supporting-text">아이디만 변경하려면 새 비밀번호 항목을 비워 두세요. 초기 관리자 계정은 새 비밀번호 설정이 필요합니다.</p>
+{% endblock %}

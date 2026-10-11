@@ -1,7 +1,7 @@
 {
-  "changed_page_templates": 11,
-  "rendered_page_states": 19,
-  "screenshots": 38,
+  "changed_page_templates": 12,
+  "rendered_page_states": 22,
+  "screenshots": 44,
   "chat_javascript_unchanged": true,
   "chat_javascript_sha256": "194576245ef744966a48f71268429f1b1e7f1320e7cf6f2b99efe41078bed654",
   "forms": [
@@ -46,6 +46,11 @@
       "csrf_blocks": 0
     },
     {
+      "template": "templates/membership/settings.html",
+      "explicit_actions_preserved": true,
+      "csrf_blocks": 1
+    },
+    {
       "template": "templates/support/detail.html",
       "explicit_actions_preserved": true,
       "csrf_blocks": 1
@@ -61,6 +66,6 @@
       "csrf_blocks": 0
     }
   ],
-  "scope": "templates, browser tests, UI CI, evidence only; no backend or deployment configuration mutations",
+  "scope": "templates, browser tests, UI CI, evidence only relative to main 3dec8f0; no backend or deployment configuration mutations",
   "review": "implementer static checks only; independent parent review still required"
 }

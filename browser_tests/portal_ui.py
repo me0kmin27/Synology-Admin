@@ -74,6 +74,8 @@ class PortalUIBrowserTests(LiveServerTestCase):
                     'chat-empty': '/chat/', 'chat-list': '/chat/',
                     'mfa-enroll': '/mfa/enroll/', 'mfa-verify': '/mfa/enroll/',
                     'manage': '/manage/', 'mfa-challenge': '/mfa/verify/',
+                    'settings': '/account/settings/', 'settings-error': '/account/settings/',
+                    'settings-saved': '/account/settings/',
                 }
                 if name in expected_paths:
                     self.assertEqual(urlparse(page.url).path, expected_paths[name], name)
@@ -123,6 +125,26 @@ class PortalUIBrowserTests(LiveServerTestCase):
             page.locator('main button[type=submit]').click()
             page.wait_for_url('**/account/')
             capture('account-approved')
+            settings_link = page.get_by_role('link', name='아이디·비밀번호 변경', exact=True)
+            expect(settings_link).to_be_visible()
+            settings_link.click()
+            capture('settings')
+            page.locator('[name=username]').fill('ui-renamed-test')
+            page.locator('[name=new_password1]').fill('UI-replacement-test-only-839!')
+            page.locator('[name=new_password2]').fill('UI-mismatch-test-only-839!')
+            page.get_by_label('현재 비밀번호').fill(password)
+            page.get_by_role('button', name='변경 저장').click()
+            expect(page.locator('.errorlist')).to_contain_text('일치하지 않습니다')
+            capture('settings-error')
+            page.locator('[name=new_password1]').fill('UI-replacement-test-only-839!')
+            page.locator('[name=new_password2]').fill('UI-replacement-test-only-839!')
+            page.get_by_label('현재 비밀번호').fill(password)
+            with page.expect_navigation():
+                page.get_by_role('button', name='변경 저장').click()
+            expect(page.locator('[name=username]')).to_have_value('ui-renamed-test')
+            self.assertTrue(db_call(lambda: User.objects.get(pk=approved.pk).check_password('UI-replacement-test-only-839!')))
+            self.assertEqual(db_call(lambda: User.objects.get(pk=approved.pk).username), 'ui-renamed-test')
+            capture('settings-saved')
             page.goto(self.live_server_url + '/service/')
             capture('service')
             expect(page.locator('[data-usage=account] dd')).to_have_text(['알 수 없음', '알 수 없음', '알 수 없음', '설정 안 됨', '관측 없음', '출처 없음'])
