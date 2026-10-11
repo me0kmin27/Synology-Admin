@@ -20,6 +20,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "membership.middleware.MembershipSessionMiddleware",
     "membership.throttle.AuthThrottleMiddleware",
+    "membership.mfa_middleware.AdminMFAMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": os.environ.get("DJANGO_DB_PATH", str(BASE_DIR / "db.sqlite3"))}}
@@ -52,6 +53,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 AUTH_ATTEMPT_LIMIT = 20
+MFA_ENCRYPTION_KEYS = [key for key in os.environ.get("MFA_ENCRYPTION_KEYS", "").split(",") if key]
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/account/"
 LOGOUT_REDIRECT_URL = "/login/"

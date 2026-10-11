@@ -1,7 +1,7 @@
 from uuid import uuid4
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.test import Client, RequestFactory, TestCase, override_settings
+from tests.mfa_helpers import Client, RequestFactory, TestCase, override_settings
 from membership.models import Membership, Tenant
 from tests import test_chat
 from chat.models import Conversation, Message

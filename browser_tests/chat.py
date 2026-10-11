@@ -1,6 +1,6 @@
 """Explicit real Chromium + HTTP acceptance. Never skipped when invoked."""
 from django.contrib.auth.models import User
-from django.test import LiveServerTestCase, override_settings
+from tests.mfa_helpers import LiveServerTestCase, override_settings
 from membership.models import Membership, Tenant
 from playwright.sync_api import sync_playwright, expect
 
@@ -24,7 +24,12 @@ class ChatBrowserTests(LiveServerTestCase):
                 page.locator('[name=username]').fill(user.username)
                 page.locator('[name=password]').fill(password)
                 page.locator('button').click()
-                page.wait_for_url('**/account/')
+                if user == manager:
+                    from tests.mfa_helpers import browser_enroll
+                    browser_enroll(page, password)
+                    page.goto(self.live_server_url + '/account/')
+                else:
+                    page.wait_for_url('**/account/')
             first.goto(self.live_server_url + '/chat/')
             expect(first.get_by_role('button', name='내 대화 시작')).to_be_visible()
             first.get_by_role('button', name='내 대화 시작').click()

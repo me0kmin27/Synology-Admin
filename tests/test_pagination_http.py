@@ -5,7 +5,7 @@ from urllib.parse import urlencode, urljoin
 from urllib.request import HTTPCookieProcessor, build_opener
 
 from django.contrib.auth.models import User
-from django.test import LiveServerTestCase, override_settings
+from tests.mfa_helpers import LiveServerTestCase, override_settings
 
 from membership.models import Membership, Tenant
 from support.models import Ticket, TicketReply

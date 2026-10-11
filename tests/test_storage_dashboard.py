@@ -1,6 +1,6 @@
 """Portal HTTP tests; domain fixtures below are not live NAS observations."""
 from django.contrib.auth.models import User
-from django.test import TestCase, override_settings
+from tests.mfa_helpers import TestCase, override_settings
 from membership.models import Membership, Tenant
 
 
@@ -49,6 +49,7 @@ class StorageDashboardTests(TestCase):
     def test_denied_states_and_anonymous_are_not_cached(self):
         for status in ['pending', 'suspended']:
             Membership.objects.filter(pk=self.member.pk).update(status=status)
+            self.client.force_login(self.user)
             response = self.client.get('/service/')
             self.assertEqual(response.status_code, 403)
             self.assertEqual(response['Cache-Control'], 'no-store')
@@ -59,7 +60,7 @@ class StorageDashboardTests(TestCase):
         self.assertEqual(response['Cache-Control'], 'no-store')
 
     def test_cached_actor_revocation_and_epoch_are_rechecked(self):
-        from django.test import RequestFactory
+        from tests.mfa_helpers import RequestFactory
         from membership.views import service
         for update in ({'is_active': False}, {'epoch': 1}):
             request = RequestFactory().get('/service/')
@@ -82,6 +83,8 @@ class StorageDashboardTests(TestCase):
             with self.subTest(role=role, global_admin=global_admin):
                 Membership.objects.filter(pk=self.member.pk).update(role=role)
                 User.objects.filter(pk=self.user.pk).update(is_superuser=global_admin)
+                self.user.refresh_from_db()
+                self.client.force_login(self.user)
                 response = self.client.get('/service/', {'tenant': other.pk, 'account': 'someone-else', 'scope': 'volume'})
                 self.assertContains(response, '그룹 사용량 · Own customer')
                 self.assertNotContains(response, other.name)

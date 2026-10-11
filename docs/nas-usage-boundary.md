@@ -1,9 +1,11 @@
 # NAS 사용량 데이터 경계 — 오프라인 계약 준비
 
+최신 결정: 2026-10-12 1A/2A/3A/4A 사용자 확정 (`next-decisions.md`). 관리자 OTP 등록·확인·강제의 첫 구현은 `admin-mfa.md` 참조. 배포 서버 `192.168.1.14`/계정 `me0kmin27`은 확정이고 부모 SSH 접속 검증 성공. 원격 쓰기·설치·배포는 별도 권한 게이트로 금지. 단독/복수 전체Admin 모두 지원하며 복구 승인 정책 선택·키 백업/훈련은 별도 운영 게이트이고 이전 문구의 custody/hosting 미결정을 대체한다.
+
 이 변경은 **순수 Python 값 검증·표시·읽기 protocol**만 제공한다. NAS 연동,
 사용량 수집, 그룹 공동 quota 정책, 권한 강제 집행 또는 배포 완료가 아니다.
 `docs/next-decisions.md`의 D1/D2/D3은 계속 미승인이다. 공유폴더·quota 귀속,
-RustDesk hosting, MFA custody/복구 결정은 07:00 KST 이후 주간 검토로 남긴다.
+RustDesk 완전 자가 호스팅과 MFA encrypted DB seed custody는 1A/2A/3A/4A로 확정. 복구 trustee·키 백업 책임자/구매·호스트 선정 등 운영 입력은 별도 게이트이다.
 
 ## 값의 의미
 

@@ -5,7 +5,7 @@ import time
 from unittest.mock import patch
 
 from django.db import connection
-from django.test import TransactionTestCase, override_settings
+from tests.mfa_helpers import TransactionTestCase, override_settings
 from concurrency.races import PostgreSQLRaces
 from membership import views as membership_views
 from support import views

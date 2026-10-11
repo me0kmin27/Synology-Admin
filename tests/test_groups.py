@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, override_settings
+from tests.mfa_helpers import TestCase, override_settings
 
 from membership.models import Membership, Tenant
 
@@ -22,7 +22,7 @@ class GroupTests(TestCase):
         return self.client.post(path, {'password': PASSWORD, **data})
 
     def test_inflight_stale_manager_session_cannot_write_after_role_epoch_change(self):
-        from django.test import RequestFactory
+        from tests.mfa_helpers import RequestFactory
         from membership.views import approve
         manager = self.member('manager', status='approved', role='admin')
         subject = self.member('subject')
@@ -159,7 +159,7 @@ class GroupTests(TestCase):
         self.assertEqual(self.post(url).status_code, 302)
 
     def test_retirement_disables_login_is_idempotent_and_preserves_binding(self):
-        from django.test import Client
+        from tests.mfa_helpers import Client
         from membership.models import AuditEvent, NasBinding
         subject = self.member('retire', status='approved')
         binding = NasBinding.objects.create(membership=subject, tenant=self.tenant, external_id='retain-id')

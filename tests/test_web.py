@@ -1,4 +1,4 @@
-from django.test import TestCase, override_settings
+from tests.mfa_helpers import TestCase, override_settings
 
 
 @override_settings(SECURE_SSL_REDIRECT=False)

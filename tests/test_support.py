@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, override_settings
+from tests.mfa_helpers import TestCase, override_settings
 from membership.models import Membership, Tenant
 
 
@@ -37,7 +37,7 @@ class TicketTests(TestCase):
         self.assertEqual(Ticket.objects.count(), 1)
 
     def test_csrf_valid_and_missing_token_methods_and_no_edit_or_delete(self):
-        from django.test import Client
+        from tests.mfa_helpers import Client
         from support.models import Ticket, TicketAudit
         browser = Client(enforce_csrf_checks=True)
         browser.force_login(self.user)
@@ -87,7 +87,7 @@ class TicketTests(TestCase):
         self.assertEqual(len(self.client.get('/support/', {'before': cursor}).context['page']), 2)
 
     def test_stale_inflight_session_and_sqlite_default_fail_closed(self):
-        from django.test import RequestFactory
+        from tests.mfa_helpers import RequestFactory
         from django.db import connection
         from support.views import create
         from support.models import Ticket

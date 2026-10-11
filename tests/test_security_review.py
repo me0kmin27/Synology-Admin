@@ -2,7 +2,7 @@
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
-from django.test import Client, RequestFactory, TestCase, override_settings
+from tests.mfa_helpers import Client, RequestFactory, TestCase, override_settings
 from django.views.debug import SafeExceptionReporterFilter
 
 

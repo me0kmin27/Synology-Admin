@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 from django.contrib.auth.models import User
 from django.db import connection, connections
-from django.test import Client, TransactionTestCase, override_settings
+from tests.mfa_helpers import Client, TransactionTestCase, override_settings
 
 from membership.models import AuditEvent, Membership, Tenant
 from membership import views

@@ -5,7 +5,7 @@ from unittest.mock import patch
 from uuid import uuid4
 
 from django.db import connection, connections
-from django.test import TransactionTestCase, override_settings
+from tests.mfa_helpers import TransactionTestCase, override_settings
 from concurrency import races, reply_races
 from membership import views as membership_views
 from chat import views
@@ -60,7 +60,10 @@ class ChatRaces(TransactionTestCase):
                 release.set()
             if retire_first:
                 self.assertEqual(first.result(timeout=10), 302)
-                self.assertEqual(second.result(timeout=10), 403)
+                # Central MFA boundary now flushes the stale session before the
+                # chat view: GET redirects to login, POST remains forbidden.
+                self.assertEqual(second.result(timeout=10), 302 if method == 'get' else 403)
+                self.assertNotIn('_auth_user_id', browser.session)
             else:
                 self.assertEqual(first.result(timeout=10), 201 if method == 'post' else 200)
                 self.assertEqual(second.result(timeout=10), 302)

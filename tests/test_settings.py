@@ -1,7 +1,7 @@
 import os
 import subprocess
 import sys
-from django.test import SimpleTestCase
+from tests.mfa_helpers import SimpleTestCase
 
 
 class SettingsTests(SimpleTestCase):
