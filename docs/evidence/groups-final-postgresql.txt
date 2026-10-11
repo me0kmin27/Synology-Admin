@@ -1,0 +1,634 @@
+postgres-races	Set up job	﻿2026-10-11T13:04:55.3235746Z Current runner version: '2.337.0'
+postgres-races	Set up job	2026-10-11T13:04:55.3258157Z ##[group]Runner Image Provisioner
+postgres-races	Set up job	2026-10-11T13:04:55.3258959Z Hosted Compute Agent
+postgres-races	Set up job	2026-10-11T13:04:55.3259450Z Version: 20261002.596
+postgres-races	Set up job	2026-10-11T13:04:55.3259988Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+postgres-races	Set up job	2026-10-11T13:04:55.3260932Z Build Date: 2026-10-02T22:28:27Z
+postgres-races	Set up job	2026-10-11T13:04:55.3261490Z Worker ID: {82f029d2-44f8-47f1-bdf6-03766873d34c}
+postgres-races	Set up job	2026-10-11T13:04:55.3262086Z Region: westus
+postgres-races	Set up job	2026-10-11T13:04:55.3262554Z Cloud: Azure
+postgres-races	Set up job	2026-10-11T13:04:55.3263044Z ##[endgroup]
+postgres-races	Set up job	2026-10-11T13:04:55.3264346Z ##[group]Operating System
+postgres-races	Set up job	2026-10-11T13:04:55.3264937Z Ubuntu
+postgres-races	Set up job	2026-10-11T13:04:55.3265415Z 24.04.5
+postgres-races	Set up job	2026-10-11T13:04:55.3265857Z LTS
+postgres-races	Set up job	2026-10-11T13:04:55.3266313Z ##[endgroup]
+postgres-races	Set up job	2026-10-11T13:04:55.3266801Z ##[group]Runner Image
+postgres-races	Set up job	2026-10-11T13:04:55.3267300Z Image: ubuntu-24.04
+postgres-races	Set up job	2026-10-11T13:04:55.3268110Z Version: 20261004.327.1
+postgres-races	Set up job	2026-10-11T13:04:55.3269039Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+postgres-races	Set up job	2026-10-11T13:04:55.3270778Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+postgres-races	Set up job	2026-10-11T13:04:55.3271554Z ##[endgroup]
+postgres-races	Set up job	2026-10-11T13:04:55.3272522Z ##[group]GITHUB_TOKEN Permissions
+postgres-races	Set up job	2026-10-11T13:04:55.3274102Z Contents: read
+postgres-races	Set up job	2026-10-11T13:04:55.3274700Z Metadata: read
+postgres-races	Set up job	2026-10-11T13:04:55.3275182Z ##[endgroup]
+postgres-races	Set up job	2026-10-11T13:04:55.3276913Z Secret source: Actions
+postgres-races	Set up job	2026-10-11T13:04:55.3277766Z Cache mode: write
+postgres-races	Set up job	2026-10-11T13:04:55.3278345Z Prepare workflow directory
+postgres-races	Set up job	2026-10-11T13:04:55.4695744Z Prepare all required actions
+postgres-races	Set up job	2026-10-11T13:04:55.4736319Z Getting action download info
+postgres-races	Set up job	2026-10-11T13:04:55.8057596Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+postgres-races	Set up job	2026-10-11T13:04:56.4178408Z Download action repository 'actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1' (SHA:ece7cb06caefa5fff74198d8649806c4678c61a1)
+postgres-races	Set up job	2026-10-11T13:04:56.8518481Z Complete job name: postgres-races
+postgres-races	Initialize containers	﻿2026-10-11T13:04:56.8961512Z ##[group]Checking docker version
+postgres-races	Initialize containers	2026-10-11T13:04:56.8972044Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+postgres-races	Initialize containers	2026-10-11T13:04:56.9826320Z '1.48'
+postgres-races	Initialize containers	2026-10-11T13:04:56.9835577Z Docker daemon API version: '1.48'
+postgres-races	Initialize containers	2026-10-11T13:04:56.9836289Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+postgres-races	Initialize containers	2026-10-11T13:04:56.9988778Z '1.48'
+postgres-races	Initialize containers	2026-10-11T13:04:57.0000635Z Docker client API version: '1.48'
+postgres-races	Initialize containers	2026-10-11T13:04:57.0006471Z ##[endgroup]
+postgres-races	Initialize containers	2026-10-11T13:04:57.0009233Z ##[group]Clean up resources from previous jobs
+postgres-races	Initialize containers	2026-10-11T13:04:57.0014264Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=59b524"
+postgres-races	Initialize containers	2026-10-11T13:04:57.0153140Z ##[command]/usr/bin/docker network prune --force --filter "label=59b524"
+postgres-races	Initialize containers	2026-10-11T13:04:57.0279178Z ##[endgroup]
+postgres-races	Initialize containers	2026-10-11T13:04:57.0279722Z ##[group]Create local container network
+postgres-races	Initialize containers	2026-10-11T13:04:57.0288986Z ##[command]/usr/bin/docker network create --label 59b524 github_network_6dc2bdf49f9341599720467d559905e4
+postgres-races	Initialize containers	2026-10-11T13:04:57.0882255Z 2f1c1d21089037f221ffd2bd3ecc116585060f5ac40c2614056c5613f026000f
+postgres-races	Initialize containers	2026-10-11T13:04:57.0901675Z ##[endgroup]
+postgres-races	Initialize containers	2026-10-11T13:04:57.0924149Z ##[group]Starting postgres service container
+postgres-races	Initialize containers	2026-10-11T13:04:57.0942855Z ##[command]/usr/bin/docker pull postgres:17
+postgres-races	Initialize containers	2026-10-11T13:04:58.0090498Z 17: Pulling from library/postgres
+postgres-races	Initialize containers	2026-10-11T13:04:58.2869083Z ecc510c1e359: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2870647Z fcdd3a481359: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2871676Z b86134c2eeb6: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2873010Z 57644501a07f: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2873954Z affbe3357b39: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2874681Z 3be737420556: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2875395Z e30751283c57: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2876155Z c5602f014e9e: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2876866Z c9432d362cca: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2877672Z dc30f2779c66: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2878412Z d43ee31e40df: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2879539Z 8aebe6431dc8: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2880556Z 52fc2be321a4: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2881595Z 99ce35cabaf9: Pulling fs layer
+postgres-races	Initialize containers	2026-10-11T13:04:58.2882342Z e30751283c57: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.2883015Z c5602f014e9e: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.2883848Z 57644501a07f: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.2884716Z c9432d362cca: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.2885580Z dc30f2779c66: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.2886475Z d43ee31e40df: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.2887430Z affbe3357b39: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.2888333Z 3be737420556: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.2889225Z 99ce35cabaf9: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.2890316Z 8aebe6431dc8: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.2891208Z 52fc2be321a4: Waiting
+postgres-races	Initialize containers	2026-10-11T13:04:58.5351167Z fcdd3a481359: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:58.5610707Z b86134c2eeb6: Verifying Checksum
+postgres-races	Initialize containers	2026-10-11T13:04:58.5612295Z b86134c2eeb6: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:58.6327353Z ecc510c1e359: Verifying Checksum
+postgres-races	Initialize containers	2026-10-11T13:04:58.6330481Z ecc510c1e359: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:58.7607814Z 57644501a07f: Verifying Checksum
+postgres-races	Initialize containers	2026-10-11T13:04:58.7608535Z 57644501a07f: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:58.7961457Z affbe3357b39: Verifying Checksum
+postgres-races	Initialize containers	2026-10-11T13:04:58.7961934Z affbe3357b39: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:58.8616188Z 3be737420556: Verifying Checksum
+postgres-races	Initialize containers	2026-10-11T13:04:58.8617370Z 3be737420556: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:58.9662511Z e30751283c57: Verifying Checksum
+postgres-races	Initialize containers	2026-10-11T13:04:58.9664689Z e30751283c57: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:59.0216212Z c5602f014e9e: Verifying Checksum
+postgres-races	Initialize containers	2026-10-11T13:04:59.0216714Z c5602f014e9e: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:59.1833218Z dc30f2779c66: Verifying Checksum
+postgres-races	Initialize containers	2026-10-11T13:04:59.1835451Z dc30f2779c66: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:59.2491427Z d43ee31e40df: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:59.3618047Z c9432d362cca: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:59.3969386Z 8aebe6431dc8: Verifying Checksum
+postgres-races	Initialize containers	2026-10-11T13:04:59.3969928Z 8aebe6431dc8: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:59.4699870Z 52fc2be321a4: Download complete
+postgres-races	Initialize containers	2026-10-11T13:04:59.4781721Z ecc510c1e359: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:04:59.5817378Z 99ce35cabaf9: Verifying Checksum
+postgres-races	Initialize containers	2026-10-11T13:04:59.5817805Z 99ce35cabaf9: Download complete
+postgres-races	Initialize containers	2026-10-11T13:05:06.0881017Z fcdd3a481359: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:06.3558003Z b86134c2eeb6: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:06.4053067Z 57644501a07f: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:06.8559406Z affbe3357b39: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:06.9620849Z 3be737420556: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:06.9687838Z e30751283c57: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:06.9769806Z c5602f014e9e: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:10.9401041Z c9432d362cca: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:10.9757946Z dc30f2779c66: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:10.9826319Z d43ee31e40df: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:10.9908824Z 8aebe6431dc8: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:11.0015412Z 52fc2be321a4: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:11.0083243Z 99ce35cabaf9: Pull complete
+postgres-races	Initialize containers	2026-10-11T13:05:11.0113494Z Digest: sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3
+postgres-races	Initialize containers	2026-10-11T13:05:11.0127630Z Status: Downloaded newer image for postgres:17
+postgres-races	Initialize containers	2026-10-11T13:05:11.0137305Z docker.io/library/postgres:17
+postgres-races	Initialize containers	2026-10-11T13:05:11.0213295Z ##[command]/usr/bin/docker create --name 1fb7bb666484429b8684843daf4ce25d_postgres17_4d650d --label 59b524 --network github_network_6dc2bdf49f9341599720467d559905e4 --network-alias postgres -p 5432:5432 --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10 -e "POSTGRES_HOST_AUTH_METHOD=trust" -e "POSTGRES_DB=portal_test" -e GITHUB_ACTIONS=true -e CI=true postgres:17
+postgres-races	Initialize containers	2026-10-11T13:05:11.0662169Z 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd
+postgres-races	Initialize containers	2026-10-11T13:05:11.0685459Z ##[command]/usr/bin/docker start 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd
+postgres-races	Initialize containers	2026-10-11T13:05:11.5221305Z 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd
+postgres-races	Initialize containers	2026-10-11T13:05:11.5246431Z ##[command]/usr/bin/docker ps --all --filter id=0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+postgres-races	Initialize containers	2026-10-11T13:05:11.5373912Z 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd Up Less than a second (health: starting)
+postgres-races	Initialize containers	2026-10-11T13:05:11.5396195Z ##[command]/usr/bin/docker port 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd
+postgres-races	Initialize containers	2026-10-11T13:05:11.5523806Z 5432/tcp -> 0.0.0.0:5432
+postgres-races	Initialize containers	2026-10-11T13:05:11.5524598Z 5432/tcp -> [::]:5432
+postgres-races	Initialize containers	2026-10-11T13:05:11.5566457Z ##[endgroup]
+postgres-races	Initialize containers	2026-10-11T13:05:11.5573951Z ##[group]Waiting for all services to be ready
+postgres-races	Initialize containers	2026-10-11T13:05:11.5585973Z ##[command]/usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd
+postgres-races	Initialize containers	2026-10-11T13:05:11.5708852Z starting
+postgres-races	Initialize containers	2026-10-11T13:05:11.5731137Z postgres service is starting, waiting 2 seconds before checking again.
+postgres-races	Initialize containers	2026-10-11T13:05:13.5738824Z ##[command]/usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd
+postgres-races	Initialize containers	2026-10-11T13:05:13.5861124Z starting
+postgres-races	Initialize containers	2026-10-11T13:05:13.5867093Z postgres service is starting, waiting 3 seconds before checking again.
+postgres-races	Initialize containers	2026-10-11T13:05:17.3298889Z ##[command]/usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd
+postgres-races	Initialize containers	2026-10-11T13:05:17.3407534Z healthy
+postgres-races	Initialize containers	2026-10-11T13:05:17.3422712Z postgres service is healthy.
+postgres-races	Initialize containers	2026-10-11T13:05:17.3423457Z ##[endgroup]
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	﻿2026-10-11T13:05:17.3657115Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3657615Z with:
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3657799Z   persist-credentials: false
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3658024Z   repository: me0kmin27/Synology-Admin
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3660475Z   token: ***
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3660695Z   ssh-strict: true
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3660866Z   ssh-user: git
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3661047Z   clean: true
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3661226Z   sparse-checkout-cone-mode: true
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3661441Z   fetch-depth: 1
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3661606Z   fetch-tags: false
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3661776Z   show-progress: true
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3661944Z   lfs: false
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3662098Z   submodules: false
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3662271Z   set-safe-directory: true
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3662467Z   allow-unsafe-pr-checkout: false
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3662869Z env:
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3663040Z   DJANGO_DB_ENGINE: postgresql
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3663247Z   PGDATABASE: portal_test
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3663432Z   PGUSER: postgres
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3663680Z   PGHOST: 127.0.0.1
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.3663845Z ##[endgroup]
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4586981Z Syncing repository: me0kmin27/Synology-Admin
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4588601Z ##[group]Getting Git version info
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4589119Z Working directory is '/home/runner/work/Synology-Admin/Synology-Admin'
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4589862Z [command]/usr/bin/git version
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4642507Z git version 2.55.0
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4663290Z ##[endgroup]
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4677332Z Temporarily overriding HOME='/home/runner/work/_temp/faf5c050-29a5-47a7-8490-011efd0535d6' before making global git config changes
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4678270Z Adding repository directory to the temporary git global config as a safe directory
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4683720Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Synology-Admin/Synology-Admin
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4733778Z Deleting the contents of '/home/runner/work/Synology-Admin/Synology-Admin'
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4739563Z ##[group]Determining repository object format
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4740478Z ##[endgroup]
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4741167Z ##[group]Initializing the repository
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.4744434Z [command]/usr/bin/git init /home/runner/work/Synology-Admin/Synology-Admin
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5148490Z hint: Using 'master' as the name for the initial branch. This default branch name
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5149781Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5150558Z hint: to use in all of your new repositories, which will suppress this warning,
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5151196Z hint: call:
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5151601Z hint:
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5152148Z hint: 	git config --global init.defaultBranch <name>
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5152726Z hint:
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5153303Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5154135Z hint: 'development'. The just-created branch can be renamed via this command:
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5154755Z hint:
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5155167Z hint: 	git branch -m <name>
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5155591Z hint:
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5156129Z hint: Disable this message with "git config set advice.defaultBranchName false"
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5157020Z Initialized empty Git repository in /home/runner/work/Synology-Admin/Synology-Admin/.git/
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5162104Z [command]/usr/bin/git remote add origin https://github.com/me0kmin27/Synology-Admin
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5317822Z ##[endgroup]
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5318410Z ##[group]Disabling automatic garbage collection
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5322576Z [command]/usr/bin/git config --local gc.auto 0
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5356911Z ##[endgroup]
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5357794Z ##[group]Setting up auth
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5358512Z Removing SSH command configuration
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5364277Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5396939Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5888105Z Removing HTTP extra header
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5895187Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.5927893Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6122316Z Removing includeIf entries pointing to credentials config files
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6128477Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6162156Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6364338Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6402873Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Synology-Admin/Synology-Admin/.git.path /home/runner/work/_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6434168Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Synology-Admin/Synology-Admin/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6507968Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6548504Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6577031Z ##[endgroup]
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6577403Z ##[group]Fetching the repository
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:17.6584520Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9952953270ea7bd9adea1c748f047a9d63da04d2:refs/remotes/origin/feat/stage-3-membership
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1142975Z From https://github.com/me0kmin27/Synology-Admin
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1143507Z  * [new ref]         9952953270ea7bd9adea1c748f047a9d63da04d2 -> origin/feat/stage-3-membership
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1155386Z [command]/usr/bin/git branch --list --remote origin/feat/stage-3-membership
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1184534Z   origin/feat/stage-3-membership
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1194231Z [command]/usr/bin/git rev-parse refs/remotes/origin/feat/stage-3-membership
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1219298Z 9952953270ea7bd9adea1c748f047a9d63da04d2
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1223021Z ##[endgroup]
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1223461Z ##[group]Determining the checkout info
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1224623Z ##[endgroup]
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1229788Z [command]/usr/bin/git sparse-checkout disable
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1380503Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1414238Z ##[group]Checking out the ref
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1418632Z [command]/usr/bin/git checkout --progress --force -B feat/stage-3-membership refs/remotes/origin/feat/stage-3-membership
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1527945Z Switched to a new branch 'feat/stage-3-membership'
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1532150Z branch 'feat/stage-3-membership' set up to track 'origin/feat/stage-3-membership'.
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1538697Z ##[endgroup]
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1584462Z [command]/usr/bin/git log -1 --format=%H
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1611589Z 9952953270ea7bd9adea1c748f047a9d63da04d2
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1620854Z ##[group]Removing auth
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1621323Z Removing SSH command configuration
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1624469Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1663000Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1883072Z Removing HTTP extra header
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1889174Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.1931201Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2151651Z Removing includeIf entries pointing to credentials config files
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2156164Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2190283Z includeif.gitdir:/home/runner/work/Synology-Admin/Synology-Admin/.git.path
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2191333Z includeif.gitdir:/home/runner/work/Synology-Admin/Synology-Admin/.git/worktrees/*.path
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2192191Z includeif.gitdir:/github/workspace/.git.path
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2192759Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2200780Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Synology-Admin/Synology-Admin/.git.path
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2228198Z /home/runner/work/_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2238852Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Synology-Admin/Synology-Admin/.git.path /home/runner/work/_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2277379Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Synology-Admin/Synology-Admin/.git/worktrees/*.path
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2306376Z /home/runner/work/_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2315228Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Synology-Admin/Synology-Admin/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2355013Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2396079Z /github/runner_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2401711Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2436992Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2463355Z /github/runner_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2469610Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2505286Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2717497Z Removing credentials config '/home/runner/work/_temp/git-credentials-406e98f8-50c7-453b-848e-bf22e336ac35.config'
+postgres-races	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:05:18.2729844Z ##[endgroup]
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	﻿2026-10-11T13:05:18.2947105Z ##[group]Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2947449Z with:
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2947625Z   python-version: 3.14
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2947807Z   cache: pip
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2947974Z   check-latest: false
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2950011Z   token: ***
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2950317Z   update-environment: true
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2950514Z   allow-prereleases: false
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2950704Z   freethreaded: false
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2950884Z env:
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2951051Z   DJANGO_DB_ENGINE: postgresql
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2951256Z   PGDATABASE: portal_test
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2951444Z   PGUSER: postgres
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2951609Z   PGHOST: 127.0.0.1
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.2951779Z ##[endgroup]
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.4023010Z ##[group]Installed versions
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.4098902Z Successfully set up CPython (3.14.8)
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.4099517Z ##[endgroup]
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.4521479Z [command]/opt/hostedtoolcache/Python/3.14.8/x64/bin/pip cache dir
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:18.7593275Z /home/runner/.cache/pip
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:19.0280490Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.14.8-pip-4838094f2d025a83de99c686fa1e5e2046a5053deafe7c75b2ed9bcdd9c7c481
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:20.2970972Z Received 1329904 of 13912816 (9.6%), 1.3 MBs/sec
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:20.4388106Z Received 13912816 of 13912816 (100.0%), 11.6 MBs/sec
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:20.4388614Z Cache Size: ~13 MB (13912816 B)
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:20.4411929Z [command]/usr/bin/tar -xf /home/runner/work/_temp/5343838f-661b-41ce-b026-24f177400dbc/cache.tzst -P -C /home/runner/work/Synology-Admin/Synology-Admin --use-compress-program unzstd
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:20.4636851Z Cache restored successfully
+postgres-races	Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:05:20.4647178Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.14.8-pip-4838094f2d025a83de99c686fa1e5e2046a5053deafe7c75b2ed9bcdd9c7c481
+postgres-races	Run python -m pip install -r requirements.txt	﻿2026-10-11T13:05:20.4785636Z ##[group]Run python -m pip install -r requirements.txt
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4786061Z ^[[36;1mpython -m pip install -r requirements.txt^[[0m
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4985053Z shell: /usr/bin/bash -e {0}
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4985345Z env:
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4985531Z   DJANGO_DB_ENGINE: postgresql
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4985753Z   PGDATABASE: portal_test
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4985956Z   PGUSER: postgres
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4986132Z   PGHOST: 127.0.0.1
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4986365Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4986726Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.8/x64/lib/pkgconfig
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4987072Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4987374Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4987674Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4987990Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.8/x64/lib
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:20.4988256Z ##[endgroup]
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.2294201Z Collecting Django==5.2.18 (from -r requirements.txt (line 1))
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.2307702Z   Using cached django-5.2.18-py3-none-any.whl.metadata (4.1 kB)
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.2649092Z Collecting asgiref==3.12.1 (from -r requirements.txt (line 2))
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.2660889Z   Using cached asgiref-3.12.1-py3-none-any.whl.metadata (9.4 kB)
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.2917312Z Collecting sqlparse==0.6.0 (from -r requirements.txt (line 3))
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.2927494Z   Using cached sqlparse-0.6.0-py3-none-any.whl.metadata (6.0 kB)
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.3031464Z Collecting psycopg==3.3.6 (from psycopg[binary]==3.3.6->-r requirements.txt (line 4))
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.3041182Z   Using cached psycopg-3.3.6-py3-none-any.whl.metadata (4.4 kB)
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.4143962Z Collecting psycopg-binary==3.3.6 (from psycopg[binary]==3.3.6->-r requirements.txt (line 4))
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.4157272Z   Using cached psycopg_binary-3.3.6-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.7 kB)
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.4184931Z Using cached django-5.2.18-py3-none-any.whl (8.3 MB)
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.4222242Z Using cached asgiref-3.12.1-py3-none-any.whl (25 kB)
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.4232070Z Using cached sqlparse-0.6.0-py3-none-any.whl (50 kB)
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.4241666Z Using cached psycopg-3.3.6-py3-none-any.whl (215 kB)
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.4251570Z Using cached psycopg_binary-3.3.6-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.2 MB)
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:21.5048739Z Installing collected packages: sqlparse, psycopg-binary, psycopg, asgiref, Django
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:23.4684576Z 
+postgres-races	Run python -m pip install -r requirements.txt	2026-10-11T13:05:23.4700288Z Successfully installed Django-5.2.18 asgiref-3.12.1 psycopg-3.3.6 psycopg-binary-3.3.6 sqlparse-0.6.0
+postgres-races	Real PostgreSQL race tests	﻿2026-10-11T13:05:23.5296596Z ##[group]Run export DJANGO_SECRET_KEY=$(python -c 'import secrets; print(secrets.token_urlsafe(64))')
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5297186Z ^[[36;1mexport DJANGO_SECRET_KEY=$(python -c 'import secrets; print(secrets.token_urlsafe(64))')^[[0m
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5297592Z ^[[36;1mpython scripts/verify.py^[[0m
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5297872Z ^[[36;1mpython manage.py test concurrency.races -v 2^[[0m
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5354749Z shell: /usr/bin/bash -e {0}
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5354992Z env:
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5355172Z   DJANGO_DB_ENGINE: postgresql
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5355395Z   PGDATABASE: portal_test
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5355590Z   PGUSER: postgres
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5355771Z   PGHOST: 127.0.0.1
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5356004Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5356350Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.8/x64/lib/pkgconfig
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5356684Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5356992Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5357348Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5357653Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.8/x64/lib
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:23.5357912Z ##[endgroup]
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.3298092Z System check identified no issues (0 silenced).
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.8336769Z Creating test database for alias 'default' ('test_portal_test')...
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9375143Z Found 46 test(s).
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9375550Z Operations to perform:
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9376062Z   Apply all migrations: auth, contenttypes, membership, sessions
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9376540Z Running migrations:
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9421799Z   Applying contenttypes.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9450643Z   Applying contenttypes.0002_remove_content_type_name... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9681779Z   Applying auth.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9718120Z   Applying auth.0002_alter_permission_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9759392Z   Applying auth.0003_alter_user_email_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9852556Z   Applying auth.0004_alter_user_username_opts... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9887204Z   Applying auth.0005_alter_user_last_login_null... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9894647Z   Applying auth.0006_require_contenttypes_0002... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9928652Z   Applying auth.0007_alter_validators_add_error_messages... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:24.9970745Z   Applying auth.0008_alter_user_username_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0007559Z   Applying auth.0009_alter_user_last_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0046733Z   Applying auth.0010_alter_group_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0076863Z   Applying auth.0011_update_proxy_permissions... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0114419Z   Applying auth.0012_alter_user_first_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0194110Z   Applying membership.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0265911Z   Applying membership.0002_auditevent... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0316871Z   Applying membership.0003_membership_session_version... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0395703Z   Applying membership.0004_nasbinding... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0422994Z   Applying membership.0005_authattempt... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0557980Z   Applying membership.0006_membership_membership_valid_status_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0584332Z   Applying membership.0007_tenant_signup_enabled... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0707705Z   Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0766923Z   Applying membership.0009_membership_quota_bytes... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:25.0898877Z   Applying membership.0010_seed_existing_capacity... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:26.3279735Z test_cross_tenant_reads_writes_and_forged_query_scope (tests.test_boundaries.BoundaryTests.test_cross_tenant_reads_writes_and_forged_query_scope) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:26.8320967Z test_csrf_and_method_boundaries_for_every_mutation (tests.test_boundaries.BoundaryTests.test_csrf_and_method_boundaries_for_every_mutation) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:28.6358719Z test_input_validation_and_no_audit_secrets (tests.test_boundaries.BoundaryTests.test_input_validation_and_no_audit_secrets) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:29.3316723Z test_login_rotates_session_and_rejects_external_redirect (tests.test_boundaries.BoundaryTests.test_login_rotates_session_and_rejects_external_redirect) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:30.6952300Z test_no_self_mutation_or_staff_flag_escalation (tests.test_boundaries.BoundaryTests.test_no_self_mutation_or_staff_flag_escalation) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:31.3884427Z test_restored_old_session_is_invalid_even_if_status_restored (tests.test_boundaries.BoundaryTests.test_restored_old_session_is_invalid_even_if_status_restored) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:33.1949236Z test_approval_counts_active_admin_and_members_not_pending_or_retired (tests.test_groups.GroupTests.test_approval_counts_active_admin_and_members_not_pending_or_retired) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:34.1057029Z test_failed_audit_rolls_back_approval_and_account_count (tests.test_groups.GroupTests.test_failed_audit_rolls_back_approval_and_account_count) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:36.8232719Z test_global_admin_appoints_and_replaces_managers_without_scope_changes (tests.test_groups.GroupTests.test_global_admin_appoints_and_replaces_managers_without_scope_changes) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:37.2879457Z test_group_management_forms_are_scoped (tests.test_groups.GroupTests.test_group_management_forms_are_scoped) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:37.9636641Z test_group_manager_cannot_retire_global_admin_with_membership (tests.test_groups.GroupTests.test_group_manager_cannot_retire_global_admin_with_membership) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:38.2076530Z test_hidden_group_cannot_receive_signup (tests.test_groups.GroupTests.test_hidden_group_cannot_receive_signup) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:39.1059792Z test_inactive_legacy_admin_is_not_the_last_active_manager (tests.test_groups.GroupTests.test_inactive_legacy_admin_is_not_the_last_active_manager) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:42.4996935Z test_manager_allocates_portal_quota_within_cap_and_reduction_rejects (tests.test_groups.GroupTests.test_manager_allocates_portal_quota_within_cap_and_reduction_rejects) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:45.6611075Z test_only_global_admin_sets_valid_group_limits_with_audit (tests.test_groups.GroupTests.test_only_global_admin_sets_valid_group_limits_with_audit) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:46.7863493Z test_pending_and_legacy_suspended_accounts_can_be_retired (tests.test_groups.GroupTests.test_pending_and_legacy_suspended_accounts_can_be_retired) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:48.1433876Z test_retirement_disables_login_is_idempotent_and_preserves_binding (tests.test_groups.GroupTests.test_retirement_disables_login_is_idempotent_and_preserves_binding) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:49.5203530Z test_self_and_last_manager_retirement_are_rejected (tests.test_groups.GroupTests.test_self_and_last_manager_retirement_are_rejected) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:50.0060581Z test_signup_requires_public_group_and_ignores_privilege_fields (tests.test_groups.GroupTests.test_signup_requires_public_group_and_ignores_privilege_fields) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:50.2257697Z test_sqlite_mutations_fail_closed_without_explicit_development_opt_in (tests.test_groups.GroupTests.test_sqlite_mutations_fail_closed_without_explicit_development_opt_in) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:51.6067927Z test_admin_approval_is_scoped_audited_and_requires_reauthentication (tests.test_membership.SignupTests.test_admin_approval_is_scoped_audited_and_requires_reauthentication) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:52.2943354Z test_login_throttle_is_shared_across_clients (tests.test_membership.SignupTests.test_login_throttle_is_shared_across_clients) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:53.2329369Z test_management_ui_assigns_unassigned_applicant_only_by_global_admin (tests.test_membership.SignupTests.test_management_ui_assigns_unassigned_applicant_only_by_global_admin) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:53.2394227Z test_membership_database_rejects_invalid_states (tests.test_membership.SignupTests.test_membership_database_rejects_invalid_states) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:54.6061919Z test_nas_link_is_unique_identifier_mapping_not_provisioning (tests.test_membership.SignupTests.test_nas_link_is_unique_identifier_mapping_not_provisioning) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:55.0782232Z test_pending_login_status_and_post_logout (tests.test_membership.SignupTests.test_pending_login_status_and_post_logout) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:56.4506580Z test_revoke_ends_all_active_sessions_and_prevents_replay (tests.test_membership.SignupTests.test_revoke_ends_all_active_sessions_and_prevents_replay) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:56.4520667Z test_session_has_bounded_expiry (tests.test_membership.SignupTests.test_session_has_bounded_expiry) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:56.9015639Z test_signup_creates_pending_nonprivileged_identity (tests.test_membership.SignupTests.test_signup_creates_pending_nonprivileged_identity) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:56.9121762Z test_weak_password_is_rejected (tests.test_membership.SignupTests.test_weak_password_is_rejected) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:58.4771385Z test_custom_auth_views_redact_post_data_from_error_reports (tests.test_security_review.ErrorReportPrivacyTests.test_custom_auth_views_redact_post_data_from_error_reports) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:58.9694693Z test_logged_in_clients_cannot_change_login_target_bucket (tests.test_security_review.ThrottleIdentityTests.test_logged_in_clients_cannot_change_login_target_bucket) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:59.6434956Z test_nfkc_equivalent_login_names_share_target_limit (tests.test_security_review.ThrottleIdentityTests.test_nfkc_equivalent_login_names_share_target_limit) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:59.6491620Z test_database_failure_is_sanitized (tests.test_web.WebTests.test_database_failure_is_sanitized) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:59.6507487Z test_health_checks_real_database (tests.test_web.WebTests.test_health_checks_real_database) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:59.6522592Z test_health_is_not_cacheable (tests.test_web.WebTests.test_health_is_not_cacheable) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:59.6535751Z test_http_redirects_to_https (tests.test_web.WebTests.test_http_redirects_to_https) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:59.6550939Z test_landing_is_truthful (tests.test_web.WebTests.test_landing_is_truthful) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:59.6574757Z test_no_public_admin_or_nas_routes (tests.test_web.WebTests.test_no_public_admin_or_nas_routes) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:59.6589170Z test_security_headers (tests.test_web.WebTests.test_security_headers) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:59.6604586Z test_untrusted_host_is_rejected (tests.test_web.WebTests.test_untrusted_host_is_rejected) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:05:59.7633348Z test_existing_active_members_seed_capacity_without_deleting_accounts (tests.test_group_migration.GroupMigrationTests.test_existing_active_members_seed_capacity_without_deleting_accounts) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:01.9352427Z test_browser_forms_signup_assign_approve_link_revoke_logout (tests.test_membership_http.MembershipHTTPTests.test_browser_forms_signup_assign_approve_link_revoke_logout) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.4728217Z test_missing_secret_is_rejected (tests.test_settings.SettingsTests.test_missing_secret_is_rejected) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.4945903Z test_production_security_defaults (tests.test_settings.SettingsTests.test_production_security_defaults) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.5315366Z test_weak_secret_is_rejected (tests.test_settings.SettingsTests.test_weak_secret_is_rejected) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.5315895Z 
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.5316096Z ----------------------------------------------------------------------
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.5316401Z Ran 46 tests in 37.371s
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.5316528Z 
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.5316628Z OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.5316885Z Destroying test database for alias 'default' ('test_portal_test')...
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.6761066Z   Applying sessions.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:02.6761568Z System check identified no issues (0 silenced).
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0257963Z Operations to perform:
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0258431Z   Apply all migrations: auth, contenttypes, membership, sessions
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0258737Z Running migrations:
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0301978Z   Applying contenttypes.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0330515Z   Applying contenttypes.0002_remove_content_type_name... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0535316Z   Applying auth.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0586905Z   Applying auth.0002_alter_permission_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0627339Z   Applying auth.0003_alter_user_email_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0660414Z   Applying auth.0004_alter_user_username_opts... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0698726Z   Applying auth.0005_alter_user_last_login_null... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0706203Z   Applying auth.0006_require_contenttypes_0002... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0740058Z   Applying auth.0007_alter_validators_add_error_messages... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0788559Z   Applying auth.0008_alter_user_username_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0823731Z   Applying auth.0009_alter_user_last_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0863964Z   Applying auth.0010_alter_group_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0933529Z   Applying auth.0011_update_proxy_permissions... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.0967436Z   Applying auth.0012_alter_user_first_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.1052646Z   Applying membership.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.1242104Z   Applying membership.0002_auditevent... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.1296356Z   Applying membership.0003_membership_session_version... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.1375528Z   Applying membership.0004_nasbinding... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.1404149Z   Applying membership.0005_authattempt... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.1543532Z   Applying membership.0006_membership_membership_valid_status_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.1569672Z   Applying membership.0007_tenant_signup_enabled... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.1697600Z   Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.1759400Z   Applying membership.0009_membership_quota_bytes... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.1826720Z   Applying membership.0010_seed_existing_capacity... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.2250066Z   Applying sessions.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.5587317Z No changes detected
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.8516127Z 127.0.0.1 - - [11/Oct/2026 08:06:03] "GET /health/ HTTP/1.1" 200 59
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.8549111Z 127.0.0.1 - - [11/Oct/2026 08:06:03] "GET / HTTP/1.1" 200 674
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.8563577Z 127.0.0.1 - - [11/Oct/2026 08:06:03] "GET / HTTP/1.1" 400 143
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:03.8567893Z {"http_smoke": {"landing": 200, "health": 200, "invalid_host": 400}, "health_body": {"status": "ok", "database": "ok", "nas": "not_configured"}, "applied_migrations": 25, "deployment": "not_performed", "nas_access": "not_performed"}
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.1817846Z Creating test database for alias 'default' ('test_portal_test')...
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2315919Z Found 7 test(s).
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2316222Z Operations to perform:
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2316512Z   Apply all migrations: auth, contenttypes, membership, sessions
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2316805Z Running migrations:
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2362049Z   Applying contenttypes.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2392060Z   Applying contenttypes.0002_remove_content_type_name... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2627240Z   Applying auth.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2667023Z   Applying auth.0002_alter_permission_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2705987Z   Applying auth.0003_alter_user_email_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2834542Z   Applying auth.0004_alter_user_username_opts... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2871437Z   Applying auth.0005_alter_user_last_login_null... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2879374Z   Applying auth.0006_require_contenttypes_0002... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2914066Z   Applying auth.0007_alter_validators_add_error_messages... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2957486Z   Applying auth.0008_alter_user_username_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.2997005Z   Applying auth.0009_alter_user_last_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3038636Z   Applying auth.0010_alter_group_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3073167Z   Applying auth.0011_update_proxy_permissions... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3108415Z   Applying auth.0012_alter_user_first_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3197557Z   Applying membership.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3270369Z   Applying membership.0002_auditevent... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3322630Z   Applying membership.0003_membership_session_version... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3406298Z   Applying membership.0004_nasbinding... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3435388Z   Applying membership.0005_authattempt... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3575332Z   Applying membership.0006_membership_membership_valid_status_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3602035Z   Applying membership.0007_tenant_signup_enabled... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3735415Z   Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3797326Z   Applying membership.0009_membership_quota_bytes... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:04.3862040Z   Applying membership.0010_seed_existing_capacity... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:06.1153437Z test_actor_revocation_waits_for_inflight_authorized_write (concurrency.races.PostgreSQLRaces.test_actor_revocation_waits_for_inflight_authorized_write) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:07.6197771Z test_concurrent_login_cannot_recreate_authenticated_retired_session (concurrency.races.PostgreSQLRaces.test_concurrent_login_cannot_recreate_authenticated_retired_session) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:08.8799160Z test_concurrent_manager_demotions_retain_one_manager (concurrency.races.PostgreSQLRaces.test_concurrent_manager_demotions_retain_one_manager) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:10.5811758Z test_concurrent_quota_allocation_does_not_oversubscribe (concurrency.races.PostgreSQLRaces.test_concurrent_quota_allocation_does_not_oversubscribe) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:12.3338930Z test_last_account_slot_has_one_winner (concurrency.races.PostgreSQLRaces.test_last_account_slot_has_one_winner) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:13.3402803Z test_mutual_retirement_retains_one_active_manager (concurrency.races.PostgreSQLRaces.test_mutual_retirement_retains_one_active_manager) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:14.8348762Z test_reduction_and_approval_preserve_account_cap (concurrency.races.PostgreSQLRaces.test_reduction_and_approval_preserve_account_cap) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:14.8663145Z 
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:14.8664142Z ----------------------------------------------------------------------
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:14.8664764Z Ran 7 tests in 10.437s
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:14.8664952Z 
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:14.8665045Z OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:14.8665436Z Destroying test database for alias 'default' ('test_portal_test')...
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:14.9042461Z   Applying sessions.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T13:06:14.9043475Z System check identified no issues (0 silenced).
+postgres-races	Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	﻿2026-10-11T13:06:15.0216441Z Post job cleanup.
+postgres-races	Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1	2026-10-11T13:06:15.1300690Z Cache hit occurred on the primary key setup-python-Linux-x64-24.04-Ubuntu-python-3.14.8-pip-4838094f2d025a83de99c686fa1e5e2046a5053deafe7c75b2ed9bcdd9c7c481, not saving cache.
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	﻿2026-10-11T13:06:15.1417499Z Post job cleanup.
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2136777Z [command]/usr/bin/git version
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2176339Z git version 2.55.0
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2212667Z Temporarily overriding HOME='/home/runner/work/_temp/d98e0cc6-4bb2-4421-97f6-11047fd55fdf' before making global git config changes
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2213469Z Adding repository directory to the temporary git global config as a safe directory
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2218073Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Synology-Admin/Synology-Admin
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2252862Z Removing SSH command configuration
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2259061Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2291666Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2519124Z Removing HTTP extra header
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2519842Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2546271Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2774793Z Removing includeIf entries pointing to credentials config files
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2782399Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+postgres-races	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-10-11T13:06:15.2818627Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+postgres-races	Stop containers	﻿2026-10-11T13:06:15.3141085Z Print service container logs: 1fb7bb666484429b8684843daf4ce25d_postgres17_4d650d
+postgres-races	Stop containers	2026-10-11T13:06:15.3144920Z ##[command]/usr/bin/docker logs --details 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd
+postgres-races	Stop containers	2026-10-11T13:06:15.3261675Z  ********************************************************************************
+postgres-races	Stop containers	2026-10-11T13:06:15.3262410Z  The files belonging to this database system will be owned by user "postgres".
+postgres-races	Stop containers	2026-10-11T13:06:15.3263020Z  This user must also own the server process.
+postgres-races	Stop containers	2026-10-11T13:06:15.3263784Z  WARNING: POSTGRES_HOST_AUTH_METHOD has been set to "trust". This will allow
+postgres-races	Stop containers	2026-10-11T13:06:15.3264385Z           anyone with access to the Postgres port to access your database without
+postgres-races	Stop containers	2026-10-11T13:06:15.3265013Z           a password, even if POSTGRES_PASSWORD is set. See PostgreSQL
+postgres-races	Stop containers	2026-10-11T13:06:15.3265500Z           documentation about "trust":
+postgres-races	Stop containers	2026-10-11T13:06:15.3265991Z           https://www.postgresql.org/docs/current/auth-trust.html
+postgres-races	Stop containers	2026-10-11T13:06:15.3266544Z           In Docker's default configuration, this is effectively any other
+postgres-races	Stop containers	2026-10-11T13:06:15.3266946Z           container on the same system.
+postgres-races	Stop containers	2026-10-11T13:06:15.3267154Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3267475Z           It is not recommended to use POSTGRES_HOST_AUTH_METHOD=trust. Replace
+postgres-races	Stop containers	2026-10-11T13:06:15.3267855Z           it with "-e POSTGRES_PASSWORD=password" instead to set a password in
+postgres-races	Stop containers	2026-10-11T13:06:15.3268158Z           "docker run".
+postgres-races	Stop containers	2026-10-11T13:06:15.3268376Z  ********************************************************************************
+postgres-races	Stop containers	2026-10-11T13:06:15.3268717Z  initdb: warning: enabling "trust" authentication for local connections
+postgres-races	Stop containers	2026-10-11T13:06:15.3269283Z  initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+postgres-races	Stop containers	2026-10-11T13:06:15.3270002Z  2026-10-11 13:05:12.964 UTC [1] LOG:  starting PostgreSQL 17.11 (Debian 17.11-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+postgres-races	Stop containers	2026-10-11T13:06:15.3271017Z  2026-10-11 13:05:12.964 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+postgres-races	Stop containers	2026-10-11T13:06:15.3271394Z  2026-10-11 13:05:12.964 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+postgres-races	Stop containers	2026-10-11T13:06:15.3271788Z  2026-10-11 13:05:12.965 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-races	Stop containers	2026-10-11T13:06:15.3272225Z  2026-10-11 13:05:12.967 UTC [66] LOG:  database system was shut down at 2026-10-11 13:05:12 UTC
+postgres-races	Stop containers	2026-10-11T13:06:15.3272617Z  2026-10-11 13:05:12.970 UTC [1] LOG:  database system is ready to accept connections
+postgres-races	Stop containers	2026-10-11T13:06:15.3273126Z  2026-10-11 13:05:53.235 UTC [130] ERROR:  new row for relation "membership_membership" violates check constraint "membership_valid_status"
+postgres-races	Stop containers	2026-10-11T13:06:15.3273668Z  2026-10-11 13:05:53.235 UTC [130] DETAIL:  Failing row contains (50, arbitrary, member, 65, 31, 0, 0).
+postgres-races	Stop containers	2026-10-11T13:06:15.3274462Z  2026-10-11 13:05:53.235 UTC [130] STATEMENT:  INSERT INTO "membership_membership" ("session_version", "quota_bytes", "user_id", "tenant_id", "status", "role") VALUES (0, 0, 65, 31, 'arbitrary', 'member') RETURNING "membership_membership"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3275325Z  2026-10-11 13:05:53.237 UTC [130] ERROR:  new row for relation "membership_membership" violates check constraint "membership_valid_role"
+postgres-races	Stop containers	2026-10-11T13:06:15.3275845Z  2026-10-11 13:05:53.237 UTC [130] DETAIL:  Failing row contains (51, pending, owner, 66, 31, 0, 0).
+postgres-races	Stop containers	2026-10-11T13:06:15.3276566Z  2026-10-11 13:05:53.237 UTC [130] STATEMENT:  INSERT INTO "membership_membership" ("session_version", "quota_bytes", "user_id", "tenant_id", "status", "role") VALUES (0, 0, 66, 31, 'pending', 'owner') RETURNING "membership_membership"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3277558Z  2026-10-11 13:05:53.238 UTC [130] ERROR:  new row for relation "membership_membership" violates check constraint "approved_requires_tenant"
+postgres-races	Stop containers	2026-10-11T13:06:15.3278498Z  2026-10-11 13:05:53.238 UTC [130] DETAIL:  Failing row contains (52, approved, member, 67, null, 0, 0).
+postgres-races	Stop containers	2026-10-11T13:06:15.3279979Z  2026-10-11 13:05:53.238 UTC [130] STATEMENT:  INSERT INTO "membership_membership" ("session_version", "quota_bytes", "user_id", "tenant_id", "status", "role") VALUES (0, 0, 67, NULL, 'approved', 'member') RETURNING "membership_membership"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3281051Z  2026-10-11 13:05:53.921 UTC [130] ERROR:  duplicate key value violates unique constraint "membership_nasbinding_external_id_key"
+postgres-races	Stop containers	2026-10-11T13:06:15.3281575Z  2026-10-11 13:05:53.921 UTC [130] DETAIL:  Key (external_id)=(nas-user-123) already exists.
+postgres-races	Stop containers	2026-10-11T13:06:15.3282367Z  2026-10-11 13:05:53.921 UTC [130] STATEMENT:  INSERT INTO "membership_nasbinding" ("membership_id", "tenant_id", "external_id", "created_at") VALUES (53, 32, 'nas-user-123', '2026-10-11 13:05:53.920852+00:00'::timestamptz) RETURNING "membership_nasbinding"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3283233Z  2026-10-11 13:05:54.147 UTC [130] ERROR:  duplicate key value violates unique constraint "membership_nasbinding_external_id_key"
+postgres-races	Stop containers	2026-10-11T13:06:15.3283740Z  2026-10-11 13:05:54.147 UTC [130] DETAIL:  Key (external_id)=(nas-user-123) already exists.
+postgres-races	Stop containers	2026-10-11T13:06:15.3284551Z  2026-10-11 13:05:54.147 UTC [130] STATEMENT:  INSERT INTO "membership_nasbinding" ("membership_id", "tenant_id", "external_id", "created_at") VALUES (54, 32, 'nas-user-123', '2026-10-11 13:05:54.146929+00:00'::timestamptz) RETURNING "membership_nasbinding"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3285282Z  2026-10-11 13:06:02.535 UTC [64] LOG:  checkpoint starting: immediate force wait
+postgres-races	Stop containers	2026-10-11T13:06:15.3286093Z  2026-10-11 13:06:02.636 UTC [64] LOG:  checkpoint complete: wrote 49 buffers (0.3%); 1 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.101 s; sync files=15, longest=0.001 s, average=0.001 s; distance=5352 kB, estimate=5352 kB; lsn=0/1E51A40, redo lsn=0/1E519E8
+postgres-races	Stop containers	2026-10-11T13:06:15.3286999Z  2026-10-11 13:06:08.416 UTC [204] ERROR:  duplicate key value violates unique constraint "membership_authattempt_key_key"
+postgres-races	Stop containers	2026-10-11T13:06:15.3287756Z  2026-10-11 13:06:08.416 UTC [204] DETAIL:  Key (key)=(225e83520efc606e3515c43cf5ab4a7737e6ead5789267834e2dee19b0ec4e4d) already exists.
+postgres-races	Stop containers	2026-10-11T13:06:15.3288653Z  2026-10-11 13:06:08.416 UTC [204] STATEMENT:  INSERT INTO "membership_authattempt" ("key", "window", "count") VALUES ('225e83520efc606e3515c43cf5ab4a7737e6ead5789267834e2dee19b0ec4e4d', 1990804, 0) RETURNING "membership_authattempt"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3289518Z  2026-10-11 13:06:08.420 UTC [204] ERROR:  duplicate key value violates unique constraint "membership_authattempt_key_key"
+postgres-races	Stop containers	2026-10-11T13:06:15.3290259Z  2026-10-11 13:06:08.420 UTC [204] DETAIL:  Key (key)=(9a04843498922d6408dc7cc191663f67a9855aafc0bd32f8e31ad8d67250d151) already exists.
+postgres-races	Stop containers	2026-10-11T13:06:15.3291147Z  2026-10-11 13:06:08.420 UTC [204] STATEMENT:  INSERT INTO "membership_authattempt" ("key", "window", "count") VALUES ('9a04843498922d6408dc7cc191663f67a9855aafc0bd32f8e31ad8d67250d151', 1990804, 0) RETURNING "membership_authattempt"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3292023Z  2026-10-11 13:06:10.116 UTC [208] ERROR:  duplicate key value violates unique constraint "membership_authattempt_key_key"
+postgres-races	Stop containers	2026-10-11T13:06:15.3292616Z  2026-10-11 13:06:10.116 UTC [208] DETAIL:  Key (key)=(225e83520efc606e3515c43cf5ab4a7737e6ead5789267834e2dee19b0ec4e4d) already exists.
+postgres-races	Stop containers	2026-10-11T13:06:15.3293470Z  2026-10-11 13:06:10.116 UTC [208] STATEMENT:  INSERT INTO "membership_authattempt" ("key", "window", "count") VALUES ('225e83520efc606e3515c43cf5ab4a7737e6ead5789267834e2dee19b0ec4e4d', 1990804, 0) RETURNING "membership_authattempt"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3294296Z  2026-10-11 13:06:10.119 UTC [208] ERROR:  duplicate key value violates unique constraint "membership_authattempt_key_key"
+postgres-races	Stop containers	2026-10-11T13:06:15.3294864Z  2026-10-11 13:06:10.119 UTC [208] DETAIL:  Key (key)=(a6ba213b10527ee18c89f3a739c7a8e8cdd315a858dbb041fc48b899c2272147) already exists.
+postgres-races	Stop containers	2026-10-11T13:06:15.3295703Z  2026-10-11 13:06:10.119 UTC [208] STATEMENT:  INSERT INTO "membership_authattempt" ("key", "window", "count") VALUES ('a6ba213b10527ee18c89f3a739c7a8e8cdd315a858dbb041fc48b899c2272147', 1990804, 0) RETURNING "membership_authattempt"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3296648Z  2026-10-11 13:06:11.860 UTC [211] ERROR:  duplicate key value violates unique constraint "membership_authattempt_key_key"
+postgres-races	Stop containers	2026-10-11T13:06:15.3297223Z  2026-10-11 13:06:11.860 UTC [211] DETAIL:  Key (key)=(225e83520efc606e3515c43cf5ab4a7737e6ead5789267834e2dee19b0ec4e4d) already exists.
+postgres-races	Stop containers	2026-10-11T13:06:15.3298076Z  2026-10-11 13:06:11.860 UTC [211] STATEMENT:  INSERT INTO "membership_authattempt" ("key", "window", "count") VALUES ('225e83520efc606e3515c43cf5ab4a7737e6ead5789267834e2dee19b0ec4e4d', 1990804, 0) RETURNING "membership_authattempt"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3298886Z  2026-10-11 13:06:11.863 UTC [211] ERROR:  duplicate key value violates unique constraint "membership_authattempt_key_key"
+postgres-races	Stop containers	2026-10-11T13:06:15.3299452Z  2026-10-11 13:06:11.863 UTC [211] DETAIL:  Key (key)=(69267143c9858c4175b667cd39fee10a7b5c420b7a6a65c5dc84bd7dc49b6608) already exists.
+postgres-races	Stop containers	2026-10-11T13:06:15.3300488Z  2026-10-11 13:06:11.863 UTC [211] STATEMENT:  INSERT INTO "membership_authattempt" ("key", "window", "count") VALUES ('69267143c9858c4175b667cd39fee10a7b5c420b7a6a65c5dc84bd7dc49b6608', 1990804, 0) RETURNING "membership_authattempt"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3301307Z  2026-10-11 13:06:13.094 UTC [222] ERROR:  duplicate key value violates unique constraint "membership_authattempt_key_key"
+postgres-races	Stop containers	2026-10-11T13:06:15.3301882Z  2026-10-11 13:06:13.094 UTC [222] DETAIL:  Key (key)=(225e83520efc606e3515c43cf5ab4a7737e6ead5789267834e2dee19b0ec4e4d) already exists.
+postgres-races	Stop containers	2026-10-11T13:06:15.3302723Z  2026-10-11 13:06:13.094 UTC [222] STATEMENT:  INSERT INTO "membership_authattempt" ("key", "window", "count") VALUES ('225e83520efc606e3515c43cf5ab4a7737e6ead5789267834e2dee19b0ec4e4d', 1990804, 0) RETURNING "membership_authattempt"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3303534Z  2026-10-11 13:06:14.352 UTC [226] ERROR:  duplicate key value violates unique constraint "membership_authattempt_key_key"
+postgres-races	Stop containers	2026-10-11T13:06:15.3304220Z  2026-10-11 13:06:14.352 UTC [226] DETAIL:  Key (key)=(225e83520efc606e3515c43cf5ab4a7737e6ead5789267834e2dee19b0ec4e4d) already exists.
+postgres-races	Stop containers	2026-10-11T13:06:15.3305062Z  2026-10-11 13:06:14.352 UTC [226] STATEMENT:  INSERT INTO "membership_authattempt" ("key", "window", "count") VALUES ('225e83520efc606e3515c43cf5ab4a7737e6ead5789267834e2dee19b0ec4e4d', 1990804, 0) RETURNING "membership_authattempt"."id"
+postgres-races	Stop containers	2026-10-11T13:06:15.3305787Z  2026-10-11 13:06:14.870 UTC [64] LOG:  checkpoint starting: immediate force wait
+postgres-races	Stop containers	2026-10-11T13:06:15.3306594Z  2026-10-11 13:06:14.889 UTC [64] LOG:  checkpoint complete: wrote 144 buffers (0.9%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.003 s, sync=0.016 s, total=0.020 s; sync files=132, longest=0.004 s, average=0.001 s; distance=5940 kB, estimate=5940 kB; lsn=0/241EB60, redo lsn=0/241EB08
+postgres-races	Stop containers	2026-10-11T13:06:15.3307307Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3307544Z  The database cluster will be initialized with locale "en_US.utf8".
+postgres-races	Stop containers	2026-10-11T13:06:15.3307903Z  The default database encoding has accordingly been set to "UTF8".
+postgres-races	Stop containers	2026-10-11T13:06:15.3308242Z  The default text search configuration will be set to "english".
+postgres-races	Stop containers	2026-10-11T13:06:15.3308508Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3308677Z  Data page checksums are disabled.
+postgres-races	Stop containers	2026-10-11T13:06:15.3308882Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3309122Z  fixing permissions on existing directory /var/lib/postgresql/data ... ok
+postgres-races	Stop containers	2026-10-11T13:06:15.3309440Z  creating subdirectories ... ok
+postgres-races	Stop containers	2026-10-11T13:06:15.3309704Z  selecting dynamic shared memory implementation ... posix
+postgres-races	Stop containers	2026-10-11T13:06:15.3309987Z  selecting default "max_connections" ... 100
+postgres-races	Stop containers	2026-10-11T13:06:15.3310386Z  selecting default "shared_buffers" ... 128MB
+postgres-races	Stop containers	2026-10-11T13:06:15.3310691Z  selecting default time zone ... Etc/UTC
+postgres-races	Stop containers	2026-10-11T13:06:15.3310922Z  creating configuration files ... ok
+postgres-races	Stop containers	2026-10-11T13:06:15.3311151Z  running bootstrap script ... ok
+postgres-races	Stop containers	2026-10-11T13:06:15.3311393Z  performing post-bootstrap initialization ... ok
+postgres-races	Stop containers	2026-10-11T13:06:15.3311635Z  syncing data to disk ... ok
+postgres-races	Stop containers	2026-10-11T13:06:15.3311831Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3312088Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3312278Z  Success. You can now start the database server using:
+postgres-races	Stop containers	2026-10-11T13:06:15.3312528Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3312734Z      pg_ctl -D /var/lib/postgresql/data -l logfile start
+postgres-races	Stop containers	2026-10-11T13:06:15.3312978Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3313481Z  waiting for server to start....2026-10-11 13:05:12.427 UTC [50] LOG:  starting PostgreSQL 17.11 (Debian 17.11-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+postgres-races	Stop containers	2026-10-11T13:06:15.3314144Z  2026-10-11 13:05:12.436 UTC [50] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-races	Stop containers	2026-10-11T13:06:15.3314580Z  2026-10-11 13:05:12.477 UTC [53] LOG:  database system was shut down at 2026-10-11 13:05:11 UTC
+postgres-races	Stop containers	2026-10-11T13:06:15.3314970Z  2026-10-11 13:05:12.488 UTC [50] LOG:  database system is ready to accept connections
+postgres-races	Stop containers	2026-10-11T13:06:15.3315266Z   done
+postgres-races	Stop containers	2026-10-11T13:06:15.3315422Z  server started
+postgres-races	Stop containers	2026-10-11T13:06:15.3315592Z  CREATE DATABASE
+postgres-races	Stop containers	2026-10-11T13:06:15.3315758Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3315919Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3316174Z  /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+postgres-races	Stop containers	2026-10-11T13:06:15.3316479Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3316762Z  waiting for server to shut down...2026-10-11 13:05:12.588 UTC [50] LOG:  received fast shutdown request
+postgres-races	Stop containers	2026-10-11T13:06:15.3317167Z  .2026-10-11 13:05:12.606 UTC [50] LOG:  aborting any active transactions
+postgres-races	Stop containers	2026-10-11T13:06:15.3317604Z  2026-10-11 13:05:12.608 UTC [50] LOG:  background worker "logical replication launcher" (PID 56) exited with exit code 1
+postgres-races	Stop containers	2026-10-11T13:06:15.3318026Z  2026-10-11 13:05:12.608 UTC [51] LOG:  shutting down
+postgres-races	Stop containers	2026-10-11T13:06:15.3318329Z  2026-10-11 13:05:12.617 UTC [51] LOG:  checkpoint starting: shutdown immediate
+postgres-races	Stop containers	2026-10-11T13:06:15.3319184Z  2026-10-11 13:05:12.797 UTC [51] LOG:  checkpoint complete: wrote 925 buffers (5.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.160 s, sync=0.019 s, total=0.190 s; sync files=301, longest=0.017 s, average=0.001 s; distance=4256 kB, estimate=4256 kB; lsn=0/1917920, redo lsn=0/1917920
+postgres-races	Stop containers	2026-10-11T13:06:15.3320363Z  2026-10-11 13:05:12.803 UTC [50] LOG:  database system is shut down
+postgres-races	Stop containers	2026-10-11T13:06:15.3320623Z   done
+postgres-races	Stop containers	2026-10-11T13:06:15.3320780Z  server stopped
+postgres-races	Stop containers	2026-10-11T13:06:15.3320952Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3321144Z  PostgreSQL init process complete; ready for start up.
+postgres-races	Stop containers	2026-10-11T13:06:15.3321381Z  
+postgres-races	Stop containers	2026-10-11T13:06:15.3326223Z Stop and remove container: 1fb7bb666484429b8684843daf4ce25d_postgres17_4d650d
+postgres-races	Stop containers	2026-10-11T13:06:15.3330571Z ##[command]/usr/bin/docker rm --force 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd
+postgres-races	Stop containers	2026-10-11T13:06:15.5038191Z 0d57c980455d81df06a9de6d747326fb3f304db9220e4be3bd484f0bd3b1b0dd
+postgres-races	Stop containers	2026-10-11T13:06:15.5063909Z Remove container network: github_network_6dc2bdf49f9341599720467d559905e4
+postgres-races	Stop containers	2026-10-11T13:06:15.5067338Z ##[command]/usr/bin/docker network rm github_network_6dc2bdf49f9341599720467d559905e4
+postgres-races	Stop containers	2026-10-11T13:06:15.6133677Z github_network_6dc2bdf49f9341599720467d559905e4
+postgres-races	Complete job	﻿2026-10-11T13:06:15.6214835Z Cleaning up orphan processes

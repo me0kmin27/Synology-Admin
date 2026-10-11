@@ -1,0 +1,11 @@
+{
+  "scope": "added application/config/script lines since b425d8a",
+  "head": "d60e3a7ac97008d3bc9a53bc51504a911592ec1c",
+  "scan": {
+    "shell_or_eval": [],
+    "unsafe_deserialization": [],
+    "formatted_sql": []
+  },
+  "independent_review": false,
+  "note": "Self-review static pattern scan only; parent independent review still required."
+}

@@ -1,5 +1,7 @@
 # 회원 단계 독립 보안 리뷰 / 경계 커밋 인계
 
+후속 구현 안내: 아래는 이전 기준선의 역사적 리뷰다. 고객사 그룹 정책·안전한 폐기·actor 철회/로그인 경합 후속 결과는 `groups-implementation.md`와 `../membership-group-acceptance.md`를 따른다. 본 문서의 DSM 공식 Sources 및 MFA 미결정 근거는 보존한다. 후속 코드는 부모의 별도 독립 리뷰 대상이다.
+
 확인일: 2026-10-11. 대상 기준 SHA: `5df8ce8ae84a2303225ab45a11548076f59c3e92`, 브랜치 `feat/stage-3-membership`.
 
 ## 판정

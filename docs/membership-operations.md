@@ -1,36 +1,36 @@
 # 회원 기능 운영 경계와 로컬 확인
 
-2026-10-11 독립 검토 후 로그인 제한 우회와 커스텀 view 오류 보고 POST 노출을 수정했다. `evidence/membership-security-review.md` 참조. **관리자 MFA/새 고객사 그룹 한도·폐기 요구는 미완료**이며 `membership-group-acceptance.md`가 후속 수용 기준이다. 아래 내용은 현재 부분 구현의 설명이지 신규 요구 완료 선언이 아니다.
+포털 그룹 정책 구현/수용 기준은 `membership-group-acceptance.md`, TDD·실제 PostgreSQL 증거는 `evidence/groups-implementation.md` 참조. 이전 보안 리뷰(`evidence/membership-security-review.md`)는 당시 기준선 기록이다. 관리자 MFA 미구현으로 운영 공개와 3단계 전체 수용은 금지다.
 
-## 구현 결정
-Django 기본 User를 유지하고 OneToOne Membership을 사용한다. 운영 데이터가 있는 custom User 전환을 가정하지 않는다. 현재 사용자당 하나의 tenant만 지원한다. 공개 가입은 tenant 미배정 pending/member만 만든다. 클라이언트의 status/role/tenant/is_staff/is_superuser는 수용하지 않는다.
+## 지원 흐름
 
-전역 관리자는 로컬 CLI로 생성한 Django superuser이다. 이 계정은 전체 tenant 관리 권한이 있는 별도 운영 주체이며 일반 membership 승인을 통해 만들어지지 않는다. tenant 관리자 권한은 approved Membership.role=admin에서만 파생한다. staff 또는 Django 기본 모델 permission만으로는 포털 관리 권한이 생기지 않는다. 웹 역할 승격/tenant 변경/공개 관리자 bootstrap은 없다.
+Django User + OneToOne Membership, 사용자당 하나의 고객사 그룹. `/signup/`에서 공개 그룹 선택 → pending/member → `/login/` 상태 확인 → 그룹관리자 승인 → 서비스 접근. 제출 role/status/is_staff/is_superuser는 무시한다. 선택한 tenant 변경은 제공하지 않는다.
 
-웹 흐름: `/signup/` → `/login/` → `/account/` pending. 전역 관리자가 `/manage/`에서 테넌트 배정(미배정 pending만) → 별도 승인. tenant 관리자는 자신의 tenant 신청자만 승인/취소/매핑. 모든 변경은 CSRF POST와 현재 포털 비밀번호 재인증. 자기 객체 변경 거부. 이미 수행된 승인/취소/매핑은 409. suspended 재승인/이전/매핑 삭제·교체는 아직 제공하지 않는다.
+전역 superuser만 `/manage/`에서 그룹 최대 활성 계정 수/포털 총 예약 용량을 설정하고 이미 승인된 회원을 그룹관리자로 지정/해제한다. 그룹관리자는 자신의 그룹 신청 승인, 계정 폐기, 한도 내 개별 포털 예약 용량 배정만 수행한다. 전역/그룹 관리 모두 CSRF POST와 현재 비밀번호 재인증이 필요하다. 비밀번호 재인증은 MFA가 아니다.
 
-승인 취소는 같은 DB 트랜잭션에서 status suspended, session_version 증가, 감사 이벤트와 해당 사용자의 DB 세션 삭제를 수행한다. 요청마다 DB membership 상태와 version을 읽으며 별도 권한 캐시를 쓰지 않는다. 삭제 전 세션 데이터가 복원돼도 version 불일치로 로그아웃한다. 이미 처리 중인 읽기 응답의 소급 취소는 보장하지 않는다. future NAS/웹소켓/worker에는 별도 실행 시 권한 검사가 필요하다.
+계정 폐기는 pending/approved/기존 suspended에서 가능하며 User 비활성화, suspended, session_version 증가, DB 세션 삭제, 감사 기록이 한 트랜잭션이다. 재시도는 중복 감사 없이 성공한다. 자기/전역 계정 폐기 금지, 마지막 활성 그룹관리자 폐기/강등 금지. 전역 관리자는 후임을 먼저 지정한다. 재활성화·tenant 이동·NAS 삭제·폐기 계정의 예약 용량 회수는 제공하지 않는다.
 
-NAS 링크는 **실제 연동 성공이 아닌 관리자 확인 식별자 매핑**이다. 관리자가 외부 경로로 소유 관계를 확인했다는 checkbox를 제출해야 한다. NAS 비밀번호/주소/API 토큰을 입력받거나 NAS를 호출하지 않는다. 식별자는 ASCII `[A-Za-z0-9_.@-]` 최대 128자, 전역 unique(단일 NAS namespace를 보수적으로 가정), 회원당 하나. multi-NAS와 DSM 대소문자/정규화 정책은 장비 확인 후 별도 설계한다. 미수집 용량을 0으로 표시하지 않는다. 매핑 감사는 actor/subject/action/time을 남기고 자유형 이유/비밀번호를 기록하지 않는다.
+NAS 링크는 **소유 관계를 관리자가 별도 확인한 식별자 매핑**일 뿐 프로비저닝이 아니다. NAS 비밀번호/주소/API 토큰 입력이나 NAS 호출 없음. 식별자는 ASCII `[A-Za-z0-9_.@-]` 최대 128자, 전역 unique, 회원당 하나이다. NAS 실제 사용량은 미수집이며 예약 용량과 혼동하지 않는다.
 
-## 로컬 bootstrap (운영 배포 지시가 아님)
-README의 개발 환경변수와 migrate 완료 후, 사람이 신뢰된 로컬 터미널에서:
-```sh
-.venv/bin/python manage.py createsuperuser
-.venv/bin/python manage.py shell
-```
-비밀번호는 CLI의 숨김 프롬프트에만 입력한다. 명령행/환경변수/문서/CI artifact에 비밀번호를 쓰지 않는다. shell에서 개발 tenant를 만든다:
-```python
-from membership.models import Tenant
-Tenant.objects.get_or_create(name="local-development")
-```
-`/login/`에서 전역 관리자 로그인 → `/manage/`. tenant scoped 관리자 bootstrap은 운영 정책/독립 리뷰 후 신뢰된 CLI에서만 별도 수행하고 감사 절차를 확정한다. 일반 가입만으로는 관리자를 만들 수 없다. 실제 계정/고객 식별자를 Git에 쓰지 않는다.
+## 데이터베이스와 잠금 계약
 
-## 보안 기본값과 미완료 수용 기준
-- 비밀번호 최소 12자 및 유사도/흔한 비밀번호/숫자-only 검사. Django 해시와 로그인 세션 회전, 30분 세션/브라우저 종료 쿠키, 기본 HTTPS/secure cookies, no-store 회원 응답.
-- DB 기반 15분 fixed-window, 경로군별 IP와 계정 각각 20회 POST 제한. 성공 요청도 포함, 여러 프로세스가 공유. forwarded 헤더 신뢰 안 함. 프록시 배포 시 신뢰된 실제 IP 설정 및 공유 IP 오탐/계정 잠금 DoS/분산 공격 정책을 별도 검증해야 한다. 로그인 제한은 MFA를 대체하지 않는다.
-- **관리자 MFA 미구현 — 운영 공개 금지/3단계 전체 수용 미충족**. 관리자 재인증은 비밀번호만 사용한다.
-- 이메일을 가입 필수로 수집하지 않음; 이메일 소유 검증/웹 비밀번호 변경·복구/탈퇴·개인정보 보존 정책 미구현. 복구가 필요하면 신원 확인 후 신뢰된 로컬 CLI `manage.py changepassword USERNAME`을 사람이 사용한다(메일 복구가 있다는 뜻 아님).
-- 개발 SQLite만 검증. PostgreSQL/다중 worker 동시 승인·취소 경합/DB lock 복구·부하·운영 백업 복구 미검증. 조건부 update/unique 제약은 중복 성공을 막지만 SQLite lock contention의 UX는 별도 검증 대상이다.
-- 대량 회원/DB 세션 순회 비용, 목록 pagination, 감사 보존/내보내기/DB 접근자에 대한 tamper resistance 미해결. 현재 감사는 앱 UI에서 수정 불가하나 DB 관리자는 변경 가능하다.
-- 독립 리뷰, 관리자 MFA 및 운영 정책 수용 전 완료율에 반영하지 않는다. NAS/지원/원격지원은 별도 단계이다.
+운영은 PostgreSQL READ COMMITTED + Django DB sessions 필수. PostgreSQL 17 CI 서비스에서 실제 독립 연결/transaction 경합을 실행한다. 로컬 SQLite 관리 변경은 기본 503; `DJANGO_ALLOW_UNSAFE_SQLITE=1`은 일회 단일 프로세스 개발/테스트 전용이며 동시성 보장이 없다.
+
+환경: `DJANGO_DB_ENGINE=postgresql`, `PGDATABASE`, `PGUSER`, `PGHOST`, `PGPORT`, 필요 시 런타임 secret store의 `PGPASSWORD`. 운영 값은 Git/채팅/CI에 넣지 않는다. CI trust 인증은 폐기되는 전용 테스트 컨테이너에만 한정한다.
+
+모든 정책 변경 및 로그인 session 게시는 `membership.locking.policy_transaction()`을 사용한다. 고정 advisory transaction lock → fresh actor User → subject/tenant 순서다. 요청 시작 시 캐시된 User 권한을 재사용하지 않는다. 외부 CLI/DB 관리자가 운영 User 활성 상태/권한/회원/한도를 직접 변경할 때도 같은 lock 계약과 감사 절차를 지켜야 한다. 직접 SQL을 웹 정책 검증의 우회 수단으로 지원하지 않는다. 대량 세션 순회와 전역 직렬화의 처리량/timeout/복구 부하 시험은 별도 운영 게이트다.
+
+로그인 signal은 lock 안에서 현재 활성 상태를 다시 확인하고 session을 DB에 저장한다. 폐기 뒤 늦게 완료된 인증은 logout 처리한다. 이후 삭제된 session의 middleware 저장은 재생성 대신 실패하며, 복원된 과거 session도 inactive/version 검사로 거부한다. 이미 전송된 읽기 응답 소급 취소, NAS/웹소켓/worker 권한 검사는 별도 책임이다.
+
+## 신뢰된 로컬 bootstrap (운영 배포 명령 아님)
+
+README 개발 설정·migrate 후 사람이 신뢰된 터미널에서 `manage.py createsuperuser`를 실행한다. 비밀번호는 숨김 프롬프트에만 입력한다. 그룹 생성은 신뢰된 로컬 shell에서 `Tenant.objects.get_or_create(name="local-development")`; 기본 한도는 0이다. 이후 전역 관리자 웹 로그인 → 한도 설정 → 신청 승인 → 역할 지정 순서로 사용한다. 공개 관리자 bootstrap은 없다. migration 0010은 기존 활성 승인 계정 수를 초기 한도로 보전한다.
+
+## 계속 미완료인 별도 게이트
+
+- 관리자 MFA secret custody/최초 등록/복구 결정과 구현. stock OTP 비밀 DB 저장을 임의 도입하지 않았다.
+- 이메일 소유 검증, 웹 비밀번호 복구, 개인정보/감사 보존·백업 정책.
+- 실제 NAS 모델/API capability, quota 적용·실사용량, 부분 실패 보상.
+- 다중 프로세스 lock timeout·장애/부하·백업 복구 시험, 목록 pagination, 감사 tamper resistance.
+- DB throttle은 15분 fixed window, IP/계정 각각 20 POST 제한(성공 포함). 프록시 실제 IP, 공유 IP 오탐/lockout DoS 정책은 별도 검증한다.
+- 부모의 정확한 최종 HEAD 독립 리뷰. PR 병합과 운영 배포·전체 단계 완료를 동일시하지 않는다.
