@@ -1,34 +1,49 @@
 # Synology-Admin
 
-Synology NAS 기반 상업용 외부 서비스를 위한 고객 포털 및 운영자 관리 시스템.
+Synology NAS 고객 포털·운영자 관리 시스템의 **초기 개발 기반**입니다.
+가입 승인, NAS 권한/용량, 티켓/채팅, RustDesk 원격지원은 향후 구현 대상이며 현재 제공하지 않습니다.
+별도 저장소 `me0kmin27/Rustdesk-Quicksupport`는 변경하지 않습니다.
 
-## 확정된 기본 컨셉
-- 외부 사용자의 웹 가입 신청, 관리자 검토·승인 및 회원 관리
-- NAS 공유폴더의 사용자·그룹 접근 권한 설정
-- 사용자가 계정별·그룹별 할당 용량, 현재 사용량, 남은 용량을 실시간 확인
-- 고객지원 티켓 생성 및 라이브 채팅
-- 필요시 기존 다른 프로젝트의 RustDesk를 연동하여 관리자가 웹에서 원격지원 수행
-- 이 저장소를 프로젝트 자료·소스·배포 설정의 기준 저장소로 사용
+## 구현된 범위
+- Django 5.2.18 / Python 3.14 최소 웹 앱, 사실에 기반한 한국어 안내 페이지
+- 실제 DB 연결 `/health/` (NAS는 `not_configured`), Django 기본 DB migration
+- 보안 기본값, 고정 의존성, 테스트, GitHub Actions CI 정의
+- 요구사항·보안·데이터 모델·가중 로드맵·검증 증거·배포 설계
 
-## 데이터 보관 원칙 (설계 제안)
-GitHub에는 소스 코드, 요구사항, 설계 문서, 비밀값 없는 설정 예시와 배포 정의를 저장한다.
-실제 회원정보, 티켓·채팅 내용, NAS 파일, 운영 DB, 비밀번호·토큰·원격지원 접속 비밀은 커밋하지 않는다.
-운영 데이터는 NAS 또는 별도 서버의 DB·스토리지에 보관하고 비밀값은 별도 관리한다.
+운영 배포/실제 NAS 연결/컨테이너 빌드를 수행하지 않았습니다. 단계 전체 완료나 프로젝트 100% 완료를 의미하지 않습니다.
 
-## 배포 방향 (미구현)
-저장소 변경 검증 → 버전별 빌드 → 승인된 대상 서버 배포 → 상태 확인과 실패 시 롤백.
-실제 배포 대상과 기술 스택을 확정한 뒤 자동화 설정을 구현한다.
-현재 실행 가능한 서비스, CI/CD 워크플로, 운영 배포는 없다.
+## 설치와 검증
+Python 3.14 설치 후 저장소 루트에서:
+```sh
+python3.14 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m pip check
+.venv/bin/python scripts/verify.py
+```
+검증 스크립트는 임시 secret을 메모리에서 생성하고 `.runtime/` 아래 일회 DB를 생성/제거합니다.
+보안 설정 검사 → 테스트 → 실제 migration → migration drift 검사 → loopback HTTP 요청을 수행합니다.
+외부 서비스/NAS에 연결하지 않으며 종료 시 검증 서버를 정리합니다.
 
-## 설계 전 확인할 사항
-- NAS 모델, DSM 버전, 파일시스템 및 관리 API 지원 범위
-- 배포 대상: NAS 내부 또는 별도 서버, 도메인과 네트워크 구성
-- 계정별·그룹별 용량 집계 기준과 그룹 할당량의 의미·지원 가능 여부
-- 실시간 갱신 주기, 마지막 수집 시각 표시, 수집 실패 처리
-- 그룹별 사용량을 볼 수 있는 사용자 범위
-- 기존 RustDesk 프로젝트 위치·서버 구성·웹 원격지원 지원 조건
-- 원격지원 사용자 동의, 세션 접근 제어, 감사 기록 정책
-- 인증·역할 분리·백업·복구 정책 및 과금 여부
+## 로컬 실행 (개발 전용)
+```sh
+export DJANGO_SECRET_KEY="$(.venv/bin/python -c 'import secrets; print(secrets.token_urlsafe(64))')"
+export DJANGO_LOCAL_HTTP=1
+export DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+.venv/bin/python manage.py migrate
+.venv/bin/python manage.py runserver 127.0.0.1:8000
+```
+브라우저에서 `http://127.0.0.1:8000/`, health는 `/health/`.
+이 DB에는 운영 데이터를 넣지 마세요. 기본 `db.sqlite3`는 Git 제외입니다.
+`.env.example`는 문서 예시이며 자동 로드하지 않습니다. secret 없이 실행하면 실패합니다.
+SECRET_KEY는 재시작 간 유지가 필요한 실제 서비스에서 secret store에 별도 보관해야 합니다.
+로컬 HTTP 예외를 해제하면 HTTPS redirect/secure cookies가 기본 적용됩니다. DEBUG는 항상 꺼져 있습니다.
 
-## 현재 상태
-기본 컨셉 기록 단계. 기능 구현 및 운영 검증은 아직 진행하지 않음.
+## 문서
+- `docs/requirements-security-data.md`: 역할, 격리, 승인, 데이터·개인정보·동의 설계
+- `docs/roadmap.md`: 가중치 10/15/20/25/15/5/10, 수용 기준·의사결정 게이트·알림 시간
+- `docs/progress.json`: 기계 판독 증거 상태; 최종 완료율 승인은 부모의 독립 검증 책임
+- `docs/evidence/`: 실제 검증과 TDD 기록
+- `docs/deployment-design.md`: 미배포 설계와 health 한계
+
+Git에는 소스/문서/비밀 없는 설정만 저장합니다. 회원·티켓·채팅·NAS 파일·운영 DB·접속 비밀은 금지입니다.
+NAS 모델/DSM/API, 그룹 quota 의미, 배포 호스트, 인증 연동, RustDesk 웹 capability/라이선스는 미확정입니다.
