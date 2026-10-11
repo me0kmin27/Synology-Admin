@@ -1,0 +1,198 @@
+{
+  "pages": 19,
+  "captures": 38,
+  "console_errors": [],
+  "external_requests": [],
+  "records": [
+    {
+      "page": "landing",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/landing-1440.png"
+    },
+    {
+      "page": "landing",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/landing-390.png"
+    },
+    {
+      "page": "signup",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/signup-1440.png"
+    },
+    {
+      "page": "signup",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/signup-390.png"
+    },
+    {
+      "page": "login",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/login-1440.png"
+    },
+    {
+      "page": "login",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/login-390.png"
+    },
+    {
+      "page": "login-error",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/login-error-1440.png"
+    },
+    {
+      "page": "login-error",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/login-error-390.png"
+    },
+    {
+      "page": "account-pending",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/account-pending-1440.png"
+    },
+    {
+      "page": "account-pending",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/account-pending-390.png"
+    },
+    {
+      "page": "account-approved",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/account-approved-1440.png"
+    },
+    {
+      "page": "account-approved",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/account-approved-390.png"
+    },
+    {
+      "page": "service",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/service-1440.png"
+    },
+    {
+      "page": "service",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/service-390.png"
+    },
+    {
+      "page": "support-empty",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/support-empty-1440.png"
+    },
+    {
+      "page": "support-empty",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/support-empty-390.png"
+    },
+    {
+      "page": "support-form",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/support-form-1440.png"
+    },
+    {
+      "page": "support-form",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/support-form-390.png"
+    },
+    {
+      "page": "support-detail",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/support-detail-1440.png"
+    },
+    {
+      "page": "support-detail",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/support-detail-390.png"
+    },
+    {
+      "page": "support-list",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/support-list-1440.png"
+    },
+    {
+      "page": "support-list",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/support-list-390.png"
+    },
+    {
+      "page": "chat-empty",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/chat-empty-1440.png"
+    },
+    {
+      "page": "chat-empty",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/chat-empty-390.png"
+    },
+    {
+      "page": "chat-detail",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/chat-detail-1440.png"
+    },
+    {
+      "page": "chat-detail",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/chat-detail-390.png"
+    },
+    {
+      "page": "chat-list",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/chat-list-1440.png"
+    },
+    {
+      "page": "chat-list",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/chat-list-390.png"
+    },
+    {
+      "page": "mfa-enroll",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/mfa-enroll-1440.png"
+    },
+    {
+      "page": "mfa-enroll",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/mfa-enroll-390.png"
+    },
+    {
+      "page": "mfa-verify",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/mfa-verify-1440.png"
+    },
+    {
+      "page": "mfa-verify",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/mfa-verify-390.png"
+    },
+    {
+      "page": "manage",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/manage-1440.png"
+    },
+    {
+      "page": "manage",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/manage-390.png"
+    },
+    {
+      "page": "service-admin",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/service-admin-1440.png"
+    },
+    {
+      "page": "service-admin",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/service-admin-390.png"
+    },
+    {
+      "page": "mfa-challenge",
+      "width": 1440,
+      "screenshot": "docs/evidence/ui-screenshots/mfa-challenge-1440.png"
+    },
+    {
+      "page": "mfa-challenge",
+      "width": 390,
+      "screenshot": "docs/evidence/ui-screenshots/mfa-challenge-390.png"
+    }
+  ]
+}

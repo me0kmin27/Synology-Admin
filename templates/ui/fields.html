@@ -1,0 +1,14 @@
+{% load i18n %}
+{% language "ko" %}
+{{ form.non_field_errors }}
+{% for field in form %}
+  {% if field.is_hidden %}{{ field }}{% else %}
+  <div class="form-field">
+    {{ field.errors }}
+    <label for="{{ field.id_for_label }}">{% if field.name == 'username' %}사용자 이름{% elif field.name == 'password' %}비밀번호{% elif field.name == 'password1' %}비밀번호{% elif field.name == 'password2' %}비밀번호 확인{% elif field.name == 'title' %}제목{% elif field.name == 'body' %}내용{% else %}{{ field.label }}{% endif %}</label>
+    {{ field }}
+    {% if field.help_text %}<div class="helptext" id="{{ field.auto_id }}_helptext">{{ field.help_text|safe }}</div>{% endif %}
+  </div>
+  {% endif %}
+{% endfor %}
+{% endlanguage %}

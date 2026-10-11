@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>{% block title %}관리 포털{% endblock %} · Synology-Admin</title>
+  <style>{% include "ui/portal.css" %}</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+<div class="portal-shell">
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Synology-Admin 홈"><span class="brand-mark" aria-hidden="true">S</span><span>Synology-Admin<small>관리 포털</small></span></a>
+    <p class="nav-label">WORKSPACE</p>
+    <nav class="primary-nav" aria-label="주 메뉴">
+      <a href="/" {% block nav_home %}{% endblock %}><span aria-hidden="true">01</span> 포털 안내</a>
+      <a href="/account/" {% block nav_account %}{% endblock %}><span aria-hidden="true">02</span> 내 계정</a>
+      <a href="/service/" {% block nav_service %}{% endblock %}><span aria-hidden="true">03</span> 스토리지</a>
+      <a href="/support/" {% block nav_support %}{% endblock %}><span aria-hidden="true">04</span> 지원 요청</a>
+      <a href="/chat/" {% block nav_chat %}{% endblock %}><span aria-hidden="true">05</span> 메시지</a>
+      <a href="/manage/" {% block nav_manage %}{% endblock %}><span aria-hidden="true">06</span> 관리 콘솔</a>
+    </nav>
+    <div class="sidebar-note"><span class="badge neutral">개발 검증 단계</span><p>계정별 승인과 권한에 따라<br>서비스 접근이 제한됩니다.</p></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><span>워크스페이스 <span class="separator">/</span> {% block breadcrumb %}포털{% endblock %}</span><span class="environment">독립 포털 계정</span></header>
+    <main id="main-content" tabindex="-1" class="content {% block content_class %}{% endblock %}">{% block content %}{% endblock %}</main>
+    <footer class="page-footer"><span>Synology-Admin</span><span>포털 계정과 DSM 계정은 별도로 관리됩니다.</span></footer>
+  </div>
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

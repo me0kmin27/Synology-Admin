@@ -1,3 +1,9 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><title>지원 요청</title>
-<h1>지원 요청</h1><form method="post">{% csrf_token %}{{ form.as_p }}<button>등록</button></form>
-<p>첨부파일은 지원하지 않습니다. 비밀번호·접속 비밀을 입력하지 마세요.</p></html>
+{% extends "base.html" %}
+{% block title %}지원 요청{% endblock %}
+{% block nav_support %}aria-current="page"{% endblock %}
+{% block breadcrumb %}지원 요청 / 새 문의{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">NEW REQUEST</p><h1>지원 요청</h1><p>확인이 필요한 내용과 발생 상황을 알려주세요.</p></div>
+<div class="notice"><strong>민감 정보 입력 주의</strong><p>첨부파일은 지원하지 않습니다. 비밀번호·접속 비밀을 입력하지 마세요.</p></div>
+<section class="panel"><form method="post">{% csrf_token %}{% include "ui/fields.html" %}<div class="actions"><button>등록</button><a class="button secondary" href="/support/">목록으로</a></div></form></section>
+{% endblock %}

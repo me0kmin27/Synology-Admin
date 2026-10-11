@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+F.
+======================================================================
+FAIL: test_all_pages_real_forms_and_screenshots (browser_tests.portal_ui.PortalUIBrowserTests.test_all_pages_real_forms_and_screenshots)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/.hermes/cache/scratch/synology-portal-ui/browser_tests/portal_ui.py", line 99, in test_all_pages_real_forms_and_screenshots
+    self.assertRegex(page.locator('.helptext').first.inner_text(), '[가-힣]')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Regex didn't match: '[가-힣]' not found in 'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.443s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 2 test(s).
+System check identified no issues (0 silenced).

@@ -1,3 +1,10 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><title>{{ title }}</title>
-<h1>{{ title }}</h1><p>독립 포털 계정입니다. DSM 비밀번호를 사용하지 마세요.</p>
-<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">제출</button></form></html>
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block breadcrumb %}{{ title }}{% endblock %}
+{% block content_class %}auth-layout{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">ACCOUNT ACCESS</p><h1>{{ title }}</h1><p>독립 포털 계정입니다. DSM 비밀번호를 사용하지 마세요.</p></div>
+<section class="panel auth-panel"><form method="post">{% csrf_token %}{% include "ui/fields.html" %}<button type="submit">제출</button></form>
+<div class="auth-footer">{% if title == '포털 가입' %}이미 계정이 있나요? <a href="/login/">로그인</a>{% else %}처음 방문하셨나요? <a href="/signup/">포털 가입</a>{% endif %}</div></section>
+<p class="supporting-text">가입 후 관리자 승인이 필요합니다. 포털 가입은 NAS 계정을 자동으로 생성하지 않습니다.</p>
+{% endblock %}
