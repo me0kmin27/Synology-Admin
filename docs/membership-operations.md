@@ -1,5 +1,7 @@
 # 회원 기능 운영 경계와 로컬 확인
 
+2026-10-11 독립 검토 후 로그인 제한 우회와 커스텀 view 오류 보고 POST 노출을 수정했다. `evidence/membership-security-review.md` 참조. **관리자 MFA/새 고객사 그룹 한도·폐기 요구는 미완료**이며 `membership-group-acceptance.md`가 후속 수용 기준이다. 아래 내용은 현재 부분 구현의 설명이지 신규 요구 완료 선언이 아니다.
+
 ## 구현 결정
 Django 기본 User를 유지하고 OneToOne Membership을 사용한다. 운영 데이터가 있는 custom User 전환을 가정하지 않는다. 현재 사용자당 하나의 tenant만 지원한다. 공개 가입은 tenant 미배정 pending/member만 만든다. 클라이언트의 status/role/tenant/is_staff/is_superuser는 수용하지 않는다.
 

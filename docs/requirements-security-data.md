@@ -25,6 +25,9 @@ Django 내장 auth 테이블 설치는 회원 승인 기능 완성을 뜻하지 
   idempotency key, 실행 전후 감사, 실패 시 보상 또는 수동 복구. DB 성공을 NAS 성공으로 표시 금지.
 - 관리 계정 MFA, rate limit, 비밀번호 정책, CSRF, 세션 회전/만료는 인증 단계 필수 수용 기준.
 
+## 추가 확정 요구 (2026-10-11)
+전역 admin 아래 고객사 그룹별 관리자 지정, 그룹 선택 가입 신청, 그룹 총 용량·최대 계정 수 한도, 접근 비활성화·세션 폐기·감사 유지 방식의 계정 폐기를 확정했다. 상세 수용 기준은 `membership-group-acceptance.md`를 따른다. 기존 scoped 승인/취소만으로 신규 요구를 충족했다고 주장하지 않는다. 최신 정식 DSM 기준으로 개발하며 모델 미정은 개발 차단이 아닌 실제 연동 검증 게이트이다. 공식 버전 직접 조회 결과와 MFA 미완료 판정은 `evidence/membership-security-review.md` 참조.
+
 ## 논리 데이터 모델 (회원 테이블 일부 구현; 나머지 설계)
 Tenant 1:N Membership(N:1 User), Membership(status=pending/approved/suspended),
 Approval(actor, subject, previous/next status, reason, timestamp),

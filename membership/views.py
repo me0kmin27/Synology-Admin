@@ -8,6 +8,7 @@ from django.db import IntegrityError, transaction
 from django.db.models import F
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods, require_POST
 
 from .models import AuditEvent, Membership, NasBinding, Tenant
@@ -22,6 +23,7 @@ def managed_members(user):
     return Membership.objects.filter(tenant_id=operator.tenant_id)
 
 
+@sensitive_post_parameters()
 @login_required
 @require_POST
 def approve(request, pk):
@@ -41,6 +43,7 @@ def approve(request, pk):
 
 
 
+@sensitive_post_parameters()
 @login_required
 @require_POST
 def revoke(request, pk):
@@ -72,6 +75,7 @@ def manage(request):
     })
 
 
+@sensitive_post_parameters()
 @login_required
 @require_POST
 def assign(request, pk):
@@ -95,6 +99,7 @@ def assign(request, pk):
     return redirect("/manage/")
 
 
+@sensitive_post_parameters()
 @login_required
 @require_POST
 def link(request, pk):
@@ -132,6 +137,7 @@ def service(request):
 
 
 
+@sensitive_post_parameters()
 @require_http_methods(["GET", "POST"])
 def signup(request):
     form = UserCreationForm(request.POST or None)

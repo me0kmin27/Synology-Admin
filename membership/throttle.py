@@ -1,6 +1,7 @@
 """Database-backed fixed-window guard; never trust forwarded headers."""
 import time
 from django.conf import settings
+from django.contrib.auth.forms import UsernameField
 from django.db.models import F
 from django.http import HttpResponse
 from django.utils.crypto import salted_hmac
@@ -15,7 +16,11 @@ class AuthThrottleMiddleware(MiddlewareMixin):
         now = int(time.time())
         window = now // 900
         scope = "manage" if request.path.startswith("/manage/") else request.path
-        identity = str(request.user.pk) if request.user.is_authenticated else request.POST.get("username", "").casefold()[:150]
+        if scope == "manage":
+            identity = str(request.user.pk) if request.user.is_authenticated else "anonymous"
+        else:
+            # Match Django's username normalization, regardless of existing login.
+            identity = UsernameField(max_length=150).to_python(request.POST.get("username", "")).casefold()[:150]
         values = ["ip:" + request.META.get("REMOTE_ADDR", "unknown"), "identity:" + identity]
         AuthAttempt.objects.filter(window__lt=window).delete()
         for value in values:

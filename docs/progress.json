@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "stage_3_membership_implemented_pending_independent_review_and_security_gates",
+  "status": "stage_3_reviewed_subset_security_fixes_group_scope_and_mfa_pending",
   "completion_authority": "parent independent verification; no overall percentage claimed",
   "stages": [
     {
@@ -71,9 +71,10 @@
             "tests/test_membership.py",
             "tests/test_boundaries.py",
             "tests/test_membership_http.py",
-            "docs/evidence/membership-tdd.md"
+            "docs/evidence/membership-tdd.md",
+            "docs/evidence/membership-security-review.md"
           ],
-          "note": "구현자 로컬 검증; 독립 검토와 관리자 MFA 수용 게이트 미완료"
+          "note": "기존 부분 구현 독립 재검증; MFA·확대 그룹 요구·경합 검증 미충족"
         },
         {
           "criterion": "승인 취소·세션 폐기·감사 기록",
@@ -82,9 +83,18 @@
             "tests/test_membership.py",
             "tests/test_boundaries.py",
             "tests/test_membership_http.py",
-            "docs/evidence/membership-tdd.md"
+            "docs/evidence/membership-tdd.md",
+            "docs/evidence/membership-security-review.md"
           ],
-          "note": "구현자 로컬 검증; 독립 검토와 관리자 MFA 수용 게이트 미완료"
+          "note": "기존 부분 구현 독립 재검증; MFA·확대 그룹 요구·경합 검증 미충족"
+        },
+        {
+          "criterion": "고객사 그룹별 위임·그룹 선택 가입·총 용량/최대 계정 한도·계정 폐기/마지막 관리자 보호",
+          "verified": false,
+          "evidence": [
+            "docs/membership-group-acceptance.md"
+          ],
+          "note": "추가 확정 요구; 미구현/미검증, 기존 테스트 통과로 대체 금지"
         }
       ]
     },
@@ -197,13 +207,13 @@
   },
   "prohibited_actions_performed": [],
   "stage_3_evidence": {
-    "status": "implemented_subset_pending_independent_review",
-    "tests_passed": 28,
+    "status": "independent_review_performed_full_acceptance_blocked",
+    "tests_passed": 31,
     "new_membership_migrations": 6,
     "applied_migrations": 21,
     "actual_http_form_flow": true,
     "javascript_browser_visual_qa": false,
-    "raw_output": "docs/evidence/membership-local-verification.txt",
+    "raw_output": "docs/evidence/membership-security-review-verification.txt",
     "tdd": "docs/evidence/membership-tdd.md",
     "limitations": "docs/membership-operations.md",
     "ci": {
@@ -214,8 +224,12 @@
       "url": "https://github.com/me0kmin27/Synology-Admin/actions/runs/38138430346"
     },
     "unmet_acceptance": [
-      "administrator MFA",
-      "independent review"
+      "administrator MFA and secret custody/recovery policy",
+      "group administrator assignment and selected-group signup",
+      "global group capacity and maximum-account limits",
+      "concurrent admission limits and actor revocation serialization",
+      "account deactivation and last-group-admin protection",
+      "parent independent verification of security patch"
     ],
     "deferred": [
       "email verification",
@@ -224,6 +238,7 @@
       "production database/concurrency/load verification"
     ],
     "prohibited_actions_performed": [],
-    "ci_final_head_note": "Documentation-only subsequent head verified separately in parent handoff"
+    "ci_final_head_note": "Prior CI is historical only; security patch final-head CI is returned in handoff.",
+    "independent_review": "docs/evidence/membership-security-review.md"
   }
 }
