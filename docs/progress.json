@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "stage_3_membership_implemented_pending_independent_review_and_security_gates",
+  "status": "stage_3_portal_group_policy_implemented_parent_review_and_mfa_pending",
   "completion_authority": "parent independent verification; no overall percentage claimed",
   "stages": [
     {
@@ -71,9 +71,13 @@
             "tests/test_membership.py",
             "tests/test_boundaries.py",
             "tests/test_membership_http.py",
-            "docs/evidence/membership-tdd.md"
+            "docs/evidence/membership-tdd.md",
+            "docs/evidence/membership-security-review.md",
+            "tests/test_groups.py",
+            "concurrency/races.py",
+            "docs/evidence/groups-implementation.md"
           ],
-          "note": "구현자 로컬 검증; 독립 검토와 관리자 MFA 수용 게이트 미완료"
+          "note": "포털 그룹 구현/로컬·PostgreSQL CI 검증 수행. 부모 최종 HEAD 독립 리뷰 대기; 관리자 MFA/운영 공개는 별도 미완료 게이트."
         },
         {
           "criterion": "승인 취소·세션 폐기·감사 기록",
@@ -82,9 +86,24 @@
             "tests/test_membership.py",
             "tests/test_boundaries.py",
             "tests/test_membership_http.py",
-            "docs/evidence/membership-tdd.md"
+            "docs/evidence/membership-tdd.md",
+            "docs/evidence/membership-security-review.md",
+            "tests/test_groups.py",
+            "concurrency/races.py",
+            "docs/evidence/groups-implementation.md"
           ],
-          "note": "구현자 로컬 검증; 독립 검토와 관리자 MFA 수용 게이트 미완료"
+          "note": "포털 그룹 구현/로컬·PostgreSQL CI 검증 수행. 부모 최종 HEAD 독립 리뷰 대기; 관리자 MFA/운영 공개는 별도 미완료 게이트."
+        },
+        {
+          "criterion": "고객사 그룹별 위임·그룹 선택 가입·총 용량/최대 계정 한도·계정 폐기/마지막 관리자 보호",
+          "verified": false,
+          "evidence": [
+            "docs/membership-group-acceptance.md",
+            "tests/test_groups.py",
+            "concurrency/races.py",
+            "docs/evidence/groups-implementation.md"
+          ],
+          "note": "포털 그룹 구현/로컬·PostgreSQL CI 검증 수행. 부모 최종 HEAD 독립 리뷰 대기; 관리자 MFA/운영 공개는 별도 미완료 게이트."
         }
       ]
     },
@@ -197,33 +216,40 @@
   },
   "prohibited_actions_performed": [],
   "stage_3_evidence": {
-    "status": "implemented_subset_pending_independent_review",
-    "tests_passed": 28,
-    "new_membership_migrations": 6,
-    "applied_migrations": 21,
+    "status": "portal_group_policy_tests_passed_parent_independent_review_pending",
+    "tests_passed": 47,
+    "new_membership_migrations": 10,
+    "applied_migrations": 25,
     "actual_http_form_flow": true,
     "javascript_browser_visual_qa": false,
-    "raw_output": "docs/evidence/membership-local-verification.txt",
-    "tdd": "docs/evidence/membership-tdd.md",
+    "raw_output": "docs/evidence/groups-session-epoch-green.txt",
+    "tdd": "docs/evidence/groups-implementation.md",
     "limitations": "docs/membership-operations.md",
     "ci": {
-      "conclusion": "success",
-      "databaseId": 38138430346,
-      "headSha": "551b912c15083122a59c7fb57f21173b88186761",
-      "status": "completed",
-      "url": "https://github.com/me0kmin27/Synology-Admin/actions/runs/38138430346"
+      "evidence": "docs/evidence/groups-epoch-ci.json",
+      "note": "Read exact head and checks from evidence; no stage-wide completion credit."
     },
     "unmet_acceptance": [
-      "administrator MFA",
-      "independent review"
+      "administrator MFA and secret custody/registration/recovery policy",
+      "parent independent verification of final group-policy HEAD"
     ],
     "deferred": [
       "email verification",
       "web password recovery",
       "multi-tenant-per-user",
-      "production database/concurrency/load verification"
+      "production load/lock-timeout/failure recovery and backup restore",
+      "actual NAS quota enforcement and usage collection"
     ],
     "prohibited_actions_performed": [],
-    "ci_final_head_note": "Documentation-only subsequent head verified separately in parent handoff"
+    "ci_final_head_note": "groups-epoch-ci.json records verified application head; documentation-only final head CI is read back separately in handoff.",
+    "independent_review": "Parent review of final group-policy HEAD pending; older review is historical.",
+    "postgresql_race_tests": 7,
+    "group_policy": {
+      "account_count": "active User + approved Membership; admins included, pending/retired excluded",
+      "retirement": "disable login, invalidate/delete DB sessions, retain audit/NAS mapping/quota reservation; no NAS delete",
+      "locking": "PostgreSQL READ COMMITTED transaction advisory lock before fresh actor/session epoch/permissions; SQLite fail-closed unless disposable development opt-in",
+      "quota": "portal reservation only, not NAS enforcement",
+      "independent_review_passed": false
+    }
   }
 }

@@ -1,0 +1,12 @@
+{
+  "version": "7.4.1-90080",
+  "publish_date": "2026-07-23",
+  "is_rc": false,
+  "is_rolling": true,
+  "retrieved_date": "2026-10-11",
+  "source": "https://www.synology.com/api/releaseNote/findChangeLog?identify=DSM&lang=en-global",
+  "source_discovered_from": "https://www.synology.com/en-global/releaseNote/DSM",
+  "archive_first_version": "7.4.1-90080",
+  "model_specific_support_verified": false,
+  "nas_access_performed": false
+}

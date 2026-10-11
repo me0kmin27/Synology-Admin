@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_global_admin_appoints_and_replaces_managers_without_scope_changes (tests.test_groups.GroupTests.test_global_admin_appoints_and_replaces_managers_without_scope_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_groups.py", line 29, in test_global_admin_appoints_and_replaces_managers_without_scope_changes
+    self.assertEqual(self.post(url, role='admin', tenant='999').status_code, 302)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 302
+
+----------------------------------------------------------------------
+Ran 1 test in 0.149s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).

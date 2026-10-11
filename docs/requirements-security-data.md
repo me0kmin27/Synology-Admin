@@ -9,7 +9,7 @@ Django 내장 auth 테이블 설치는 회원 승인 기능 완성을 뜻하지 
 ## 확정 요구사항 / 제안 / 미결정
 확정: 가입 신청→관리자 승인, 회원 관리, NAS 공유폴더 사용자/그룹 권한,
 계정/그룹별 할당·사용·잔여 용량, 고객지원 티켓/채팅, 동의 기반 원격지원.
-제안: Django 단일 앱, 초기 개발 SQLite, 운영 PostgreSQL 검토, NAS 연결은 별도 adapter/worker.
+구현: Django 단일 앱, 일회 개발 SQLite. 그룹 정책 동시성의 운영 계약은 PostgreSQL READ COMMITTED + DB sessions 필수이며 SQLite 관리 변경은 기본 fail-closed. NAS 연결은 별도 adapter/worker 제안.
 미결정: NAS 모델·DSM·파일시스템·API capability, 사용자/그룹 quota 지원 및 중복 그룹 집계,
 갱신 주기·SLO, 그룹 사용량 열람 범위, NAS 연결 상세 절차, 보존기한·RPO/RTO·과금.
 인증 방식 확정: 독립 포털 계정으로 웹 가입·관리자 승인 후 NAS 계정 연결. DSM 비밀번호로 포털 로그인하지 않는다. `membership-auth-decision.md` 참조.
@@ -24,6 +24,9 @@ Django 내장 auth 테이블 설치는 회원 승인 기능 완성을 뜻하지 
 - NAS 변경은 재인증/명시 승인, 최소 권한 서비스 계정, TLS 검증, timeout, 재시도 제한,
   idempotency key, 실행 전후 감사, 실패 시 보상 또는 수동 복구. DB 성공을 NAS 성공으로 표시 금지.
 - 관리 계정 MFA, rate limit, 비밀번호 정책, CSRF, 세션 회전/만료는 인증 단계 필수 수용 기준.
+
+## 추가 확정 요구 (2026-10-11)
+전역 admin 아래 고객사 그룹별 관리자 지정, 그룹 선택 가입 신청, 그룹 총 용량·최대 계정 수 한도, 접근 비활성화·세션 폐기·감사 유지 방식의 계정 폐기를 확정했다. 상세 수용 기준은 `membership-group-acceptance.md`를 따른다. 기존 scoped 승인/취소만으로 신규 요구를 충족했다고 주장하지 않는다. 최신 정식 DSM 기준으로 개발하며 모델 미정은 개발 차단이 아닌 실제 연동 검증 게이트이다. 공식 버전 직접 조회 결과와 MFA 미완료 판정은 `evidence/membership-security-review.md` 참조.
 
 ## 논리 데이터 모델 (회원 테이블 일부 구현; 나머지 설계)
 Tenant 1:N Membership(N:1 User), Membership(status=pending/approved/suspended),

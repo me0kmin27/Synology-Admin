@@ -8,8 +8,8 @@ from membership.models import Membership, Tenant, AuditEvent, NasBinding
 @override_settings(SECURE_SSL_REDIRECT=False)
 class BoundaryTests(TestCase):
     def setUp(self):
-        self.tenant = Tenant.objects.create(name="visible-tenant")
-        self.other_tenant = Tenant.objects.create(name="secret-tenant")
+        self.tenant = Tenant.objects.create(max_accounts=100, name="visible-tenant")
+        self.other_tenant = Tenant.objects.create(max_accounts=100, name="secret-tenant")
         self.password = "Operator-passphrase-829!"
         self.operator = User.objects.create_user("operator", password=self.password)
         self.operator_member = Membership.objects.create(user=self.operator, tenant=self.tenant, status="approved", role="admin")
@@ -20,10 +20,11 @@ class BoundaryTests(TestCase):
     def test_csrf_and_method_boundaries_for_every_mutation(self):
         browser = Client(enforce_csrf_checks=True)
         browser.force_login(self.operator)
-        for path in ["/signup/", "/login/", "/logout/"] + [f"/manage/{self.subject.pk}/{action}/" for action in ("approve", "revoke", "assign", "link")]:
+        for path in ["/signup/", "/login/", "/logout/", f'/manage/groups/{self.tenant.pk}/limits/'] + [f"/manage/{self.subject.pk}/{action}/" for action in ("approve", "revoke", "assign", "link", "role", "quota")]:
             with self.subTest(path=path):
                 self.assertEqual(browser.post(path, {"password": self.password}).status_code, 403)
-        for action in ("approve", "revoke", "assign", "link"):
+        self.assertEqual(self.client.get(f'/manage/groups/{self.tenant.pk}/limits/').status_code, 405)
+        for action in ("approve", "revoke", "assign", "link", "role", "quota"):
             self.assertEqual(self.client.get(f"/manage/{self.subject.pk}/{action}/").status_code, 405)
         self.subject.refresh_from_db()
         self.assertEqual(self.subject.status, "pending")

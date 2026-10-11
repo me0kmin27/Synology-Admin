@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_group_manager_cannot_retire_global_admin_with_membership (tests.test_groups.GroupTests.test_group_manager_cannot_retire_global_admin_with_membership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_groups.py", line 28, in test_group_manager_cannot_retire_global_admin_with_membership
+    self.assertEqual(self.post(f'/manage/{root_member.pk}/revoke/').status_code, 403)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 302 != 403
+
+----------------------------------------------------------------------
+Ran 1 test in 0.292s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).

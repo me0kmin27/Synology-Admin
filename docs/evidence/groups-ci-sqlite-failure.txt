@@ -1,0 +1,113 @@
+verify	Run python scripts/verify.py	﻿2026-10-11T12:59:10.2025458Z ##[group]Run python scripts/verify.py
+verify	Run python scripts/verify.py	2026-10-11T12:59:10.2026165Z ^[[36;1mpython scripts/verify.py^[[0m
+verify	Run python scripts/verify.py	2026-10-11T12:59:10.2091240Z shell: /usr/bin/bash -e {0}
+verify	Run python scripts/verify.py	2026-10-11T12:59:10.2091513Z env:
+verify	Run python scripts/verify.py	2026-10-11T12:59:10.2091786Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.8/x64
+verify	Run python scripts/verify.py	2026-10-11T12:59:10.2092233Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.8/x64/lib/pkgconfig
+verify	Run python scripts/verify.py	2026-10-11T12:59:10.2092699Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+verify	Run python scripts/verify.py	2026-10-11T12:59:10.2093098Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+verify	Run python scripts/verify.py	2026-10-11T12:59:10.2093485Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+verify	Run python scripts/verify.py	2026-10-11T12:59:10.2093870Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.8/x64/lib
+verify	Run python scripts/verify.py	2026-10-11T12:59:10.2094224Z ##[endgroup]
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.2693770Z System check identified no issues (0 silenced).
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.8637679Z Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.8776420Z Found 44 test(s).
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.8777848Z Operations to perform:
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.8778567Z   Apply all migrations: auth, contenttypes, membership, sessions
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.8779355Z Running migrations:
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.8808779Z   Applying contenttypes.0001_initial... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.8846753Z   Applying contenttypes.0002_remove_content_type_name... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.8939441Z   Applying auth.0001_initial... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.8993461Z   Applying auth.0002_alter_permission_name_max_length... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9049308Z   Applying auth.0003_alter_user_email_max_length... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9085634Z   Applying auth.0004_alter_user_username_opts... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9140654Z   Applying auth.0005_alter_user_last_login_null... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9144494Z   Applying auth.0006_require_contenttypes_0002... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9181063Z   Applying auth.0007_alter_validators_add_error_messages... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9235963Z   Applying auth.0008_alter_user_username_max_length... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9287680Z   Applying auth.0009_alter_user_last_name_max_length... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9341026Z   Applying auth.0010_alter_group_name_max_length... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9376645Z   Applying auth.0011_update_proxy_permissions... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9433251Z   Applying auth.0012_alter_user_first_name_max_length... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9488226Z   Applying membership.0001_initial... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9547806Z   Applying membership.0002_auditevent... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9616606Z   Applying membership.0003_membership_session_version... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9684717Z   Applying membership.0004_nasbinding... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9698953Z   Applying membership.0005_authattempt... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:11.9979711Z   Applying membership.0006_membership_membership_valid_status_and_more... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:12.0013436Z   Applying membership.0007_tenant_signup_enabled... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:12.0151059Z   Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:12.0243861Z   Applying membership.0009_membership_quota_bytes... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:12.0316998Z   Applying membership.0010_seed_existing_capacity... OK
+verify	Run python scripts/verify.py	2026-10-11T12:59:14.4337283Z test_cross_tenant_reads_writes_and_forged_query_scope (tests.test_boundaries.BoundaryTests.test_cross_tenant_reads_writes_and_forged_query_scope) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:15.0550045Z test_csrf_and_method_boundaries_for_every_mutation (tests.test_boundaries.BoundaryTests.test_csrf_and_method_boundaries_for_every_mutation) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:18.8352363Z test_input_validation_and_no_audit_secrets (tests.test_boundaries.BoundaryTests.test_input_validation_and_no_audit_secrets) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:19.7289948Z test_login_rotates_session_and_rejects_external_redirect (tests.test_boundaries.BoundaryTests.test_login_rotates_session_and_rejects_external_redirect) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:22.6316125Z test_no_self_mutation_or_staff_flag_escalation (tests.test_boundaries.BoundaryTests.test_no_self_mutation_or_staff_flag_escalation) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:23.8023934Z test_restored_old_session_is_invalid_even_if_status_restored (tests.test_boundaries.BoundaryTests.test_restored_old_session_is_invalid_even_if_status_restored) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:27.0119566Z test_approval_counts_active_admin_and_members_not_pending_or_retired (tests.test_groups.GroupTests.test_approval_counts_active_admin_and_members_not_pending_or_retired) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:32.3127744Z test_global_admin_appoints_and_replaces_managers_without_scope_changes (tests.test_groups.GroupTests.test_global_admin_appoints_and_replaces_managers_without_scope_changes) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:32.9074557Z test_group_management_forms_are_scoped (tests.test_groups.GroupTests.test_group_management_forms_are_scoped) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:34.0703006Z test_group_manager_cannot_retire_global_admin_with_membership (tests.test_groups.GroupTests.test_group_manager_cannot_retire_global_admin_with_membership) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:34.3831266Z test_hidden_group_cannot_receive_signup (tests.test_groups.GroupTests.test_hidden_group_cannot_receive_signup) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:41.6778228Z test_manager_allocates_portal_quota_within_cap_and_reduction_rejects (tests.test_groups.GroupTests.test_manager_allocates_portal_quota_within_cap_and_reduction_rejects) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:49.0285458Z test_only_global_admin_sets_valid_group_limits_with_audit (tests.test_groups.GroupTests.test_only_global_admin_sets_valid_group_limits_with_audit) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:51.0757399Z test_pending_and_legacy_suspended_accounts_can_be_retired (tests.test_groups.GroupTests.test_pending_and_legacy_suspended_accounts_can_be_retired) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:53.3975172Z test_retirement_disables_login_is_idempotent_and_preserves_binding (tests.test_groups.GroupTests.test_retirement_disables_login_is_idempotent_and_preserves_binding) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:56.0277665Z test_self_and_last_manager_retirement_are_rejected (tests.test_groups.GroupTests.test_self_and_last_manager_retirement_are_rejected) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:56.6398793Z test_signup_requires_public_group_and_ignores_privilege_fields (tests.test_groups.GroupTests.test_signup_requires_public_group_and_ignores_privilege_fields) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:57.2288653Z test_sqlite_mutations_fail_closed_without_explicit_development_opt_in (tests.test_groups.GroupTests.test_sqlite_mutations_fail_closed_without_explicit_development_opt_in) ... ok
+verify	Run python scripts/verify.py	2026-10-11T12:59:59.8589729Z test_admin_approval_is_scoped_audited_and_requires_reauthentication (tests.test_membership.SignupTests.test_admin_approval_is_scoped_audited_and_requires_reauthentication) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:01.0340871Z test_login_throttle_is_shared_across_clients (tests.test_membership.SignupTests.test_login_throttle_is_shared_across_clients) ... FAIL
+verify	Run python scripts/verify.py	2026-10-11T13:00:02.5142458Z test_management_ui_assigns_unassigned_applicant_only_by_global_admin (tests.test_membership.SignupTests.test_management_ui_assigns_unassigned_applicant_only_by_global_admin) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:02.5169582Z test_membership_database_rejects_invalid_states (tests.test_membership.SignupTests.test_membership_database_rejects_invalid_states) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:05.4626454Z test_nas_link_is_unique_identifier_mapping_not_provisioning (tests.test_membership.SignupTests.test_nas_link_is_unique_identifier_mapping_not_provisioning) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:06.0605130Z test_pending_login_status_and_post_logout (tests.test_membership.SignupTests.test_pending_login_status_and_post_logout) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:08.1170421Z test_revoke_ends_all_active_sessions_and_prevents_replay (tests.test_membership.SignupTests.test_revoke_ends_all_active_sessions_and_prevents_replay) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:08.1173688Z test_session_has_bounded_expiry (tests.test_membership.SignupTests.test_session_has_bounded_expiry) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:08.7018263Z test_signup_creates_pending_nonprivileged_identity (tests.test_membership.SignupTests.test_signup_creates_pending_nonprivileged_identity) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:08.7108381Z test_weak_password_is_rejected (tests.test_membership.SignupTests.test_weak_password_is_rejected) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:10.7337061Z test_custom_auth_views_redact_post_data_from_error_reports (tests.test_security_review.ErrorReportPrivacyTests.test_custom_auth_views_redact_post_data_from_error_reports) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:11.3568157Z test_logged_in_clients_cannot_change_login_target_bucket (tests.test_security_review.ThrottleIdentityTests.test_logged_in_clients_cannot_change_login_target_bucket) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:12.2527998Z test_nfkc_equivalent_login_names_share_target_limit (tests.test_security_review.ThrottleIdentityTests.test_nfkc_equivalent_login_names_share_target_limit) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:12.2545470Z test_database_failure_is_sanitized (tests.test_web.WebTests.test_database_failure_is_sanitized) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:12.2554958Z test_health_checks_real_database (tests.test_web.WebTests.test_health_checks_real_database) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:12.2563258Z test_health_is_not_cacheable (tests.test_web.WebTests.test_health_is_not_cacheable) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:12.2571862Z test_http_redirects_to_https (tests.test_web.WebTests.test_http_redirects_to_https) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:12.2582827Z test_landing_is_truthful (tests.test_web.WebTests.test_landing_is_truthful) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:12.2597358Z test_no_public_admin_or_nas_routes (tests.test_web.WebTests.test_no_public_admin_or_nas_routes) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:12.2610488Z test_security_headers (tests.test_web.WebTests.test_security_headers) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:12.2619341Z test_untrusted_host_is_rejected (tests.test_web.WebTests.test_untrusted_host_is_rejected) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:12.3639730Z test_existing_active_members_seed_capacity_without_deleting_accounts (tests.test_group_migration.GroupMigrationTests.test_existing_active_members_seed_capacity_without_deleting_accounts) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.0413789Z test_browser_forms_signup_assign_approve_link_revoke_logout (tests.test_membership_http.MembershipHTTPTests.test_browser_forms_signup_assign_approve_link_revoke_logout) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.5871039Z test_missing_secret_is_rejected (tests.test_settings.SettingsTests.test_missing_secret_is_rejected) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6125645Z test_production_security_defaults (tests.test_settings.SettingsTests.test_production_security_defaults) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6587267Z test_weak_secret_is_rejected (tests.test_settings.SettingsTests.test_weak_secret_is_rejected) ... ok
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6588222Z 
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6588492Z ======================================================================
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6589351Z FAIL: test_login_throttle_is_shared_across_clients (tests.test_membership.SignupTests.test_login_throttle_is_shared_across_clients)
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6590598Z ----------------------------------------------------------------------
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6591264Z Traceback (most recent call last):
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6599261Z   File "/opt/hostedtoolcache/Python/3.14.8/x64/lib/python3.14/site-packages/django/test/utils.py", line 456, in inner
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6599943Z     return func(*args, **kwargs)
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6600643Z   File "/home/runner/work/Synology-Admin/Synology-Admin/tests/test_membership.py", line 123, in test_login_throttle_is_shared_across_clients
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6601311Z     self.assertEqual(response.status_code, 429)
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6601640Z     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6601917Z AssertionError: 200 != 429
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6602076Z 
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6602231Z ----------------------------------------------------------------------
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6602567Z Ran 44 tests in 64.589s
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6602712Z 
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6602795Z FAILED (failures=1)
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6603049Z   Applying sessions.0001_initial... OK
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6603358Z System check identified no issues (0 silenced).
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.6606670Z Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.7650919Z Traceback (most recent call last):
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.7655267Z   File "/home/runner/work/Synology-Admin/Synology-Admin/scripts/verify.py", line 27, in <module>
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.7656503Z     subprocess.run([sys.executable, "manage.py", *args], check=True)
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.7657029Z     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.7657732Z   File "/opt/hostedtoolcache/Python/3.14.8/x64/lib/python3.14/subprocess.py", line 578, in run
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.7658431Z     raise CalledProcessError(retcode, process.args,
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.7658877Z                              output=stdout, stderr=stderr)
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.7659760Z subprocess.CalledProcessError: Command '['/opt/hostedtoolcache/Python/3.14.8/x64/bin/python', 'manage.py', 'test', '-v', '2']' returned non-zero exit status 1.
+verify	Run python scripts/verify.py	2026-10-11T13:00:16.7788669Z ##[error]Process completed with exit code 1.

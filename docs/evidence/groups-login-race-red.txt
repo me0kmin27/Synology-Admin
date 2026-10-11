@@ -1,0 +1,186 @@
+postgres-races	Real PostgreSQL race tests	﻿2026-10-11T12:55:58.1009733Z ##[group]Run export DJANGO_SECRET_KEY=$(python -c 'import secrets; print(secrets.token_urlsafe(64))')
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1010529Z ^[[36;1mexport DJANGO_SECRET_KEY=$(python -c 'import secrets; print(secrets.token_urlsafe(64))')^[[0m
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1011084Z ^[[36;1mpython scripts/verify.py^[[0m
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1011496Z ^[[36;1mpython manage.py test concurrency.races -v 2^[[0m
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1050025Z shell: /usr/bin/bash -e {0}
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1050447Z env:
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1050796Z   DJANGO_DB_ENGINE: postgresql
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1051157Z   PGDATABASE: portal_test
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1051465Z   PGUSER: postgres
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1051766Z   PGHOST: 127.0.0.1
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1052177Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1052672Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.8/x64/lib/pkgconfig
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1053161Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1053617Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1054195Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.8/x64
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1054650Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.8/x64/lib
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.1055064Z ##[endgroup]
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:58.8420348Z System check identified no issues (0 silenced).
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.5622935Z Creating test database for alias 'default' ('test_portal_test')...
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6178754Z Found 44 test(s).
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6179909Z Operations to perform:
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6180844Z   Apply all migrations: auth, contenttypes, membership, sessions
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6181789Z Running migrations:
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6232742Z   Applying contenttypes.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6270504Z   Applying contenttypes.0002_remove_content_type_name... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6543085Z   Applying auth.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6585900Z   Applying auth.0002_alter_permission_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6630821Z   Applying auth.0003_alter_user_email_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6668139Z   Applying auth.0004_alter_user_username_opts... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6708648Z   Applying auth.0005_alter_user_last_login_null... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6718287Z   Applying auth.0006_require_contenttypes_0002... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6758703Z   Applying auth.0007_alter_validators_add_error_messages... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6807648Z   Applying auth.0008_alter_user_username_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6851442Z   Applying auth.0009_alter_user_last_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6898451Z   Applying auth.0010_alter_group_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6934023Z   Applying auth.0011_update_proxy_permissions... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.6977809Z   Applying auth.0012_alter_user_first_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.7063131Z   Applying membership.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.7141643Z   Applying membership.0002_auditevent... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.7197722Z   Applying membership.0003_membership_session_version... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.7279907Z   Applying membership.0004_nasbinding... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.7310939Z   Applying membership.0005_authattempt... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.7473529Z   Applying membership.0006_membership_membership_valid_status_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.7504638Z   Applying membership.0007_tenant_signup_enabled... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.7651391Z   Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.7719857Z   Applying membership.0009_membership_quota_bytes... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:55:59.7795904Z   Applying membership.0010_seed_existing_capacity... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:01.7031380Z test_cross_tenant_reads_writes_and_forged_query_scope (tests.test_boundaries.BoundaryTests.test_cross_tenant_reads_writes_and_forged_query_scope) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:02.2212003Z test_csrf_and_method_boundaries_for_every_mutation (tests.test_boundaries.BoundaryTests.test_csrf_and_method_boundaries_for_every_mutation) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:05.2103541Z test_input_validation_and_no_audit_secrets (tests.test_boundaries.BoundaryTests.test_input_validation_and_no_audit_secrets) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:05.9183201Z test_login_rotates_session_and_rejects_external_redirect (tests.test_boundaries.BoundaryTests.test_login_rotates_session_and_rejects_external_redirect) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:08.2213319Z test_no_self_mutation_or_staff_flag_escalation (tests.test_boundaries.BoundaryTests.test_no_self_mutation_or_staff_flag_escalation) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:09.1643604Z test_restored_old_session_is_invalid_even_if_status_restored (tests.test_boundaries.BoundaryTests.test_restored_old_session_is_invalid_even_if_status_restored) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:11.7185619Z test_approval_counts_active_admin_and_members_not_pending_or_retired (tests.test_groups.GroupTests.test_approval_counts_active_admin_and_members_not_pending_or_retired) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:15.8629040Z test_global_admin_appoints_and_replaces_managers_without_scope_changes (tests.test_groups.GroupTests.test_global_admin_appoints_and_replaces_managers_without_scope_changes) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:16.3346770Z test_group_management_forms_are_scoped (tests.test_groups.GroupTests.test_group_management_forms_are_scoped) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:17.2581682Z test_group_manager_cannot_retire_global_admin_with_membership (tests.test_groups.GroupTests.test_group_manager_cannot_retire_global_admin_with_membership) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:17.5092790Z test_hidden_group_cannot_receive_signup (tests.test_groups.GroupTests.test_hidden_group_cannot_receive_signup) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:23.2617809Z test_manager_allocates_portal_quota_within_cap_and_reduction_rejects (tests.test_groups.GroupTests.test_manager_allocates_portal_quota_within_cap_and_reduction_rejects) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:29.0096745Z test_only_global_admin_sets_valid_group_limits_with_audit (tests.test_groups.GroupTests.test_only_global_admin_sets_valid_group_limits_with_audit) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:30.6408190Z test_pending_and_legacy_suspended_accounts_can_be_retired (tests.test_groups.GroupTests.test_pending_and_legacy_suspended_accounts_can_be_retired) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:32.4962727Z test_retirement_disables_login_is_idempotent_and_preserves_binding (tests.test_groups.GroupTests.test_retirement_disables_login_is_idempotent_and_preserves_binding) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:34.6133297Z test_self_and_last_manager_retirement_are_rejected (tests.test_groups.GroupTests.test_self_and_last_manager_retirement_are_rejected) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:35.1173422Z test_signup_requires_public_group_and_ignores_privilege_fields (tests.test_groups.GroupTests.test_signup_requires_public_group_and_ignores_privilege_fields) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:35.3433138Z test_sqlite_mutations_fail_closed_without_explicit_development_opt_in (tests.test_groups.GroupTests.test_sqlite_mutations_fail_closed_without_explicit_development_opt_in) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:37.4553563Z test_admin_approval_is_scoped_audited_and_requires_reauthentication (tests.test_membership.SignupTests.test_admin_approval_is_scoped_audited_and_requires_reauthentication) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:38.1601616Z test_login_throttle_is_shared_across_clients (tests.test_membership.SignupTests.test_login_throttle_is_shared_across_clients) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:39.3338299Z test_management_ui_assigns_unassigned_applicant_only_by_global_admin (tests.test_membership.SignupTests.test_management_ui_assigns_unassigned_applicant_only_by_global_admin) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:39.3408071Z test_membership_database_rejects_invalid_states (tests.test_membership.SignupTests.test_membership_database_rejects_invalid_states) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:41.6771790Z test_nas_link_is_unique_identifier_mapping_not_provisioning (tests.test_membership.SignupTests.test_nas_link_is_unique_identifier_mapping_not_provisioning) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:42.1542051Z test_pending_login_status_and_post_logout (tests.test_membership.SignupTests.test_pending_login_status_and_post_logout) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:43.8023054Z test_revoke_ends_all_active_sessions_and_prevents_replay (tests.test_membership.SignupTests.test_revoke_ends_all_active_sessions_and_prevents_replay) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:43.8039026Z test_session_has_bounded_expiry (tests.test_membership.SignupTests.test_session_has_bounded_expiry) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:44.2797448Z test_signup_creates_pending_nonprivileged_identity (tests.test_membership.SignupTests.test_signup_creates_pending_nonprivileged_identity) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:44.2916660Z test_weak_password_is_rejected (tests.test_membership.SignupTests.test_weak_password_is_rejected) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:45.9337835Z test_custom_auth_views_redact_post_data_from_error_reports (tests.test_security_review.ErrorReportPrivacyTests.test_custom_auth_views_redact_post_data_from_error_reports) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:46.4343708Z test_logged_in_clients_cannot_change_login_target_bucket (tests.test_security_review.ThrottleIdentityTests.test_logged_in_clients_cannot_change_login_target_bucket) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:47.1302611Z test_nfkc_equivalent_login_names_share_target_limit (tests.test_security_review.ThrottleIdentityTests.test_nfkc_equivalent_login_names_share_target_limit) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:47.1372538Z test_database_failure_is_sanitized (tests.test_web.WebTests.test_database_failure_is_sanitized) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:47.1389557Z test_health_checks_real_database (tests.test_web.WebTests.test_health_checks_real_database) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:47.1405066Z test_health_is_not_cacheable (tests.test_web.WebTests.test_health_is_not_cacheable) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:47.1418842Z test_http_redirects_to_https (tests.test_web.WebTests.test_http_redirects_to_https) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:47.1434826Z test_landing_is_truthful (tests.test_web.WebTests.test_landing_is_truthful) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:47.1454110Z test_no_public_admin_or_nas_routes (tests.test_web.WebTests.test_no_public_admin_or_nas_routes) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:47.1467855Z test_security_headers (tests.test_web.WebTests.test_security_headers) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:47.1481168Z test_untrusted_host_is_rejected (tests.test_web.WebTests.test_untrusted_host_is_rejected) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:47.2563533Z test_existing_active_members_seed_capacity_without_deleting_accounts (tests.test_group_migration.GroupMigrationTests.test_existing_active_members_seed_capacity_without_deleting_accounts) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:50.4132511Z test_browser_forms_signup_assign_approve_link_revoke_logout (tests.test_membership_http.MembershipHTTPTests.test_browser_forms_signup_assign_approve_link_revoke_logout) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:50.9516478Z test_missing_secret_is_rejected (tests.test_settings.SettingsTests.test_missing_secret_is_rejected) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:50.9729995Z test_production_security_defaults (tests.test_settings.SettingsTests.test_production_security_defaults) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.0101237Z test_weak_secret_is_rejected (tests.test_settings.SettingsTests.test_weak_secret_is_rejected) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.0101931Z 
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.0102160Z ----------------------------------------------------------------------
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.0102602Z Ran 44 tests in 51.180s
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.0102830Z 
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.0102930Z OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.0103284Z Destroying test database for alias 'default' ('test_portal_test')...
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.1404074Z   Applying sessions.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.1404721Z System check identified no issues (0 silenced).
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.4940232Z Operations to perform:
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.4940795Z   Apply all migrations: auth, contenttypes, membership, sessions
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.4941331Z Running migrations:
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.4984325Z   Applying contenttypes.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5018809Z   Applying contenttypes.0002_remove_content_type_name... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5238512Z   Applying auth.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5280968Z   Applying auth.0002_alter_permission_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5325604Z   Applying auth.0003_alter_user_email_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5363301Z   Applying auth.0004_alter_user_username_opts... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5409733Z   Applying auth.0005_alter_user_last_login_null... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5419148Z   Applying auth.0006_require_contenttypes_0002... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5458758Z   Applying auth.0007_alter_validators_add_error_messages... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5510630Z   Applying auth.0008_alter_user_username_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5549362Z   Applying auth.0009_alter_user_last_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5594196Z   Applying auth.0010_alter_group_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5668680Z   Applying auth.0011_update_proxy_permissions... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5707368Z   Applying auth.0012_alter_user_first_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.5935309Z   Applying membership.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.6010180Z   Applying membership.0002_auditevent... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.6071098Z   Applying membership.0003_membership_session_version... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.6154287Z   Applying membership.0004_nasbinding... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.6182842Z   Applying membership.0005_authattempt... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.6338801Z   Applying membership.0006_membership_membership_valid_status_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.6367376Z   Applying membership.0007_tenant_signup_enabled... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.6514324Z   Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.6588085Z   Applying membership.0009_membership_quota_bytes... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.6666756Z   Applying membership.0010_seed_existing_capacity... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:51.6977636Z   Applying sessions.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:52.0270454Z No changes detected
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:52.3199005Z 127.0.0.1 - - [11/Oct/2026 07:56:52] "GET /health/ HTTP/1.1" 200 59
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:52.3227970Z 127.0.0.1 - - [11/Oct/2026 07:56:52] "GET / HTTP/1.1" 200 674
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:52.3240003Z 127.0.0.1 - - [11/Oct/2026 07:56:52] "GET / HTTP/1.1" 400 143
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:52.8256729Z {"http_smoke": {"landing": 200, "health": 200, "invalid_host": 400}, "health_body": {"status": "ok", "database": "ok", "nas": "not_configured"}, "applied_migrations": 25, "deployment": "not_performed", "nas_access": "not_performed"}
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.1655696Z Creating test database for alias 'default' ('test_portal_test')...
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2147765Z Found 7 test(s).
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2148474Z Operations to perform:
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2149003Z   Apply all migrations: auth, contenttypes, membership, sessions
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2150062Z Running migrations:
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2204434Z   Applying contenttypes.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2238898Z   Applying contenttypes.0002_remove_content_type_name... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2510943Z   Applying auth.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2555765Z   Applying auth.0002_alter_permission_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2603085Z   Applying auth.0003_alter_user_email_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2640577Z   Applying auth.0004_alter_user_username_opts... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2732827Z   Applying auth.0005_alter_user_last_login_null... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2828295Z   Applying auth.0006_require_contenttypes_0002... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2869958Z   Applying auth.0007_alter_validators_add_error_messages... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2920124Z   Applying auth.0008_alter_user_username_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.2963517Z   Applying auth.0009_alter_user_last_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3010908Z   Applying auth.0010_alter_group_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3050529Z   Applying auth.0011_update_proxy_permissions... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3090624Z   Applying auth.0012_alter_user_first_name_max_length... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3188716Z   Applying membership.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3271357Z   Applying membership.0002_auditevent... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3331235Z   Applying membership.0003_membership_session_version... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3426733Z   Applying membership.0004_nasbinding... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3458940Z   Applying membership.0005_authattempt... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3627178Z   Applying membership.0006_membership_membership_valid_status_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3660263Z   Applying membership.0007_tenant_signup_enabled... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3807273Z   Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3876197Z   Applying membership.0009_membership_quota_bytes... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:53.3952415Z   Applying membership.0010_seed_existing_capacity... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:55.6320124Z test_actor_revocation_waits_for_inflight_authorized_write (concurrency.races.PostgreSQLRaces.test_actor_revocation_waits_for_inflight_authorized_write) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:57.3567468Z test_concurrent_login_cannot_recreate_authenticated_retired_session (concurrency.races.PostgreSQLRaces.test_concurrent_login_cannot_recreate_authenticated_retired_session) ... FAIL
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:56:59.0812992Z test_concurrent_manager_demotions_retain_one_manager (concurrency.races.PostgreSQLRaces.test_concurrent_manager_demotions_retain_one_manager) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:01.3053898Z test_concurrent_quota_allocation_does_not_oversubscribe (concurrency.races.PostgreSQLRaces.test_concurrent_quota_allocation_does_not_oversubscribe) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:03.5243839Z test_last_account_slot_has_one_winner (concurrency.races.PostgreSQLRaces.test_last_account_slot_has_one_winner) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:04.8085075Z test_mutual_retirement_retains_one_active_manager (concurrency.races.PostgreSQLRaces.test_mutual_retirement_retains_one_active_manager) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.7743923Z test_reduction_and_approval_preserve_account_cap (concurrency.races.PostgreSQLRaces.test_reduction_and_approval_preserve_account_cap) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8045455Z 
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8046458Z ======================================================================
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8048025Z FAIL: test_concurrent_login_cannot_recreate_authenticated_retired_session (concurrency.races.PostgreSQLRaces.test_concurrent_login_cannot_recreate_authenticated_retired_session)
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8049730Z ----------------------------------------------------------------------
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8050358Z Traceback (most recent call last):
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8063507Z   File "/home/runner/work/Synology-Admin/Synology-Admin/concurrency/races.py", line 131, in test_concurrent_login_cannot_recreate_authenticated_retired_session
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8064853Z     self.assertNotIn('_auth_user_id', browser.session)
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8065743Z     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8066545Z AssertionError: '_auth_user_id' unexpectedly found in <django.contrib.sessions.backends.db.SessionStore object at 0x7f254df8c7a0>
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8067257Z 
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8067498Z ----------------------------------------------------------------------
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8068115Z Ran 7 tests in 13.363s
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8068324Z 
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8068446Z FAILED (failures=1)
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8068806Z Destroying test database for alias 'default' ('test_portal_test')...
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8406958Z   Applying sessions.0001_initial... OK
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.8407610Z System check identified no issues (0 silenced).
+postgres-races	Real PostgreSQL race tests	2026-10-11T12:57:06.9213866Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_manager_allocates_portal_quota_within_cap_and_reduction_rejects (tests.test_groups.GroupTests.test_manager_allocates_portal_quota_within_cap_and_reduction_rejects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_groups.py", line 32, in test_manager_allocates_portal_quota_within_cap_and_reduction_rejects
+    self.assertEqual(self.post(url, quota_bytes='60').status_code, 302)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 302
+
+----------------------------------------------------------------------
+Ran 1 test in 0.294s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).

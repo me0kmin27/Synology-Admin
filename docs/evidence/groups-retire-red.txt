@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_retirement_disables_login_is_idempotent_and_preserves_binding (tests.test_groups.GroupTests.test_retirement_disables_login_is_idempotent_and_preserves_binding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_groups.py", line 35, in test_retirement_disables_login_is_idempotent_and_preserves_binding
+    self.assertFalse(subject.user.is_active)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.292s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).

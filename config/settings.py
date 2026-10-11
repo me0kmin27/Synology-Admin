@@ -6,6 +6,7 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 if len(SECRET_KEY) < 50:
     raise ValueError("DJANGO_SECRET_KEY must contain at least 50 characters")
 DEBUG = False
+MEMBERSHIP_ALLOW_UNSAFE_SQLITE = os.environ.get('DJANGO_ALLOW_UNSAFE_SQLITE') == '1'
 LOCAL_HTTP = os.environ.get("DJANGO_LOCAL_HTTP") == "1"
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 ROOT_URLCONF = "config.urls"
@@ -21,6 +22,14 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": os.environ.get("DJANGO_DB_PATH", str(BASE_DIR / "db.sqlite3"))}}
+if os.environ.get('DJANGO_DB_ENGINE') == 'postgresql':
+    DATABASES = {'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['PGDATABASE'], 'USER': os.environ['PGUSER'],
+        'PASSWORD': os.environ.get('PGPASSWORD', ''),
+        'HOST': os.environ.get('PGHOST', '127.0.0.1'),
+        'PORT': os.environ.get('PGPORT', '5432'),
+    }}
 TEMPLATES = [{"BACKEND": "django.template.backends.django.DjangoTemplates", "DIRS": [BASE_DIR / "templates"], "APP_DIRS": True}]
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
