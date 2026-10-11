@@ -3,7 +3,7 @@
 ## 범위와 경계
 Synology-Admin(me0kmin27/Synology-Admin)은 별도 고객 포털이다.
 me0kmin27/Rustdesk-Quicksupport는 향후 연동 대상이며 이번 작업에서 수정하지 않는다.
-현재 공개 URL은 정적 상태 안내와 DB 연결 health뿐이다. 가입/승인/관리 API는 없다.
+현재 안내/health 및 독립 포털 가입·로그인·회원 상태·범위 제한 관리 UI를 구현했다. 최신 구현 경계는 `membership-operations.md`와 `evidence/membership-tdd.md` 참조.
 Django 내장 auth 테이블 설치는 회원 승인 기능 완성을 뜻하지 않는다.
 
 ## 확정 요구사항 / 제안 / 미결정
@@ -15,7 +15,7 @@ Django 내장 auth 테이블 설치는 회원 승인 기능 완성을 뜻하지 
 인증 방식 확정: 독립 포털 계정으로 웹 가입·관리자 승인 후 NAS 계정 연결. DSM 비밀번호로 포털 로그인하지 않는다. `membership-auth-decision.md` 참조.
 어떠한 API 지원이나 웹 원격지원 가능 여부도 아직 입증되지 않았다.
 
-## 역할과 격리 수용 기준 (미구현)
+## 역할과 격리 수용 기준 (회원 일부 구현, 전체 수용 미완료)
 - 방문자: 안내/신청만. 신청자: 승인 전 NAS/다른 회원 정보 접근 금지.
 - 승인 회원: 자신의 tenant와 허용된 자원만. tenant ID는 요청 입력을 신뢰하지 않고 세션 membership에서 결정.
 - 지원 담당: 배정 티켓에만 접근, NAS 관리 권한 없음. 관리자: 승인된 관리 범위만.
@@ -25,7 +25,7 @@ Django 내장 auth 테이블 설치는 회원 승인 기능 완성을 뜻하지 
   idempotency key, 실행 전후 감사, 실패 시 보상 또는 수동 복구. DB 성공을 NAS 성공으로 표시 금지.
 - 관리 계정 MFA, rate limit, 비밀번호 정책, CSRF, 세션 회전/만료는 인증 단계 필수 수용 기준.
 
-## 논리 데이터 모델 (설계만; 운영 도메인 테이블 미생성)
+## 논리 데이터 모델 (회원 테이블 일부 구현; 나머지 설계)
 Tenant 1:N Membership(N:1 User), Membership(status=pending/approved/suspended),
 Approval(actor, subject, previous/next status, reason, timestamp),
 NasBinding(tenant, external ID, provisioning state; secret reference only),

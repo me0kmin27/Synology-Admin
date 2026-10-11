@@ -15,15 +15,15 @@ class WebTests(TestCase):
     def test_http_redirects_to_https(self):
         self.assertEqual(self.client.get("/").status_code, 301)
 
-    def test_no_admin_or_signup_routes(self):
-        for path in ("/admin/", "/signup/", "/api/nas/"):
+    def test_no_public_admin_or_nas_routes(self):
+        for path in ("/admin/", "/api/nas/"):
             self.assertEqual(self.client.get(path).status_code, 404)
 
     def test_landing_is_truthful(self):
         response = self.client.get("/")
         self.assertContains(response, "Synology-Admin")
         self.assertContains(response, "NAS 연결 안 됨")
-        self.assertContains(response, "가입·승인·용량·지원 기능은 아직 제공하지 않습니다")
+        self.assertContains(response, "NAS 용량·지원 기능은 아직 제공하지 않습니다")
 
     def test_database_failure_is_sanitized(self):
         from unittest.mock import patch

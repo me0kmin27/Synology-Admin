@@ -1,12 +1,14 @@
 # Synology-Admin
 
 Synology NAS 고객 포털·운영자 관리 시스템의 **초기 개발 기반**입니다.
-가입 승인, NAS 권한/용량, 티켓/채팅, RustDesk 원격지원은 향후 구현 대상이며 현재 제공하지 않습니다.
+독립 포털 가입·로그인·관리자 승인/취소·NAS 식별자 매핑을 개발 환경에서 구현했습니다. NAS 권한/용량, 티켓/채팅, RustDesk 원격지원은 제공하지 않습니다. 관리자 MFA 등 수용 게이트는 미완료입니다.
 별도 저장소 `me0kmin27/Rustdesk-Quicksupport`는 변경하지 않습니다.
 
 ## 구현된 범위
 - Django 5.2.18 / Python 3.14 최소 웹 앱, 사실에 기반한 한국어 안내 페이지
-- 실제 DB 연결 `/health/` (NAS는 `not_configured`), Django 기본 DB migration
+- 실제 DB 연결 `/health/` (NAS는 `not_configured`), Django 기본 및 회원 도메인 DB migrations
+- 가입 pending → 전역 관리자 tenant 배정 → 범위 내 관리자 승인 → 외부 ID 매핑; 승인 취소 시 세션 폐기
+- CSRF POST, 재인증, tenant 격리, DB 공유 요청 제한, 감사 이벤트 및 실제 HTTP 폼 통합 테스트
 - 보안 기본값, 고정 의존성, 테스트, GitHub Actions CI 정의
 - 요구사항·보안·데이터 모델·가중 로드맵·검증 증거·배포 설계
 
@@ -37,6 +39,10 @@ export DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
 `.env.example`는 문서 예시이며 자동 로드하지 않습니다. secret 없이 실행하면 실패합니다.
 SECRET_KEY는 재시작 간 유지가 필요한 실제 서비스에서 secret store에 별도 보관해야 합니다.
 로컬 HTTP 예외를 해제하면 HTTPS redirect/secure cookies가 기본 적용됩니다. DEBUG는 항상 꺼져 있습니다.
+
+## 회원 기능
+`/signup/`, `/login/`, `/account/`, `/manage/`를 제공합니다. 일반 가입은 관리자 권한을 만들지 않습니다.
+로컬 CLI bootstrap, 기능 제한, MFA/이메일 검증/비밀번호 복구 미완료는 `docs/membership-operations.md`를 먼저 확인하세요.
 
 ## 문서
 - `docs/requirements-security-data.md`: 역할, 격리, 승인, 데이터·개인정보·동의 설계
