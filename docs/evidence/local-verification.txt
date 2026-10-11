@@ -1,0 +1,65 @@
+Command: .venv/bin/python scripts/verify.py
+UTC: 2026-10-11T11:52:44.311170+00:00
+Exit: 0
+System check identified no issues (0 silenced).
+Found 11 test(s).
+Operations to perform:
+  Apply all migrations: auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+Operations to perform:
+  Apply all migrations: auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying sessions.0001_initial... OK
+No changes detected
+{"http_smoke": {"landing": 200, "health": 200, "invalid_host": 400}, "health_body": {"status": "ok", "database": "ok", "nas": "not_configured"}, "applied_migrations": 15, "deployment": "not_performed", "nas_access": "not_performed"}
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+test_database_failure_is_sanitized (tests.test_web.WebTests.test_database_failure_is_sanitized) ... ok
+test_health_checks_real_database (tests.test_web.WebTests.test_health_checks_real_database) ... ok
+test_health_is_not_cacheable (tests.test_web.WebTests.test_health_is_not_cacheable) ... ok
+test_http_redirects_to_https (tests.test_web.WebTests.test_http_redirects_to_https) ... ok
+test_landing_is_truthful (tests.test_web.WebTests.test_landing_is_truthful) ... ok
+test_no_admin_or_signup_routes (tests.test_web.WebTests.test_no_admin_or_signup_routes) ... ok
+test_security_headers (tests.test_web.WebTests.test_security_headers) ... ok
+test_untrusted_host_is_rejected (tests.test_web.WebTests.test_untrusted_host_is_rejected) ... ok
+test_missing_secret_is_rejected (tests.test_settings.SettingsTests.test_missing_secret_is_rejected) ... ok
+test_production_security_defaults (tests.test_settings.SettingsTests.test_production_security_defaults) ... ok
+test_weak_secret_is_rejected (tests.test_settings.SettingsTests.test_weak_secret_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.084s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+127.0.0.1 - - [11/Oct/2026 06:52:43] "GET /health/ HTTP/1.1" 200 59
+127.0.0.1 - - [11/Oct/2026 06:52:43] "GET / HTTP/1.1" 200 532
+127.0.0.1 - - [11/Oct/2026 06:52:43] "GET / HTTP/1.1" 400 143

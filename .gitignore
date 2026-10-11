@@ -1,0 +1,9 @@
+.venv/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+*.sqlite3*
+.runtime/
+.coverage

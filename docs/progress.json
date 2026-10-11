@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "status": "foundation_independently_verified_other_stages_pending",
+  "completion_authority": "parent independent verification; no overall percentage claimed",
+  "stages": [
+    {
+      "id": 1,
+      "name": "요구사항·보안·데이터 설계",
+      "weight": 10,
+      "status": "in_progress",
+      "acceptance": [
+        {
+          "criterion": "요구사항과 역할·격리·감사·동의 설계 문서",
+          "verified": true,
+          "evidence": [
+            "docs/requirements-security-data.md",
+            "docs/roadmap.md"
+          ]
+        },
+        {
+          "criterion": "실제 NAS/그룹 용량 및 운영 정책 의사결정 승인",
+          "verified": false,
+          "evidence": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "실행 앱·DB·테스트·CI 기반",
+      "weight": 15,
+      "status": "completed",
+      "acceptance": [
+        {
+          "criterion": "고정 의존성·최소 앱·실제 DB 마이그레이션",
+          "verified": true,
+          "evidence": [
+            "requirements.txt",
+            "config/",
+            "docs/evidence/local-verification.txt"
+          ]
+        },
+        {
+          "criterion": "RED/GREEN 테스트·로컬 HTTP 검증",
+          "verified": true,
+          "evidence": [
+            "docs/evidence/tdd.md",
+            "docs/evidence/local-verification.txt"
+          ]
+        },
+        {
+          "criterion": "원격 브랜치 CI 성공·독립 검토",
+          "verified": true,
+          "evidence": ["docs/evidence/ci.json", "docs/evidence/independent-review.md", "docs/evidence/independent-verification.txt"]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "가입 승인·인증·회원",
+      "weight": 20,
+      "status": "not_started",
+      "acceptance": [
+        {
+          "criterion": "승인 전 접근 거부·역할별 권한·테넌트 격리 테스트",
+          "verified": false,
+          "evidence": []
+        },
+        {
+          "criterion": "승인 취소·세션 폐기·감사 기록",
+          "verified": false,
+          "evidence": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "NAS 권한·할당량·실사용량",
+      "weight": 25,
+      "status": "not_started",
+      "acceptance": [
+        {
+          "criterion": "실장비 API 기능 검증·읽기 연동",
+          "verified": false,
+          "evidence": []
+        },
+        {
+          "criterion": "권한 변경 승인/보상·쿼터 의미 검증",
+          "verified": false,
+          "evidence": []
+        },
+        {
+          "criterion": "갱신시각·수집실패·권한별 실제 사용량",
+          "verified": false,
+          "evidence": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "티켓·라이브 채팅",
+      "weight": 15,
+      "status": "not_started",
+      "acceptance": [
+        {
+          "criterion": "테넌트별 티켓·메시지 접근 통제",
+          "verified": false,
+          "evidence": []
+        },
+        {
+          "criterion": "실시간 전달·재연결·보존/삭제 정책 검증",
+          "verified": false,
+          "evidence": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "RustDesk 관리자 웹 지원",
+      "weight": 5,
+      "status": "not_started",
+      "acceptance": [
+        {
+          "criterion": "지원 방식·라이선스·웹 기능 실제 검증",
+          "verified": false,
+          "evidence": []
+        },
+        {
+          "criterion": "동의·만료·접근통제·감사 검증",
+          "verified": false,
+          "evidence": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "실배포·보안·복구",
+      "weight": 10,
+      "status": "not_started",
+      "acceptance": [
+        {
+          "criterion": "승인된 호스트 배포·TLS·보안 점검",
+          "verified": false,
+          "evidence": []
+        },
+        {
+          "criterion": "백업 복구·롤백 실제 훈련",
+          "verified": false,
+          "evidence": []
+        }
+      ]
+    }
+  ],
+  "local_evidence": {
+    "tests_passed": 11,
+    "tdd_cycles_passed": 5,
+    "config_regression_tests": 6,
+    "applied_migrations": 15,
+    "http_smoke": {
+      "landing": 200,
+      "health": 200,
+      "invalid_host": 400
+    },
+    "health_body": {
+      "status": "ok",
+      "database": "ok",
+      "nas": "not_configured"
+    },
+    "command": ".venv/bin/python scripts/verify.py",
+    "raw_output": "docs/evidence/local-verification.txt",
+    "ci": {
+      "verified_run": {
+        "conclusion": "success",
+        "databaseId": 38137264465,
+        "headSha": "58cde91a94e5c3f9fa043721ddf3be531aead411",
+        "status": "completed",
+        "url": "https://github.com/me0kmin27/Synology-Admin/actions/runs/38137264465"
+      },
+      "subsequent_commit_note": "Reviewed application SHA CI verified; subsequent documentation-only final head CI returned separately to parent"
+    },
+    "independent_review": "approved_foundation_only: docs/evidence/independent-review.md"
+  },
+  "prohibited_actions_performed": []
+}
