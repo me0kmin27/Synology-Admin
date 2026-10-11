@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "local_verified_remote_ci_pending",
+  "status": "local_and_initial_remote_ci_verified_parent_review_pending",
   "completion_authority": "parent independent verification; no overall percentage claimed",
   "stages": [
     {
@@ -167,7 +167,16 @@
     },
     "command": ".venv/bin/python scripts/verify.py",
     "raw_output": "docs/evidence/local-verification.txt",
-    "ci": "pending_push",
+    "ci": {
+      "verified_run": {
+        "conclusion": "success",
+        "databaseId": 38137203138,
+        "headSha": "459f468bc48fdb9e4b5b303f308fd47f0507eb00",
+        "status": "completed",
+        "url": "https://github.com/me0kmin27/Synology-Admin/actions/runs/38137203138"
+      },
+      "subsequent_commit_note": "CI runtime updated to Node 24 actions / Ubuntu 24.04 after initial successful run; final head verified separately by parent/return evidence"
+    },
     "independent_review": "pending_parent"
   },
   "prohibited_actions_performed": []
