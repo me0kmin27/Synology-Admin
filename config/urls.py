@@ -6,7 +6,7 @@ from membership.groups import limits, role, quota
 from membership.views import signup, account, service, approve, revoke, manage, assign, link
 from django.contrib.auth.views import LoginView, LogoutView
 
-urlpatterns = [path("support/", support_views.index), path("support/<int:pk>/", support_views.detail), path("support/new/", support_views.create), path("", landing), path("health/", health), path("signup/", signup), path("manage/", manage), path("manage/<int:pk>/link/", link), path("manage/<int:pk>/assign/", assign), path("manage/<int:pk>/approve/", approve), path("manage/<int:pk>/revoke/", revoke),
+urlpatterns = [path("support/<int:pk>/replies/", support_views.reply), path("support/", support_views.index), path("support/<int:pk>/", support_views.detail), path("support/new/", support_views.create), path("", landing), path("health/", health), path("signup/", signup), path("manage/", manage), path("manage/<int:pk>/link/", link), path("manage/<int:pk>/assign/", assign), path("manage/<int:pk>/approve/", approve), path("manage/<int:pk>/revoke/", revoke),
     path("manage/groups/<int:pk>/limits/", limits),
     path("manage/<int:pk>/role/", role),
     path("manage/<int:pk>/quota/", quota),

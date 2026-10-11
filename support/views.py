@@ -10,8 +10,8 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 from membership.locking import policy_transaction
 from membership.models import Membership
-from .forms import TicketForm
-from .models import Ticket, TicketAudit
+from .forms import TicketForm, ReplyForm
+from .models import Ticket, TicketAudit, TicketReply
 
 
 def actor_membership(request, *, allow_global=False):
@@ -48,7 +48,7 @@ def index(request):
 @require_http_methods(['GET'])
 def detail(request, pk):
     ticket = get_object_or_404(visible_tickets(request), pk=pk)
-    return render(request, 'support/detail.html', {'ticket': ticket})
+    return render(request, 'support/detail.html', {'ticket': ticket, 'replies': ticket.replies.order_by('created_at', 'pk'), 'form': ReplyForm()})
 
 
 @sensitive_post_parameters('title', 'body')
@@ -71,3 +71,21 @@ def create(request):
         actor_membership(request)
         form = TicketForm()
     return render(request, 'support/form.html', {'form': form})
+
+
+@sensitive_post_parameters('body')
+@login_required
+@require_http_methods(['POST'])
+def reply(request, pk):
+    if connection.vendor != 'postgresql' and not settings.MEMBERSHIP_ALLOW_UNSAFE_SQLITE:
+        return HttpResponse(status=503)
+    with policy_transaction():
+        ticket = get_object_or_404(visible_tickets(request), pk=pk)
+        if request.FILES:
+            return HttpResponse(status=400)
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            TicketReply.objects.create(ticket=ticket, author=request.user, **form.cleaned_data)
+            TicketAudit.objects.create(ticket=ticket, actor=request.user, action='replied')
+            return redirect(f'/support/{ticket.pk}/')
+        return render(request, 'support/detail.html', {'ticket': ticket, 'replies': ticket.replies.order_by('created_at', 'pk'), 'form': form})

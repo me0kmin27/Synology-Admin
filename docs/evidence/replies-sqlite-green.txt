@@ -1,0 +1,44 @@
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 5 test(s).
+Operations to perform:
+  Apply all migrations: auth, contenttypes, membership, sessions, support
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying membership.0001_initial... OK
+  Applying membership.0002_auditevent... OK
+  Applying membership.0003_membership_session_version... OK
+  Applying membership.0004_nasbinding... OK
+  Applying membership.0005_authattempt... OK
+  Applying membership.0006_membership_membership_valid_status_and_more... OK
+  Applying membership.0007_tenant_signup_enabled... OK
+  Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+  Applying membership.0009_membership_quota_bytes... OK
+  Applying membership.0010_seed_existing_capacity... OK
+  Applying sessions.0001_initial... OK
+  Applying support.0001_initial... OK
+  Applying support.0002_ticketreply...test_body_validation (tests.test_support_replies.ReplyTests.test_body_validation) ... ok
+test_create_derives_ticket_and_author_and_atomic_audit (tests.test_support_replies.ReplyTests.test_create_derives_ticket_and_author_and_atomic_audit) ... ok
+test_read_chronological_escaped_replies_and_form (tests.test_support_replies.ReplyTests.test_read_chronological_escaped_replies_and_form) ... ok
+test_sqlite_without_opt_in_fails_closed (tests.test_support_replies.ReplyTests.test_sqlite_without_opt_in_fails_closed) ... ok
+test_upload_rejected (tests.test_support_replies.ReplyTests.test_upload_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.026s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
+System check identified no issues (0 silenced).
