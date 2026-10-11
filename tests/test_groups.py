@@ -21,6 +21,27 @@ class GroupTests(TestCase):
     def post(self, path, **data):
         return self.client.post(path, {'password': PASSWORD, **data})
 
+    def test_failed_audit_rolls_back_approval_and_account_count(self):
+        from unittest.mock import patch
+        from membership.groups import active_accounts
+        subject = self.member('rollback')
+        self.client.force_login(self.root)
+        with patch('membership.views.AuditEvent.objects.create', side_effect=RuntimeError('injected audit failure')):
+            with self.assertRaisesMessage(RuntimeError, 'injected audit failure'):
+                self.post(f'/manage/{subject.pk}/approve/')
+        subject.refresh_from_db()
+        self.assertEqual(subject.status, 'pending')
+        self.assertEqual(active_accounts(self.tenant).count(), 0)
+        self.assertEqual(self.post(f'/manage/{subject.pk}/approve/').status_code, 302)
+
+    def test_inactive_legacy_admin_is_not_the_last_active_manager(self):
+        self.member('active-manager', status='approved', role='admin')
+        inactive = self.member('inactive-admin', status='approved', role='admin')
+        inactive.user.is_active = False
+        inactive.user.save(update_fields=['is_active'])
+        self.client.force_login(self.root)
+        self.assertEqual(self.post(f'/manage/{inactive.pk}/revoke/').status_code, 302)
+
     def test_pending_and_legacy_suspended_accounts_can_be_retired(self):
         from membership.models import AuditEvent
         self.client.force_login(self.root)

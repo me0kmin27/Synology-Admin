@@ -1,0 +1,20 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_login_throttle_is_shared_across_clients (tests.test_membership.SignupTests.test_login_throttle_is_shared_across_clients)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/.venv/lib/python3.14/site-packages/django/test/utils.py", line 456, in inner
+    return func(*args, **kwargs)
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_membership.py", line 123, in test_login_throttle_is_shared_across_clients
+    self.assertEqual(response.status_code, 429)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 429
+
+----------------------------------------------------------------------
+Ran 1 test in 0.299s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).

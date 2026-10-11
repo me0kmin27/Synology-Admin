@@ -28,8 +28,6 @@ def allocated_bytes(tenant):
 @authorized_mutation
 def quota(request, pk):
     from .views import managed_members
-    if not request.user.check_password(request.POST.get('password', '')):
-        raise PermissionDenied
     try:
         value = unsigned_integer(request.POST.get('quota_bytes', ''))
     except ValueError:
@@ -60,7 +58,7 @@ def unsigned_integer(value):
 @require_POST
 @authorized_mutation
 def role(request, pk):
-    if not request.user.is_active or not request.user.is_superuser or not request.user.check_password(request.POST.get('password', '')):
+    if not request.user.is_superuser:
         raise PermissionDenied
     new_role = request.POST.get('role')
     if new_role not in ('member', 'admin'):
@@ -89,7 +87,7 @@ def role(request, pk):
 @require_POST
 @authorized_mutation
 def limits(request, pk):
-    if not request.user.is_active or not request.user.is_superuser or not request.user.check_password(request.POST.get('password', '')):
+    if not request.user.is_superuser:
         raise PermissionDenied
     try:
         data = {field: unsigned_integer(request.POST.get(field, ''))

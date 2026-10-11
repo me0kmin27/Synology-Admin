@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from unittest.mock import patch
 from django.test import TestCase, override_settings
 
 
@@ -115,7 +116,8 @@ class SignupTests(TestCase):
         self.assertFalse(User.objects.filter(username='weak').exists())
 
     @override_settings(AUTH_ATTEMPT_LIMIT=3)
-    def test_login_throttle_is_shared_across_clients(self):
+    @patch('membership.throttle.time.time', return_value=1800000000)
+    def test_login_throttle_is_shared_across_clients(self, clock):
         from django.test import Client
         for _ in range(3):
             self.assertEqual(Client().post('/login/', {'username': 'absent', 'password': 'wrong'}).status_code, 200)

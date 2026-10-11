@@ -30,8 +30,6 @@ def managed_members(user):
 @require_POST
 @authorized_mutation
 def approve(request, pk):
-    if not request.user.check_password(request.POST.get("password", "")):
-        return HttpResponseForbidden()
     with transaction.atomic():
         subject = get_object_or_404(managed_members(request.user).select_for_update(), pk=pk)
         if subject.user_id == request.user.pk:
@@ -54,15 +52,13 @@ def approve(request, pk):
 @require_POST
 @authorized_mutation
 def revoke(request, pk):
-    if not request.user.check_password(request.POST.get("password", "")):
-        return HttpResponseForbidden()
     with transaction.atomic():
         subject = get_object_or_404(managed_members(request.user).select_for_update(), pk=pk)
         if subject.user_id == request.user.pk or subject.user.is_superuser:
             return HttpResponseForbidden()
         if subject.status == "suspended" and not subject.user.is_active:
             return redirect("/account/")
-        if subject.status == 'approved' and subject.role == 'admin' and active_accounts(subject.tenant).filter(role='admin').count() <= 1:
+        if subject.user.is_active and subject.status == 'approved' and subject.role == 'admin' and active_accounts(subject.tenant).filter(role='admin').count() <= 1:
             return HttpResponse(status=409)
         changed = Membership.objects.filter(pk=pk, status=subject.status).update(status="suspended", session_version=F("session_version") + 1)
         if not changed:
@@ -92,7 +88,7 @@ def manage(request):
 @require_POST
 @authorized_mutation
 def assign(request, pk):
-    if not request.user.is_superuser or not request.user.check_password(request.POST.get("password", "")):
+    if not request.user.is_superuser:
         return HttpResponseForbidden()
     with transaction.atomic():
         subject = get_object_or_404(Membership.objects.select_for_update(), pk=pk)
@@ -117,8 +113,6 @@ def assign(request, pk):
 @require_POST
 @authorized_mutation
 def link(request, pk):
-    if not request.user.check_password(request.POST.get("password", "")):
-        return HttpResponseForbidden()
     external_id = request.POST.get("external_id", "")
     if not re.fullmatch(r"[A-Za-z0-9_.@-]{1,128}", external_id) or request.POST.get("ownership_confirmed") != "on":
         return HttpResponse(status=400)
