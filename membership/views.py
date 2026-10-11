@@ -137,11 +137,28 @@ def account(request):
 
 
 @login_required
+@require_http_methods(['GET'])
 def service(request):
-    member = Membership.objects.filter(user=request.user, status="approved", tenant__isnull=False).first()
-    if not member:
-        return HttpResponseForbidden()
-    return render(request, "membership/service.html", {"member": member})
+    from django.contrib.auth import get_user_model
+    from .locking import policy_transaction
+    from .storage import usage_card
+
+    # Re-read authorization after acquiring the shared revocation policy lock.
+    # Render while held; the only reader is deliberately no-I/O.
+    with policy_transaction():
+        actor = get_user_model().objects.get(pk=request.user.pk)
+        member = Membership.objects.select_related('user', 'tenant').filter(user=actor).first()
+        if (not actor.is_active or not member or member.status != 'approved'
+                or not member.tenant_id
+                or request.session.get('membership_version') != member.session_version):
+            return HttpResponseForbidden()
+        try:
+            cards = [usage_card(member)]
+            if member.role == 'admin' or actor.is_superuser:
+                cards.append(usage_card(member, kind='group'))
+        except ValueError:
+            return HttpResponse('NAS 관측값을 확인할 수 없습니다.', status=503)
+        return render(request, "membership/service.html", {"member": member, "cards": cards})
 
 
 
