@@ -1,0 +1,27 @@
+database_stopped_health=503
+database_restored_health=200
+web-1  | [2026-10-11 22:50:57 +0000] [1] [INFO] Starting gunicorn 26.2.0
+web-1  | [2026-10-11 22:50:57 +0000] [1] [INFO] Listening at: http://0.0.0.0:8000 (1)
+web-1  | [2026-10-11 22:50:57 +0000] [1] [INFO] Using worker: gthread
+web-1  | [2026-10-11 22:50:57 +0000] [7] [INFO] Booting worker with pid: 7
+web-1  | [2026-10-11 22:50:58 +0000] [8] [INFO] Booting worker with pid: 8
+web-1  | [2026-10-11 22:51:20 +0000] [1] [INFO] Handling signal: term
+web-1  | [2026-10-11 17:51:20 -0500] [7] [INFO] Worker exiting (pid: 7)
+web-1  | [2026-10-11 17:51:20 -0500] [8] [INFO] Worker exiting (pid: 8)
+web-1  | [2026-10-11 22:51:20 +0000] [1] [INFO] Shutting down: Master
+web-1  | [2026-10-11 22:51:21 +0000] [1] [INFO] Starting gunicorn 26.2.0
+web-1  | [2026-10-11 22:51:21 +0000] [1] [INFO] Listening at: http://0.0.0.0:8000 (1)
+web-1  | [2026-10-11 22:51:21 +0000] [1] [INFO] Using worker: gthread
+web-1  | [2026-10-11 22:51:21 +0000] [7] [INFO] Booting worker with pid: 7
+web-1  | [2026-10-11 22:51:22 +0000] [8] [INFO] Booting worker with pid: 8
+ Container synology-admin-internal-db-1 Stopping 
+ Container synology-admin-internal-db-1 Stopped 
+ Container synology-admin-internal-web-1 Running 
+ Container synology-admin-internal-db-1 Starting 
+ Container synology-admin-internal-db-1 Started 
+ Container synology-admin-internal-db-1 Waiting 
+ Container synology-admin-internal-db-1 Healthy 
+ Container synology-admin-internal-web-1 Waiting 
+ Container synology-admin-internal-db-1 Waiting 
+ Container synology-admin-internal-db-1 Healthy 
+ Container synology-admin-internal-web-1 Healthy 
