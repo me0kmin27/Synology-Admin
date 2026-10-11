@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+...F
+======================================================================
+FAIL: test_upload_is_explicitly_rejected (tests.test_support.TicketTests.test_upload_is_explicitly_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_support.py", line 19, in test_upload_is_explicitly_rejected
+    self.assertEqual(response.status_code, 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 302 != 400
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.037s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 4 test(s).
+System check identified no issues (0 silenced).

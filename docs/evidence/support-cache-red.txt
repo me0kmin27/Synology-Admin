@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+.F.
+======================================================================
+FAIL: test_private_pages_are_never_cached (tests.test_support.TicketTests.test_private_pages_are_never_cached)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_support.py", line 16, in test_private_pages_are_never_cached
+    self.assertIn('no-store', self.client.get(path).headers.get('Cache-Control', ''))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'no-store' not found in ''
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.028s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 3 test(s).
+System check identified no issues (0 silenced).

@@ -1,0 +1,19 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_account_links_to_support (tests.test_support.TicketTests.test_account_links_to_support)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_support.py", line 15, in test_account_links_to_support
+    self.assertContains(self.client.get('/account/'), 'href="/support/"')
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : Couldn't find 'href="/support/"' in the following response
+b'<html lang="ko"><meta charset="utf-8"><h1>\xed\x9a\x8c\xec\x9b\x90 \xec\x83\x81\xed\x83\x9c</h1><p>approved</p><p>\xec\x8a\xb9\xec\x9d\xb8 \xec\xa0\x84 \xec\x84\x9c\xeb\xb9\x84\xec\x8a\xa4 \xec\xa0\x91\xea\xb7\xbc \xeb\xb6\x88\xea\xb0\x80. NAS \xec\x97\xb0\xea\xb2\xb0\xec\x9d\x80 \xeb\xb3\x84\xeb\x8f\x84 \xec\xa0\x88\xec\xb0\xa8\xec\x9e\x85\xeb\x8b\x88\xeb\x8b\xa4.</p><a href="/service/">\xec\x84\x9c\xeb\xb9\x84\xec\x8a\xa4 \xec\x83\x81\xed\x83\x9c</a><form method="post" action="/logout/"><input type="hidden" name="csrfmiddlewaretoken" value="I2D9QYxsORliW0sMCnzlNcE8MG7XaIC8hyyVRMIoJJREkpeTWKjBMPA1eEqWo8hd"><button>\xeb\xa1\x9c\xea\xb7\xb8\xec\x95\x84\xec\x9b\x83</button></form></html>'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).
