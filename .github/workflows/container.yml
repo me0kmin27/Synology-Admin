@@ -1,0 +1,36 @@
+name: internal-container
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      SOURCE_REVISION: ${{ github.sha }}
+      COMPOSE_FILE: compose.internal.json
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest tests.test_container_contract -v
+      - run: python3 deploy/init-secrets.py
+      - run: docker compose config --quiet
+      - run: docker compose build --pull
+      - run: docker compose up -d --wait db
+      - run: docker compose run --rm --no-deps web python manage.py migrate --noinput
+      - run: docker compose up -d --wait --wait-timeout 120 web
+      - name: HTTP and persistence smoke
+        run: |
+          curl --fail --silent http://127.0.0.1:18080/health/
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:18080/)" = 200
+          test "$(curl -s -o /dev/null -w '%{http_code}' -H 'Host: invalid.example' http://127.0.0.1:18080/)" = 400
+          docker compose exec -T db psql -U portal -d portal -Atc 'SELECT app,name FROM django_migrations ORDER BY app,name' > before.txt
+          docker compose restart
+          docker compose up -d --wait --wait-timeout 120
+          docker compose exec -T db psql -U portal -d portal -Atc 'SELECT app,name FROM django_migrations ORDER BY app,name' > after.txt
+          cmp before.txt after.txt
+          docker compose exec -T web python manage.py migrate --check
+          curl --fail --silent http://127.0.0.1:18080/health/
