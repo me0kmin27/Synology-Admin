@@ -1,0 +1,52 @@
+name: internal-container
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      SOURCE_REVISION: ${{ github.sha }}
+      COMPOSE_FILE: compose.internal.json
+      COMPOSE_ENV_FILES: .env,.mfa.env
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest tests.test_container_contract -v
+      - run: python3 deploy/init-secrets.py
+      - run: python3 deploy/init-mfa-key.py
+      - run: docker compose config --quiet
+      - name: Empty bind remains loopback
+        run: |
+          INTERNAL_BIND_HOST='' docker compose config --format json | python3 -c 'import json,sys; c=json.load(sys.stdin); w=c["services"]["web"]; assert w["ports"][0]["host_ip"] == "127.0.0.1"; assert w["environment"]["DJANGO_ALLOWED_HOSTS"] == "localhost,127.0.0.1,127.0.0.1"; assert not c["services"]["db"].get("ports")'
+      - run: docker compose build --pull
+      - run: docker compose up -d --wait db
+      - run: docker compose run --rm --no-deps web python manage.py migrate --noinput
+      - run: docker compose up -d --wait --wait-timeout 120 web
+      - name: HTTP and persistence smoke
+        run: |
+          curl --fail --silent http://127.0.0.1:18080/health/
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:18080/)" = 200
+          test "$(curl -s -o /dev/null -w '%{http_code}' -H 'Host: invalid.example' http://127.0.0.1:18080/)" = 400
+          docker compose exec -T db psql -U portal -d portal -Atc 'SELECT app,name FROM django_migrations ORDER BY app,name' > before.txt
+          docker compose restart
+          docker compose up -d --wait --wait-timeout 120
+          docker compose exec -T db psql -U portal -d portal -Atc 'SELECT app,name FROM django_migrations ORDER BY app,name' > after.txt
+          cmp before.txt after.txt
+          docker compose exec -T web python manage.py migrate --check
+          curl --fail --silent http://127.0.0.1:18080/health/
+      - name: Explicit interface opt-in smoke
+        run: |
+          export INTERNAL_BIND_HOST=$(python3 -c 'import json,subprocess; print(json.loads(subprocess.check_output(["ip","-j","-4","route","get","1.1.1.1"]))[0]["prefsrc"])')
+          python3 -c 'import ipaddress,os; a=ipaddress.ip_address(os.environ["INTERNAL_BIND_HOST"]); assert a.is_private and not a.is_loopback and not a.is_unspecified'
+          docker compose up -d --no-build --no-deps --wait --wait-timeout 120 web
+          docker compose port web 8000 | python3 -c 'import os,sys; assert sys.stdin.read().strip() == os.environ["INTERNAL_BIND_HOST"]+":18080"'
+          base="http://${INTERNAL_BIND_HOST}:18080"
+          curl --noproxy '*' --fail --silent "$base/health/"
+          test "$(curl --noproxy '*' -s -o /dev/null -w '%{http_code}' "$base/")" = 200
+          test "$(curl --noproxy '*' -s -o /dev/null -w '%{http_code}' -H 'Host: invalid.example' "$base/")" = 400
+          test "$(curl --noproxy '*' -s -o /dev/null -w '%{http_code}' "$base/manage/")" = 302

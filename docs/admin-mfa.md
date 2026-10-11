@@ -60,8 +60,10 @@
 
 NAS와 분리된 포털/DB 서버는 `192.168.1.14`, 계정 `me0kmin27`로 확정.
 부모가 SSH 접속을 검증했으며 이 구현 작업자는 접속하지 않았다.
-부모 관측: Debian 13 trixie; PATH에 docker/python3 없음; sudo -n true 불가.
-서버 접근 자체는 blocker가 아니나 원격 쓰기·설치·배포 권한은 미승인이다.
+초기 관측은 준비 전 상태였다. 후속 사용자 승인·prereq 실행 후 배포 작업자가
+Debian 13, Docker 29.9.0, Compose 5.6.0 및 sudo 없는 Docker 접근을 검증했다.
+해당 서버의 loopback Docker 검증 배포만 승인됐으며 공개/운영 개방은 금지다.
+실행 증거와 별도 MFA 키 경계는 `internal-container-deployment.md` 참조.
 로컬 SSH 키 내용/자격증명은 출력·커밋하지 않는다.
 NAS 기종/파일시스템은 정보표시·회원관리 개발의 선행조건이 아니다.
 특정 기종/Btrfs를 강제하지 않고 선택 메타데이터·연동 capability를 분리한다.

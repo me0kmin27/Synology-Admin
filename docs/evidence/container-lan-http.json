@@ -1,0 +1,37 @@
+[
+  {
+    "path": "/health/",
+    "host": "192.168.1.14:18080",
+    "status": 200,
+    "location": null,
+    "body": {
+      "status": "ok",
+      "database": "ok",
+      "nas": "not_configured"
+    }
+  },
+  {
+    "path": "/",
+    "host": "192.168.1.14:18080",
+    "status": 200,
+    "location": null
+  },
+  {
+    "path": "/",
+    "host": "invalid.example",
+    "status": 400,
+    "location": null
+  },
+  {
+    "path": "/manage/",
+    "host": "192.168.1.14:18080",
+    "status": 302,
+    "location": "/login/?next=/manage/"
+  },
+  {
+    "path": "/mfa/enroll/",
+    "host": "192.168.1.14:18080",
+    "status": 302,
+    "location": "/login/?next=/mfa/enroll/"
+  }
+]

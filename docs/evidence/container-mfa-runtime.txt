@@ -1,0 +1,44 @@
+2026-10-12T07:55:04+09:00
+{"status": "ok", "database": "ok", "nas": "not_configured"}
+/ 200
+/login/ 200
+/account/ 302
+/manage/ 302
+/mfa/enroll/ 302
+invalid_host 400
+uid=10001(portal) gid=10001(portal) groups=10001(portal)
+Python 3.14.8
+18 objects imported automatically (use -v 2 for details).
+
+MFA gate loaded; independent key roundtrip PASS; no secret files baked into image
+33
+0
+0
+0
+restart_migrations_and_secret_preservation=PASS
+{"status": "ok", "database": "ok", "nas": "not_configured"}
+NAME                            IMAGE                                                              COMMAND                  SERVICE   CREATED          STATUS                   PORTS
+synology-admin-internal-db-1    postgres:17-bookworm                                               "docker-entrypoint.s…"   db        7 minutes ago    Up 8 seconds (healthy)   5432/tcp
+synology-admin-internal-web-1   synology-admin-internal:ed818d8abff546bdcc9ff3a7e79adf7bbc8643d3   "gunicorn --config d…"   web       48 seconds ago   Up 7 seconds (healthy)   127.0.0.1:18080->8000/tcp
+State  Recv-Q Send-Q Local Address:Port  Peer Address:Port
+LISTEN 0      128          0.0.0.0:22         0.0.0.0:*   
+LISTEN 0      4096       127.0.0.1:18080      0.0.0.0:*   
+LISTEN 0      128             [::]:22            [::]:*   
+sha256:220134dc32911fb5a22869b76dc8b29248cc0e6f2d929e0ba2956db1e0674060 user=10001:10001 readonly=true ports={"8000/tcp":[{"HostIp":"127.0.0.1","HostPort":"18080"}]}
+sha256:220134dc32911fb5a22869b76dc8b29248cc0e6f2d929e0ba2956db1e0674060 revision=ed818d8abff546bdcc9ff3a7e79adf7bbc8643d3
+ports={} mounts=[{"Type":"volume","Name":"synology-admin-internal_postgres_data","Source":"/var/lib/docker/volumes/synology-admin-internal_postgres_data/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"rw","RW":true,"Propagation":""}]
+internal=true
+600 ../../.env
+600 ../../.mfa.env
+ Container synology-admin-internal-web-1 Restarting 
+ Container synology-admin-internal-db-1 Restarting 
+ Container synology-admin-internal-db-1 Started 
+ Container synology-admin-internal-web-1 Started 
+ Container synology-admin-internal-web-1 Running 
+ Container synology-admin-internal-db-1 Running 
+ Container synology-admin-internal-db-1 Waiting 
+ Container synology-admin-internal-db-1 Healthy 
+ Container synology-admin-internal-web-1 Waiting 
+ Container synology-admin-internal-db-1 Waiting 
+ Container synology-admin-internal-web-1 Healthy 
+ Container synology-admin-internal-db-1 Healthy 

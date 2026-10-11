@@ -1,0 +1,99 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 802B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile:
+#2 transferring dockerfile: 590B done
+#2 DONE 0.1s
+
+#3 [internal] load metadata for docker.io/library/python:3.14-slim
+#3 DONE 0.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 285B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 79.90kB 0.0s done
+#5 DONE 0.1s
+
+#6 [1/5] FROM docker.io/library/python:3.14-slim@sha256:a2b82f3c48559aa0a8446d9af49826b6e2b2016f4cd2afabfe6013ec53729170
+#6 resolve docker.io/library/python:3.14-slim@sha256:a2b82f3c48559aa0a8446d9af49826b6e2b2016f4cd2afabfe6013ec53729170 0.1s done
+#6 DONE 0.1s
+
+#7 [2/5] WORKDIR /app
+#7 CACHED
+
+#8 [3/5] COPY requirements.txt requirements-container.txt ./
+#8 CACHED
+
+#9 [4/5] RUN pip install --no-cache-dir -r requirements-container.txt && pip check     && groupadd --gid 10001 portal && useradd --uid 10001 --gid 10001 --no-create-home portal
+#9 2.466 Collecting Django==5.2.18 (from -r /app/requirements.txt (line 1))
+#9 2.563   Downloading django-5.2.18-py3-none-any.whl.metadata (4.1 kB)
+#9 2.594 Collecting asgiref==3.12.1 (from -r /app/requirements.txt (line 2))
+#9 2.603   Downloading asgiref-3.12.1-py3-none-any.whl.metadata (9.4 kB)
+#9 2.625 Collecting sqlparse==0.6.0 (from -r /app/requirements.txt (line 3))
+#9 2.635   Downloading sqlparse-0.6.0-py3-none-any.whl.metadata (6.0 kB)
+#9 2.663 Collecting psycopg==3.3.6 (from psycopg[binary]==3.3.6->-r /app/requirements.txt (line 4))
+#9 2.673   Downloading psycopg-3.3.6-py3-none-any.whl.metadata (4.4 kB)
+#9 2.703 Collecting gunicorn==26.2.0 (from -r requirements-container.txt (line 2))
+#9 2.713   Downloading gunicorn-26.2.0-py3-none-any.whl.metadata (5.5 kB)
+#9 2.981 Collecting psycopg-binary==3.3.6 (from psycopg[binary]==3.3.6->-r /app/requirements.txt (line 4))
+#9 2.990   Downloading psycopg_binary-3.3.6-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.7 kB)
+#9 3.013 Downloading django-5.2.18-py3-none-any.whl (8.3 MB)
+#9 3.153    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.3/8.3 MB 67.8 MB/s  0:00:00
+#9 3.164 Downloading asgiref-3.12.1-py3-none-any.whl (25 kB)
+#9 3.173 Downloading sqlparse-0.6.0-py3-none-any.whl (50 kB)
+#9 3.183 Downloading psycopg-3.3.6-py3-none-any.whl (215 kB)
+#9 3.194 Downloading gunicorn-26.2.0-py3-none-any.whl (228 kB)
+#9 3.211 Downloading psycopg_binary-3.3.6-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.2 MB)
+#9 3.308    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 53.5 MB/s  0:00:00
+#9 3.557 Installing collected packages: sqlparse, psycopg-binary, psycopg, gunicorn, asgiref, Django
+#9 7.353 
+#9 7.355 Successfully installed Django-5.2.18 asgiref-3.12.1 gunicorn-26.2.0 psycopg-3.3.6 psycopg-binary-3.3.6 sqlparse-0.6.0
+#9 7.356 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#9 8.791 No broken requirements found.
+#9 DONE 9.1s
+
+#10 [5/5] COPY --chown=10001:10001 . .
+#10 DONE 0.2s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 3.4s done
+#11 exporting manifest sha256:a47e68426bf1906bcdab1d61b90d68781404b61f190ece7427f27e09eab8665d 0.0s done
+#11 exporting config sha256:92bad7d6160528ea8a3600bc48e2588483d024c56696035ed75c7bd669cae0d4 0.0s done
+#11 exporting attestation manifest sha256:819537a6bf8e3f67279c9455db11103f8033250d6b751475977695550c077a65
+#11 exporting attestation manifest sha256:819537a6bf8e3f67279c9455db11103f8033250d6b751475977695550c077a65 0.0s done
+#11 exporting manifest list sha256:5ef2d6fda2b9272adeda5b27a0475c167511a1bb36c1d08659ebee74f8ba2cf0 0.0s done
+#11 naming to docker.io/library/synology-admin-internal:8127019dfa70cac9d92c393a78582b8eb2044f3c done
+#11 unpacking to docker.io/library/synology-admin-internal:8127019dfa70cac9d92c393a78582b8eb2044f3c
+#11 unpacking to docker.io/library/synology-admin-internal:8127019dfa70cac9d92c393a78582b8eb2044f3c 2.2s done
+#11 DONE 5.8s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+Operations to perform:
+  Apply all migrations: auth, chat, contenttypes, membership, sessions, support
+Running migrations:
+  No migrations to apply.
+{"status": "ok", "database": "ok", "nas": "not_configured"} Image synology-admin-internal:8127019dfa70cac9d92c393a78582b8eb2044f3c Building 
+ Image synology-admin-internal:8127019dfa70cac9d92c393a78582b8eb2044f3c Built 
+ Network synology-admin-internal_frontend Creating 
+ Network synology-admin-internal_frontend Creating 
+ Network synology-admin-internal_frontend Created 
+ Network synology-admin-internal_frontend Created 
+ Container synology-admin-internal-web-run-45d56f0dcca7 Creating 
+ Container synology-admin-internal-web-run-45d56f0dcca7 Created 
+ Container synology-admin-internal-db-1 Running 
+ Container synology-admin-internal-web-1 Recreate 
+ Container synology-admin-internal-web-1 Recreated 
+ Container synology-admin-internal-db-1 Waiting 
+ Container synology-admin-internal-db-1 Healthy 
+ Container synology-admin-internal-web-1 Starting 
+ Container synology-admin-internal-web-1 Started 
+ Container synology-admin-internal-web-1 Waiting 
+ Container synology-admin-internal-db-1 Waiting 
+ Container synology-admin-internal-db-1 Healthy 
+ Container synology-admin-internal-web-1 Healthy 

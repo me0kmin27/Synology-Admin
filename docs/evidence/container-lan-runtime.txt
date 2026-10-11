@@ -1,0 +1,8 @@
+runtime_ports ['192.168.1.14:18080:8000']
+runtime_hosts localhost,127.0.0.1,192.168.1.14
+only_runtime_delta: web ports and allowed hosts
+image sha256:220134dc32911fb5a22869b76dc8b29248cc0e6f2d929e0ba2956db1e0674060
+revision ed818d8abff546bdcc9ff3a7e79adf7bbc8643d3
+hosts ['DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,192.168.1.14']
+ports {'8000/tcp': [{'HostIp': '192.168.1.14', 'HostPort': '18080'}]}
+health healthy
