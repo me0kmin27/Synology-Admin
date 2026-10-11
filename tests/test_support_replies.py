@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, override_settings
+from tests.mfa_helpers import TestCase, override_settings
 from membership.models import Membership, Tenant
 from support.models import Ticket, TicketAudit
 
@@ -53,7 +53,7 @@ class ReplyTests(TestCase):
         self.assertFalse(TicketReply.objects.exists())
 
     def test_inflight_fresh_actor_epoch_and_scope(self):
-        from django.test import RequestFactory
+        from tests.mfa_helpers import RequestFactory
         from django.core.exceptions import PermissionDenied
         from django.http import Http404
         from support.views import reply
@@ -93,7 +93,7 @@ class ReplyTests(TestCase):
             self.user.delete()
 
     def test_csrf_methods_no_store_and_no_edit_delete(self):
-        from django.test import Client
+        from tests.mfa_helpers import Client
         from support.models import TicketReply
         browser = Client(enforce_csrf_checks=True)
         browser.force_login(self.user)

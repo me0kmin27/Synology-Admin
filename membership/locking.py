@@ -40,6 +40,15 @@ def authorized_mutation(view):
             version = Membership.objects.filter(user=actor).values_list('session_version', flat=True).first()
             if request.session.get('membership_version') != version:
                 return HttpResponse(status=403)
+            from .mfa import verified_session
+            from .mfa_crypto import SeedUnavailable
+            from .models import AdminOTPDevice
+            device = AdminOTPDevice.objects.select_for_update().filter(user=actor).first()
+            try:
+                if not verified_session(request, actor, device):
+                    return HttpResponse(status=403)
+            except SeedUnavailable:
+                return HttpResponse(status=503)
             request.user = actor
             return view(request, *args, **kwargs)
     return wrapped

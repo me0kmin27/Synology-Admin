@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, override_settings
+from tests.mfa_helpers import TestCase, override_settings
 from membership.models import Membership, Tenant
 
 

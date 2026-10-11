@@ -1,5 +1,45 @@
 from django.conf import settings
 from django.db import models
+import uuid
+from django_otp.models import Device, ThrottlingMixin, TimestampMixin
+from django.views.decorators.debug import sensitive_variables
+
+
+class AdminOTPDevice(TimestampMixin, ThrottlingMixin, Device):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    confirmed = models.BooleanField(default=False)
+    identity = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    ciphertext = models.TextField()
+    last_t = models.BigIntegerField(default=-1)
+    enrollment_session = models.CharField(max_length=64)
+
+    @property
+    def bin_key(self):
+        from .mfa_crypto import unseal
+        return unseal(self)
+
+    @sensitive_variables()
+    def verify_token(self, token):
+        import re
+        from django_otp.oath import TOTP
+        if not self.verify_is_allowed()[0]:
+            return False
+        verified = False
+        if re.fullmatch(r'[0-9]{6}', str(token)):
+            totp = TOTP(self.bin_key)
+            verified = totp.verify(int(token), tolerance=1, min_t=self.last_t + 1)
+            if verified:
+                self.last_t = totp.t()
+                self.throttle_reset(commit=False)
+                self.set_last_used_timestamp(commit=False)
+                self.save()
+        if not verified:
+            self.throttle_increment()
+        return verified
+
+    def get_throttle_factor(self):
+        return 1
+
 
 
 class AuthAttempt(models.Model):

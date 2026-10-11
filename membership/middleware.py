@@ -10,6 +10,10 @@ def stamp_session(sender, request, user, **kwargs):
             logout(request)
             return
         request.session["membership_version"] = Membership.objects.filter(user=user).values_list("session_version", flat=True).first()
+        from .mfa import role_binding
+        request.session['auth_scope'] = role_binding(fresh)
+        request.session.pop('mfa_device', None)
+        request.session.pop('mfa_at', None)
         # Persist before releasing the policy lock so retirement can delete it.
         # A later middleware save cannot resurrect a deleted DB session row.
         request.session.save()
