@@ -6,6 +6,7 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 if len(SECRET_KEY) < 50:
     raise ValueError("DJANGO_SECRET_KEY must contain at least 50 characters")
 DEBUG = False
+MEMBERSHIP_ALLOW_UNSAFE_SQLITE = os.environ.get('DJANGO_ALLOW_UNSAFE_SQLITE') == '1'
 LOCAL_HTTP = os.environ.get("DJANGO_LOCAL_HTTP") == "1"
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 ROOT_URLCONF = "config.urls"

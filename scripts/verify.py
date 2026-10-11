@@ -18,6 +18,7 @@ os.environ["DJANGO_SECRET_KEY"] = secrets.token_urlsafe(64)
 os.environ["DJANGO_ALLOWED_HOSTS"] = "localhost,127.0.0.1,testserver"
 os.environ.pop("DJANGO_LOCAL_HTTP", None)
 os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings"
+os.environ["DJANGO_ALLOW_UNSAFE_SQLITE"] = "1"  # Disposable single-process verification only.
 runtime = ROOT / ".runtime"
 runtime.mkdir(exist_ok=True)
 with tempfile.TemporaryDirectory(dir=runtime) as directory:

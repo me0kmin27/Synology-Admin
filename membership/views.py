@@ -9,6 +9,7 @@ from django.db.models import F
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.debug import sensitive_post_parameters
+from .locking import authorized_mutation
 from django.views.decorators.http import require_http_methods, require_POST
 
 from .models import AuditEvent, Membership, NasBinding, Tenant
@@ -27,6 +28,7 @@ def managed_members(user):
 @sensitive_post_parameters()
 @login_required
 @require_POST
+@authorized_mutation
 def approve(request, pk):
     if not request.user.check_password(request.POST.get("password", "")):
         return HttpResponseForbidden()
@@ -50,6 +52,7 @@ def approve(request, pk):
 @sensitive_post_parameters()
 @login_required
 @require_POST
+@authorized_mutation
 def revoke(request, pk):
     if not request.user.check_password(request.POST.get("password", "")):
         return HttpResponseForbidden()
@@ -88,6 +91,7 @@ def manage(request):
 @sensitive_post_parameters()
 @login_required
 @require_POST
+@authorized_mutation
 def assign(request, pk):
     if not request.user.is_superuser or not request.user.check_password(request.POST.get("password", "")):
         return HttpResponseForbidden()
@@ -112,6 +116,7 @@ def assign(request, pk):
 @sensitive_post_parameters()
 @login_required
 @require_POST
+@authorized_mutation
 def link(request, pk):
     if not request.user.check_password(request.POST.get("password", "")):
         return HttpResponseForbidden()

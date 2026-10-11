@@ -8,6 +8,7 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.debug import sensitive_post_parameters
+from .locking import authorized_mutation
 from django.views.decorators.http import require_POST
 
 from .models import GroupAudit, Membership, Tenant
@@ -24,6 +25,7 @@ def allocated_bytes(tenant):
 @sensitive_post_parameters()
 @login_required
 @require_POST
+@authorized_mutation
 def quota(request, pk):
     from .views import managed_members
     if not request.user.check_password(request.POST.get('password', '')):
@@ -56,6 +58,7 @@ def unsigned_integer(value):
 @sensitive_post_parameters()
 @login_required
 @require_POST
+@authorized_mutation
 def role(request, pk):
     if not request.user.is_active or not request.user.is_superuser or not request.user.check_password(request.POST.get('password', '')):
         raise PermissionDenied
@@ -84,6 +87,7 @@ def role(request, pk):
 @sensitive_post_parameters()
 @login_required
 @require_POST
+@authorized_mutation
 def limits(request, pk):
     if not request.user.is_active or not request.user.is_superuser or not request.user.check_password(request.POST.get('password', '')):
         raise PermissionDenied

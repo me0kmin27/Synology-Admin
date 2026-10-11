@@ -21,6 +21,32 @@ class GroupTests(TestCase):
     def post(self, path, **data):
         return self.client.post(path, {'password': PASSWORD, **data})
 
+    def test_sqlite_mutations_fail_closed_without_explicit_development_opt_in(self):
+        from django.db import connection
+        if connection.vendor != 'sqlite':
+            self.assertEqual(connection.vendor, 'postgresql')
+            return
+        self.client.force_login(self.root)
+        subject = self.member('blocked')
+        with override_settings(MEMBERSHIP_ALLOW_UNSAFE_SQLITE=False):
+            self.assertEqual(self.post(f'/manage/{subject.pk}/approve/').status_code, 503)
+        subject.refresh_from_db()
+        self.assertEqual(subject.status, 'pending')
+
+    def test_group_management_forms_are_scoped(self):
+        manager = self.member('manager', status='approved', role='admin')
+        self.client.force_login(self.root)
+        response = self.client.get('/manage/')
+        self.assertContains(response, f'/manage/groups/{self.tenant.pk}/limits/')
+        self.assertContains(response, f'/manage/{manager.pk}/role/')
+        self.assertContains(response, 'NAS 실제 quota 강제 집행 아님')
+        self.client.force_login(manager.user)
+        response = self.client.get('/manage/')
+        self.assertNotContains(response, '/limits/')
+        self.assertNotContains(response, '/role/')
+        self.assertContains(response, f'/manage/{manager.pk}/quota/')
+        self.assertContains(response, '포털 계정 폐기')
+
     def test_manager_allocates_portal_quota_within_cap_and_reduction_rejects(self):
         self.tenant.storage_limit_bytes = 100
         self.tenant.save()
