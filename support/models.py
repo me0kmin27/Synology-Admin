@@ -10,6 +10,13 @@ class Ticket(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class TicketReply(models.Model):
+    ticket = models.ForeignKey(Ticket, on_delete=models.PROTECT, related_name="replies")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    body = models.TextField(max_length=10000)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class TicketAudit(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.PROTECT)
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)

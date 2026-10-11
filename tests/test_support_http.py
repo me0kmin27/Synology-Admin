@@ -46,3 +46,14 @@ class SupportHTTPTests(LiveServerTestCase):
         self.assertEqual(TicketAudit.objects.get().ticket_id, ticket.pk)
         with get('/support/') as response:
             self.assertIn(f'/support/{ticket.pk}/', response.read().decode())
+        reply_path = f'/support/{ticket.pk}/replies/'
+        with self.assertRaises(HTTPError) as denied:
+            post(reply_path, {'body': 'No CSRF'})
+        self.assertEqual(denied.exception.code, 403)
+        with post(reply_path, {'body': '<script>reply</script>', 'csrfmiddlewaretoken': token(f'/support/{ticket.pk}/')}) as response:
+            self.assertTrue(response.url.endswith(f'/support/{ticket.pk}/'))
+            self.assertIn('no-store', response.headers['Cache-Control'])
+            self.assertIn('&lt;script&gt;reply&lt;/script&gt;', response.read().decode())
+        from support.models import TicketReply
+        self.assertEqual(TicketReply.objects.get().author_id, user.pk)
+        self.assertEqual(TicketAudit.objects.filter(action='replied').count(), 1)
