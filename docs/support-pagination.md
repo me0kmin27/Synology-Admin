@@ -90,6 +90,22 @@ semantics; production authorization was not weakened to fit the test.
 - Implementer does not independently approve or merge this PR. Parent independent
   review and exact-head CI are required before its authorized merge decision.
 
+## PostgreSQL / CI implementation-head readback
+
+Implementation commit `7e32072fc6878a0ac3ef14472dc9f749497984a1`:
+- Push run `38148285150` and PR run `38148319784`: both `verify` and
+  `postgres-races` succeeded, with no skipped acceptance jobs.
+- Both runs executed 88 tests on SQLite and 88 tests on PostgreSQL, then 16 real
+  PostgreSQL race tests and one real Chromium/HTTP acceptance test on PostgreSQL.
+- `pagination-ci-code.json` stores run/head/job readback; the matching
+  `pagination-ci-<run>.txt` excerpts include the actual pagination, HTTP, database,
+  race and browser results. No local PostgreSQL result is claimed.
+- This following evidence-only commit has its own final head and CI. The parent
+  receives that exact head after a fresh PR/check read; it is not self-embedded.
+- Source scan found no shell/eval/unsafe-deserialization/SQL-formatting additions.
+  Its only credential-literal match is the disposable HTTP test password. RED log
+  trailing whitespace was normalized; actual assertions/results are preserved.
+
 ## Unchanged policy and remaining gates
 
 **Retention is unresolved user policy.** No deletion, truncation, TTL, purge job,
