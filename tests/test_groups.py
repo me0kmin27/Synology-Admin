@@ -21,6 +21,16 @@ class GroupTests(TestCase):
     def post(self, path, **data):
         return self.client.post(path, {'password': PASSWORD, **data})
 
+    def test_pending_and_legacy_suspended_accounts_can_be_retired(self):
+        from membership.models import AuditEvent
+        self.client.force_login(self.root)
+        for status in ('pending', 'suspended'):
+            subject = self.member(status, status=status)
+            self.assertEqual(self.post(f'/manage/{subject.pk}/revoke/').status_code, 302)
+            subject.user.refresh_from_db()
+            self.assertFalse(subject.user.is_active)
+            self.assertEqual(AuditEvent.objects.get(subject=subject).previous, status)
+
     def test_group_manager_cannot_retire_global_admin_with_membership(self):
         manager = self.member('manager', status='approved', role='admin')
         root_member = Membership.objects.create(user=self.root, tenant=self.tenant, status='approved')

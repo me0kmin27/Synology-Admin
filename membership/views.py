@@ -62,14 +62,12 @@ def revoke(request, pk):
             return HttpResponseForbidden()
         if subject.status == "suspended" and not subject.user.is_active:
             return redirect("/account/")
-        if subject.status != "approved":
+        if subject.status == 'approved' and subject.role == 'admin' and active_accounts(subject.tenant).filter(role='admin').count() <= 1:
             return HttpResponse(status=409)
-        if subject.role == 'admin' and active_accounts(subject.tenant).filter(role='admin').count() <= 1:
-            return HttpResponse(status=409)
-        changed = Membership.objects.filter(pk=pk, status="approved").update(status="suspended", session_version=F("session_version") + 1)
+        changed = Membership.objects.filter(pk=pk, status=subject.status).update(status="suspended", session_version=F("session_version") + 1)
         if not changed:
             return HttpResponse(status=409)
-        AuditEvent.objects.create(actor=request.user, subject=subject, action="revoke", previous="approved", current="suspended")
+        AuditEvent.objects.create(actor=request.user, subject=subject, action="revoke", previous=subject.status, current="suspended")
         subject.user.is_active = False
         subject.user.save(update_fields=['is_active'])
         for session in Session.objects.iterator():

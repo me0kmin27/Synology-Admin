@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_existing_active_members_seed_capacity_without_deleting_accounts (tests.test_group_migration.GroupMigrationTests.test_existing_active_members_seed_capacity_without_deleting_accounts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_group_migration.py", line 24, in test_existing_active_members_seed_capacity_without_deleting_accounts
+    self.assertEqual(CurrentTenant.objects.get(pk=tenant.pk).max_accounts, 2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 2
+
+----------------------------------------------------------------------
+Ran 1 test in 0.029s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).

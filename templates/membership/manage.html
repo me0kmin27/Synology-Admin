@@ -25,5 +25,5 @@
 <label>NAS 외부 식별자 <input name="external_id" maxlength="128" required></label>
 <label><input type="checkbox" name="ownership_confirmed" required>관리자가 별도 경로로 소유 관계를 확인했습니다 (앱 자동 검증 아님)</label>
 <input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"><button>식별자 매핑 등록</button></form>
-<form method="post" action="/manage/{{ member.pk }}/revoke/">{% csrf_token %}
+{% endif %}{% if member.user.is_active %}<form method="post" action="/manage/{{ member.pk }}/revoke/">{% csrf_token %}
 <input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"><button>포털 계정 폐기 (NAS 삭제 없음)</button></form>{% endif %}</section>{% empty %}<p>회원 없음</p>{% endfor %}</html>

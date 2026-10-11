@@ -9,9 +9,9 @@ from django.views.debug import SafeExceptionReporterFilter
 @override_settings(SECURE_SSL_REDIRECT=False, DEBUG=False)
 class ErrorReportPrivacyTests(TestCase):
     def test_custom_auth_views_redact_post_data_from_error_reports(self):
-        from membership import views
+        from membership import views, groups
         user = User.objects.create_user('review-user')
-        for view in [views.signup, views.approve, views.revoke, views.assign, views.link]:
+        for view in [views.signup, views.approve, views.revoke, views.assign, views.link, groups.limits, groups.role, groups.quota]:
             with self.subTest(view=view.__name__):
                 request = RequestFactory().post('/', {
                     'password': 'synthetic-sensitive-value',

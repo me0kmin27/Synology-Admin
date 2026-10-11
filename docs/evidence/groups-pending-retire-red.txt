@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_pending_and_legacy_suspended_accounts_can_be_retired (tests.test_groups.GroupTests.test_pending_and_legacy_suspended_accounts_can_be_retired)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_groups.py", line 29, in test_pending_and_legacy_suspended_accounts_can_be_retired
+    self.assertEqual(self.post(f'/manage/{subject.pk}/revoke/').status_code, 302)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 409 != 302
+
+----------------------------------------------------------------------
+Ran 1 test in 0.293s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).

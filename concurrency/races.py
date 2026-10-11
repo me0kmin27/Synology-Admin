@@ -105,6 +105,32 @@ class PostgreSQLRaces(TransactionTestCase):
         self.tenant.refresh_from_db()
         self.assertLessEqual(Membership.objects.filter(tenant=self.tenant, status='approved', user__is_active=True).count(), self.tenant.max_accounts)
 
+    def test_concurrent_login_cannot_recreate_authenticated_retired_session(self):
+        from django.contrib.auth.backends import ModelBackend
+        subject = self.member('logging-in', status='approved')
+        browser, root_browser = Client(), self.browser(self.root)
+        authenticated, release = Event(), Event()
+        original = ModelBackend.authenticate
+
+        def pause_after_password(backend, request, **credentials):
+            user = original(backend, request, **credentials)
+            if user and user.pk == subject.user_id:
+                authenticated.set()
+                if not release.wait(8):
+                    raise AssertionError('Login race timed out')
+            return user
+
+        with patch.object(ModelBackend, 'authenticate', pause_after_password), ThreadPoolExecutor(max_workers=1) as pool:
+            login = pool.submit(self.request, browser, '/login/', 'race-login', username='logging-in')
+            try:
+                self.assertTrue(authenticated.wait(5))
+                self.assertEqual(root_browser.post(f'/manage/{subject.pk}/revoke/', {'password': PASSWORD}).status_code, 302)
+            finally:
+                release.set()
+            self.assertEqual(login.result(timeout=10), 302)
+        self.assertNotIn('_auth_user_id', browser.session)
+        self.assertEqual(browser.get('/service/').status_code, 302)
+
     def test_actor_revocation_waits_for_inflight_authorized_write(self):
         subject = self.member('applicant')
         actor_browser, root_browser = self.browser(self.actor.user), self.browser(self.root)
