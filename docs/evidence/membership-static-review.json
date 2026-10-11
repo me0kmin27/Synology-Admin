@@ -1,0 +1,11 @@
+{
+  "scope": "added production lines, membership/config/scripts",
+  "findings": {
+    "hardcoded_secret": [],
+    "shell_injection": [],
+    "eval_exec": [],
+    "unsafe_deserialization": [],
+    "sql_interpolation": []
+  },
+  "independent_review": "parent must arrange; implementer self-review is not independent approval"
+}

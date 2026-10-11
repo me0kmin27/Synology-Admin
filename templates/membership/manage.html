@@ -1,0 +1,16 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><title>회원 관리</title><h1>회원 관리</h1>
+<p>포털 승인과 NAS 계정 연결은 별개입니다. 모든 변경에 포털 비밀번호 재인증이 필요합니다.</p>
+{% for member in members %}<section><h2>{{ member.user.username }}</h2><p>{{ member.status }} / {{ member.tenant.name }}</p>
+{% if global_admin and not member.tenant_id %}<form method="post" action="/manage/{{ member.pk }}/assign/">{% csrf_token %}
+<select name="tenant">{% for tenant in tenants %}<option value="{{ tenant.pk }}">{{ tenant.name }}</option>{% endfor %}</select>
+<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"><button>테넌트 배정</button></form>{% endif %}
+{% if member.status == 'pending' %}<form method="post" action="/manage/{{ member.pk }}/approve/">{% csrf_token %}
+<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"><button>승인</button></form>{% endif %}
+{% if member.status == 'approved' %}
+<p>NAS 식별자 매핑: {{ member.nasbinding.external_id|default:"미등록" }} (NAS 검증/프로비저닝 아님)</p>
+<form method="post" action="/manage/{{ member.pk }}/link/">{% csrf_token %}
+<label>NAS 외부 식별자 <input name="external_id" maxlength="128" required></label>
+<label><input type="checkbox" name="ownership_confirmed" required>관리자가 별도 경로로 소유 관계를 확인했습니다 (앱 자동 검증 아님)</label>
+<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"><button>식별자 매핑 등록</button></form>
+<form method="post" action="/manage/{{ member.pk }}/revoke/">{% csrf_token %}
+<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"><button>승인 취소</button></form>{% endif %}</section>{% empty %}<p>회원 없음</p>{% endfor %}</html>

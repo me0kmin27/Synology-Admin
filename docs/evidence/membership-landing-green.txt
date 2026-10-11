@@ -1,0 +1,41 @@
+Found 8 test(s).
+Operations to perform:
+  Apply all migrations: auth, contenttypes, membership, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying membership.0001_initial... OK
+  Applying membership.0002_auditevent... OK
+  Applying membership.0003_membership_session_version... OK
+  Applying membership.0004_nasbinding... OK
+  Applying membership.0005_authattempt... OK
+  Applying membership.0006_membership_membership_valid_status_and_more... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+test_database_failure_is_sanitized (tests.test_web.WebTests.test_database_failure_is_sanitized) ... ok
+test_health_checks_real_database (tests.test_web.WebTests.test_health_checks_real_database) ... ok
+test_health_is_not_cacheable (tests.test_web.WebTests.test_health_is_not_cacheable) ... ok
+test_http_redirects_to_https (tests.test_web.WebTests.test_http_redirects_to_https) ... ok
+test_landing_is_truthful (tests.test_web.WebTests.test_landing_is_truthful) ... ok
+test_no_public_admin_or_nas_routes (tests.test_web.WebTests.test_no_public_admin_or_nas_routes) ... ok
+test_security_headers (tests.test_web.WebTests.test_security_headers) ... ok
+test_untrusted_host_is_rejected (tests.test_web.WebTests.test_untrusted_host_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.006s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

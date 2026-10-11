@@ -30,7 +30,11 @@ with tempfile.TemporaryDirectory(dir=runtime) as directory:
     with connection.cursor() as cursor:
         cursor.execute("SELECT COUNT(*) FROM django_migrations")
         migrations = cursor.fetchone()[0]
-    assert migrations == 15, migrations
+    from django.db.migrations.executor import MigrationExecutor
+    executor = MigrationExecutor(connection)
+    assert not executor.migration_plan(executor.loader.graph.leaf_nodes()), "Unapplied migrations"
+    executor.loader.check_consistent_history(connection)
+    assert set(executor.loader.disk_migrations).issubset(executor.loader.applied_migrations), "Missing migration records"
     with make_server("127.0.0.1", 0, application) as server:
         thread = Thread(target=server.serve_forever, daemon=True)
         thread.start()

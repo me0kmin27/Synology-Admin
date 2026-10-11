@@ -1,0 +1,71 @@
+Found 9 test(s).
+Operations to perform:
+  Apply all migrations: auth, contenttypes, membership, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying membership.0001_initial... OK
+  Applying membership.0002_auditevent... OK
+  Applying membership.0003_membership_session_version... OK
+  Applying membership.0004_nasbinding... OK
+  Applying membership.0005_authattempt... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+test_admin_approval_is_scoped_audited_and_requires_reauthentication (tests.test_membership.SignupTests.test_admin_approval_is_scoped_audited_and_requires_reauthentication) ... ok
+test_login_throttle_is_shared_across_clients (tests.test_membership.SignupTests.test_login_throttle_is_shared_across_clients) ... ok
+test_management_ui_assigns_unassigned_applicant_only_by_global_admin (tests.test_membership.SignupTests.test_management_ui_assigns_unassigned_applicant_only_by_global_admin) ... ok
+test_membership_database_rejects_invalid_states (tests.test_membership.SignupTests.test_membership_database_rejects_invalid_states) ...
+  test_membership_database_rejects_invalid_states (tests.test_membership.SignupTests.test_membership_database_rejects_invalid_states) (fields={'status': 'arbitrary', 'tenant': <Tenant: Tenant object (1)>}) ... FAIL
+  test_membership_database_rejects_invalid_states (tests.test_membership.SignupTests.test_membership_database_rejects_invalid_states) (fields={'role': 'owner', 'tenant': <Tenant: Tenant object (1)>}) ... FAIL
+  test_membership_database_rejects_invalid_states (tests.test_membership.SignupTests.test_membership_database_rejects_invalid_states) (fields={'status': 'approved'}) ... FAIL
+test_nas_link_is_unique_identifier_mapping_not_provisioning (tests.test_membership.SignupTests.test_nas_link_is_unique_identifier_mapping_not_provisioning) ... ok
+test_pending_login_status_and_post_logout (tests.test_membership.SignupTests.test_pending_login_status_and_post_logout) ... ok
+test_revoke_ends_all_active_sessions_and_prevents_replay (tests.test_membership.SignupTests.test_revoke_ends_all_active_sessions_and_prevents_replay) ... ok
+test_signup_creates_pending_nonprivileged_identity (tests.test_membership.SignupTests.test_signup_creates_pending_nonprivileged_identity) ... ok
+test_weak_password_is_rejected (tests.test_membership.SignupTests.test_weak_password_is_rejected) ... ok
+
+======================================================================
+FAIL: test_membership_database_rejects_invalid_states (tests.test_membership.SignupTests.test_membership_database_rejects_invalid_states) (fields={'status': 'arbitrary', 'tenant': <Tenant: Tenant object (1)>})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_membership.py", line 129, in test_membership_database_rejects_invalid_states
+    with self.subTest(fields=fields), self.assertRaises(IntegrityError), transaction.atomic():
+                                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: IntegrityError not raised
+
+======================================================================
+FAIL: test_membership_database_rejects_invalid_states (tests.test_membership.SignupTests.test_membership_database_rejects_invalid_states) (fields={'role': 'owner', 'tenant': <Tenant: Tenant object (1)>})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_membership.py", line 129, in test_membership_database_rejects_invalid_states
+    with self.subTest(fields=fields), self.assertRaises(IntegrityError), transaction.atomic():
+                                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: IntegrityError not raised
+
+======================================================================
+FAIL: test_membership_database_rejects_invalid_states (tests.test_membership.SignupTests.test_membership_database_rejects_invalid_states) (fields={'status': 'approved'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_membership.py", line 129, in test_membership_database_rejects_invalid_states
+    with self.subTest(fields=fields), self.assertRaises(IntegrityError), transaction.atomic():
+                                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: IntegrityError not raised
+
+----------------------------------------------------------------------
+Ran 9 tests in 2.052s
+
+FAILED (failures=3)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
