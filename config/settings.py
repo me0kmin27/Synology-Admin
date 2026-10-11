@@ -52,6 +52,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 AUTH_ATTEMPT_LIMIT = 20
+MFA_ENCRYPTION_KEYS = [key for key in os.environ.get("MFA_ENCRYPTION_KEYS", "").split(",") if key]
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/account/"
 LOGOUT_REDIRECT_URL = "/login/"
