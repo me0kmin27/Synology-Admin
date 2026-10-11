@@ -40,6 +40,71 @@ class PostgreSQLRaces(TransactionTestCase):
         finally:
             connections.close_all()
 
+    def simultaneous(self, requests):
+        from django.db import transaction
+        from membership.locking import POLICY_LOCK_ID
+        with ThreadPoolExecutor(max_workers=len(requests)) as pool:
+            with transaction.atomic():
+                with connection.cursor() as cursor:
+                    cursor.execute('SELECT pg_advisory_xact_lock(%s)', [POLICY_LOCK_ID])
+                futures = [pool.submit(self.request, browser, path, f'queued-race-{i}', **data)
+                           for i, (browser, path, data) in enumerate(requests)]
+                deadline = time.monotonic() + 5
+                blocked = 0
+                while time.monotonic() < deadline:
+                    with connection.cursor() as cursor:
+                        cursor.execute('SELECT pg_stat_clear_snapshot()')
+                        cursor.execute("SELECT count(*) FROM pg_stat_activity WHERE application_name LIKE 'queued-race-%%' AND cardinality(pg_blocking_pids(pid)) > 0")
+                        blocked = cursor.fetchone()[0]
+                    if blocked == len(requests):
+                        break
+                    time.sleep(0.02)
+                self.assertEqual(blocked, len(requests), 'Workers did not contend on the real PostgreSQL policy lock')
+            return [future.result(timeout=10) for future in futures]
+
+    def test_last_account_slot_has_one_winner(self):
+        self.tenant.max_accounts = 3  # two active managers plus one remaining slot
+        self.tenant.save()
+        subjects = [self.member('first'), self.member('second')]
+        requests = [(self.browser(self.actor.user), f'/manage/{subject.pk}/approve/', {}) for subject in subjects]
+        self.assertEqual(sorted(self.simultaneous(requests)), [302, 409])
+        self.assertEqual(Membership.objects.filter(tenant=self.tenant, status='approved', user__is_active=True).count(), 3)
+        self.assertEqual(AuditEvent.objects.filter(action='approve').count(), 1)
+
+    def test_mutual_retirement_retains_one_active_manager(self):
+        backup = Membership.objects.get(user__username='backup')
+        requests = [(self.browser(self.actor.user), f'/manage/{backup.pk}/revoke/', {}),
+                    (self.browser(backup.user), f'/manage/{self.actor.pk}/revoke/', {})]
+        self.assertEqual(sorted(self.simultaneous(requests)), [302, 403])
+        self.assertEqual(Membership.objects.filter(tenant=self.tenant, role='admin', status='approved', user__is_active=True).count(), 1)
+        self.assertEqual(AuditEvent.objects.filter(action='revoke').count(), 1)
+
+    def test_concurrent_manager_demotions_retain_one_manager(self):
+        backup = Membership.objects.get(user__username='backup')
+        requests = [(self.browser(self.root), f'/manage/{subject.pk}/role/', {'role': 'member'})
+                    for subject in (self.actor, backup)]
+        self.assertEqual(sorted(self.simultaneous(requests)), [302, 409])
+        self.assertEqual(Membership.objects.filter(tenant=self.tenant, role='admin', status='approved').count(), 1)
+
+    def test_concurrent_quota_allocation_does_not_oversubscribe(self):
+        self.tenant.storage_limit_bytes = 100
+        self.tenant.save()
+        subjects = [self.member('first', status='approved'), self.member('second', status='approved')]
+        requests = [(self.browser(self.actor.user), f'/manage/{subject.pk}/quota/', {'quota_bytes': '60'}) for subject in subjects]
+        self.assertEqual(sorted(self.simultaneous(requests)), [302, 409])
+        from membership.groups import allocated_bytes
+        self.assertEqual(allocated_bytes(self.tenant), 60)
+
+    def test_reduction_and_approval_preserve_account_cap(self):
+        self.tenant.max_accounts = 3
+        self.tenant.save()
+        subject = self.member('applicant')
+        requests = [(self.browser(self.actor.user), f'/manage/{subject.pk}/approve/', {}),
+                    (self.browser(self.root), f'/manage/groups/{self.tenant.pk}/limits/', {'max_accounts': '2', 'storage_limit_bytes': '0'})]
+        self.assertEqual(sorted(self.simultaneous(requests)), [302, 409])
+        self.tenant.refresh_from_db()
+        self.assertLessEqual(Membership.objects.filter(tenant=self.tenant, status='approved', user__is_active=True).count(), self.tenant.max_accounts)
+
     def test_actor_revocation_waits_for_inflight_authorized_write(self):
         subject = self.member('applicant')
         actor_browser, root_browser = self.browser(self.actor.user), self.browser(self.root)

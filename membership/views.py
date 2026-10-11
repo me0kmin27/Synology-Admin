@@ -58,7 +58,7 @@ def revoke(request, pk):
         return HttpResponseForbidden()
     with transaction.atomic():
         subject = get_object_or_404(managed_members(request.user).select_for_update(), pk=pk)
-        if subject.user_id == request.user.pk:
+        if subject.user_id == request.user.pk or subject.user.is_superuser:
             return HttpResponseForbidden()
         if subject.status == "suspended" and not subject.user.is_active:
             return redirect("/account/")

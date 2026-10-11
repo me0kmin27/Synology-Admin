@@ -9,7 +9,7 @@ from functools import wraps
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.exceptions import PermissionDenied
+
 from django.db import connection, transaction
 from django.http import HttpResponse
 
@@ -28,7 +28,7 @@ def authorized_mutation(view):
             # Never trust the User cached by AuthenticationMiddleware before waiting.
             actor = get_user_model().objects.select_for_update().get(pk=request.user.pk)
             if not actor.is_active or not actor.check_password(request.POST.get('password', '')):
-                raise PermissionDenied
+                return HttpResponse(status=403)
             request.user = actor
             return view(request, *args, **kwargs)
     return wrapped

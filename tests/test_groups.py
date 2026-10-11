@@ -21,6 +21,14 @@ class GroupTests(TestCase):
     def post(self, path, **data):
         return self.client.post(path, {'password': PASSWORD, **data})
 
+    def test_group_manager_cannot_retire_global_admin_with_membership(self):
+        manager = self.member('manager', status='approved', role='admin')
+        root_member = Membership.objects.create(user=self.root, tenant=self.tenant, status='approved')
+        self.client.force_login(manager.user)
+        self.assertEqual(self.post(f'/manage/{root_member.pk}/revoke/').status_code, 403)
+        self.root.refresh_from_db()
+        self.assertTrue(self.root.is_active)
+
     def test_sqlite_mutations_fail_closed_without_explicit_development_opt_in(self):
         from django.db import connection
         if connection.vendor != 'sqlite':
