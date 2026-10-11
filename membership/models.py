@@ -10,6 +10,20 @@ class AuthAttempt(models.Model):
 
 class Tenant(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    signup_enabled = models.BooleanField(default=True)
+    max_accounts = models.PositiveBigIntegerField(default=0)
+    storage_limit_bytes = models.PositiveBigIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
+class GroupAudit(models.Model):
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    tenant = models.ForeignKey(Tenant, on_delete=models.PROTECT)
+    action = models.CharField(max_length=20)
+    details = models.JSONField(default=dict)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class AuditEvent(models.Model):
@@ -37,6 +51,7 @@ class Membership(models.Model):
         ]
 
     session_version = models.PositiveIntegerField(default=0)
+    quota_bytes = models.PositiveBigIntegerField(default=0)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     tenant = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.PROTECT)
     status = models.CharField(max_length=12, default="pending", choices=[(x, x) for x in ("pending", "approved", "suspended")])

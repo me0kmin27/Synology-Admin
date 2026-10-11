@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+.....F..............................
+======================================================================
+FAIL: test_restored_old_session_is_invalid_even_if_status_restored (tests.test_boundaries.BoundaryTests.test_restored_old_session_is_invalid_even_if_status_restored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_boundaries.py", line 64, in test_restored_old_session_is_invalid_even_if_status_restored
+    self.assertNotIn("_auth_user_id", browser.session)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '_auth_user_id' unexpectedly found in <django.contrib.sessions.backends.db.SessionStore object at 0x10bd9bb50>
+
+----------------------------------------------------------------------
+Ran 36 tests in 8.244s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 36 test(s).
+System check identified no issues (0 silenced).

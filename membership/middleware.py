@@ -11,6 +11,8 @@ class MembershipSessionMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        if request.session.get('_auth_user_id') and not request.user.is_authenticated:
+            request.session.flush()
         if request.user.is_authenticated:
             version = Membership.objects.filter(user=request.user).values_list("session_version", flat=True).first()
             if request.session.get("membership_version") != version:

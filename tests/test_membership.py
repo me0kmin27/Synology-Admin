@@ -5,7 +5,9 @@ from django.test import TestCase, override_settings
 @override_settings(SECURE_SSL_REDIRECT=False)
 class SignupTests(TestCase):
     def test_pending_login_status_and_post_logout(self):
-        self.client.post('/signup/', {'username': 'pending', 'password1': 'Long-test-passphrase-829!', 'password2': 'Long-test-passphrase-829!'})
+        from membership.models import Tenant
+        tenant = Tenant.objects.create(max_accounts=100, name='Signup')
+        self.client.post('/signup/', {'username': 'pending', 'password1': 'Long-test-passphrase-829!', 'password2': 'Long-test-passphrase-829!', 'tenant': tenant.pk})
         response = self.client.post('/login/', {'username': 'pending', 'password': 'Long-test-passphrase-829!'})
         self.assertRedirects(response, '/account/', fetch_redirect_response=False)
         self.assertContains(self.client.get('/account/'), 'pending')
@@ -16,7 +18,7 @@ class SignupTests(TestCase):
 
     def test_admin_approval_is_scoped_audited_and_requires_reauthentication(self):
         from membership.models import Membership, Tenant
-        tenant = Tenant.objects.create(name='A')
+        tenant = Tenant.objects.create(max_accounts=100, name='A')
         admin = User.objects.create_user('operator', password='Operator-passphrase-829!')
         Membership.objects.create(user=admin, tenant=tenant, status='approved', role='admin')
         user = User.objects.create_user('subject')
@@ -31,7 +33,7 @@ class SignupTests(TestCase):
         event = AuditEvent.objects.get(subject=subject)
         self.assertEqual((event.actor_id, event.action, event.previous, event.current), (admin.pk, 'approve', 'pending', 'approved'))
         self.assertEqual(self.client.post(url, {'password': 'Operator-passphrase-829!'}).status_code, 409)
-        other = Membership.objects.create(user=User.objects.create_user('other'), tenant=Tenant.objects.create(name='B'))
+        other = Membership.objects.create(user=User.objects.create_user('other'), tenant=Tenant.objects.create(max_accounts=100, name='B'))
         self.assertEqual(self.client.post(f'/manage/{other.pk}/approve/', {'password': 'Operator-passphrase-829!'}).status_code, 404)
         self.assertEqual(self.client.get(url).status_code, 405)
         self.client.force_login(user)
@@ -41,7 +43,7 @@ class SignupTests(TestCase):
         from membership.models import Membership, Tenant, AuditEvent
         from django.test import Client
         from django.contrib.sessions.models import Session
-        tenant = Tenant.objects.create(name='A')
+        tenant = Tenant.objects.create(max_accounts=100, name='A')
         admin = User.objects.create_superuser('root', password='Operator-passphrase-829!')
         user = User.objects.create_user('subject', password='Member-passphrase-829!')
         subject = Membership.objects.create(user=user, tenant=tenant, status='approved')
@@ -60,11 +62,11 @@ class SignupTests(TestCase):
         for browser in browsers:
             self.assertEqual(browser.get('/service/').status_code, 302)
         browsers[0].post('/login/', {'username': 'subject', 'password': 'Member-passphrase-829!'})
-        self.assertEqual(browsers[0].get('/service/').status_code, 403)
+        self.assertEqual(browsers[0].get('/service/').status_code, 302)
 
     def test_management_ui_assigns_unassigned_applicant_only_by_global_admin(self):
         from membership.models import Membership, Tenant, AuditEvent
-        tenant = Tenant.objects.create(name='A')
+        tenant = Tenant.objects.create(max_accounts=100, name='A')
         root = User.objects.create_superuser('root', password='Operator-passphrase-829!')
         subject = Membership.objects.create(user=User.objects.create_user('applicant'))
         self.client.force_login(root)
@@ -86,7 +88,7 @@ class SignupTests(TestCase):
 
     def test_nas_link_is_unique_identifier_mapping_not_provisioning(self):
         from membership.models import Membership, Tenant, AuditEvent
-        tenant = Tenant.objects.create(name='A')
+        tenant = Tenant.objects.create(max_accounts=100, name='A')
         root = User.objects.create_superuser('root', password='Operator-passphrase-829!')
         subject = Membership.objects.create(user=User.objects.create_user('subject'), tenant=tenant, status='approved')
         self.client.force_login(root)
@@ -124,7 +126,7 @@ class SignupTests(TestCase):
     def test_membership_database_rejects_invalid_states(self):
         from membership.models import Membership, Tenant
         from django.db import IntegrityError, transaction
-        tenant = Tenant.objects.create(name='A')
+        tenant = Tenant.objects.create(max_accounts=100, name='A')
         for i, fields in enumerate(({'status': 'arbitrary', 'tenant': tenant}, {'role': 'owner', 'tenant': tenant}, {'status': 'approved'})):
             with self.subTest(fields=fields), self.assertRaises(IntegrityError), transaction.atomic():
                 Membership.objects.create(user=User.objects.create_user(f'bad-{i}'), **fields)
@@ -135,12 +137,14 @@ class SignupTests(TestCase):
         self.assertTrue(settings.SESSION_EXPIRE_AT_BROWSER_CLOSE)
 
     def test_signup_creates_pending_nonprivileged_identity(self):
+        from membership.models import Tenant
+        tenant = Tenant.objects.create(max_accounts=100, name='Signup')
         response = self.client.get('/signup/')
         self.assertEqual(response.status_code, 200)
         response = self.client.post('/signup/', {
             'username': 'applicant', 'password1': 'Long-test-passphrase-829!',
             'password2': 'Long-test-passphrase-829!', 'is_staff': 'true',
-            'is_superuser': 'true', 'status': 'approved', 'role': 'admin', 'tenant': '999',
+            'is_superuser': 'true', 'status': 'approved', 'role': 'admin', 'tenant': tenant.pk,
         })
         self.assertRedirects(response, '/login/', fetch_redirect_response=False)
         user = User.objects.get(username='applicant')
@@ -148,4 +152,4 @@ class SignupTests(TestCase):
         self.assertTrue(user.check_password('Long-test-passphrase-829!'))
         self.assertEqual(user.membership.status, 'pending')
         self.assertEqual(user.membership.role, 'member')
-        self.assertIsNone(user.membership.tenant_id)
+        self.assertEqual(user.membership.tenant_id, tenant.pk)

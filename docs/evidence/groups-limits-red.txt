@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_only_global_admin_sets_valid_group_limits_with_audit (tests.test_groups.GroupTests.test_only_global_admin_sets_valid_group_limits_with_audit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_groups.py", line 27, in test_only_global_admin_sets_valid_group_limits_with_audit
+    self.assertEqual(self.post(url, max_accounts='3', storage_limit_bytes='4096').status_code, 302)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 302
+
+----------------------------------------------------------------------
+Ran 1 test in 0.076s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).

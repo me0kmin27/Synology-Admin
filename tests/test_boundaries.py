@@ -8,8 +8,8 @@ from membership.models import Membership, Tenant, AuditEvent, NasBinding
 @override_settings(SECURE_SSL_REDIRECT=False)
 class BoundaryTests(TestCase):
     def setUp(self):
-        self.tenant = Tenant.objects.create(name="visible-tenant")
-        self.other_tenant = Tenant.objects.create(name="secret-tenant")
+        self.tenant = Tenant.objects.create(max_accounts=100, name="visible-tenant")
+        self.other_tenant = Tenant.objects.create(max_accounts=100, name="secret-tenant")
         self.password = "Operator-passphrase-829!"
         self.operator = User.objects.create_user("operator", password=self.password)
         self.operator_member = Membership.objects.create(user=self.operator, tenant=self.tenant, status="approved", role="admin")

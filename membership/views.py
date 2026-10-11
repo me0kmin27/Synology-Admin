@@ -1,7 +1,7 @@
 import re
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from .forms import SignupForm
 from django.contrib.sessions.models import Session
 from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, transaction
@@ -12,6 +12,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods, require_POST
 
 from .models import AuditEvent, Membership, NasBinding, Tenant
+from .groups import active_accounts
 
 
 def managed_members(user):
@@ -35,6 +36,9 @@ def approve(request, pk):
             return HttpResponseForbidden()
         if subject.status != "pending" or subject.tenant_id is None:
             return HttpResponse(status=409)
+        tenant = Tenant.objects.select_for_update().get(pk=subject.tenant_id)
+        if not subject.user.is_active or active_accounts(tenant).count() >= tenant.max_accounts:
+            return HttpResponse(status=409)
         changed = Membership.objects.filter(pk=pk, status="pending").update(status="approved")
         if not changed:
             return HttpResponse(status=409)
@@ -53,12 +57,18 @@ def revoke(request, pk):
         subject = get_object_or_404(managed_members(request.user).select_for_update(), pk=pk)
         if subject.user_id == request.user.pk:
             return HttpResponseForbidden()
+        if subject.status == "suspended" and not subject.user.is_active:
+            return redirect("/account/")
         if subject.status != "approved":
+            return HttpResponse(status=409)
+        if subject.role == 'admin' and active_accounts(subject.tenant).filter(role='admin').count() <= 1:
             return HttpResponse(status=409)
         changed = Membership.objects.filter(pk=pk, status="approved").update(status="suspended", session_version=F("session_version") + 1)
         if not changed:
             return HttpResponse(status=409)
         AuditEvent.objects.create(actor=request.user, subject=subject, action="revoke", previous="approved", current="suspended")
+        subject.user.is_active = False
+        subject.user.save(update_fields=['is_active'])
         for session in Session.objects.iterator():
             if session.get_decoded().get("_auth_user_id") == str(subject.user_id):
                 session.delete()
@@ -140,10 +150,10 @@ def service(request):
 @sensitive_post_parameters()
 @require_http_methods(["GET", "POST"])
 def signup(request):
-    form = UserCreationForm(request.POST or None)
+    form = SignupForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         with transaction.atomic():
             user = form.save()
-            Membership.objects.create(user=user)
+            Membership.objects.create(user=user, tenant=form.cleaned_data['tenant'])
         return redirect("/login/")
     return render(request, "membership/form.html", {"form": form, "title": "포털 가입"})
