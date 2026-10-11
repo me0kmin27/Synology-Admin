@@ -6,7 +6,7 @@
 - 승인·활성 그룹관리자: 자신의 그룹 전체. 활성 전역 superuser: 전체 읽기. 단순 is_staff는 권한 아님.
 - 생성은 전역 관리자도 승인된 그룹 membership 필요. 임의 그룹 대리 생성은 제공하지 않음.
 - tenant/author는 서버에서 결정. 요청의 위조 필드 무시. pending/suspended/retired/비회원 거부, 범위 밖 상세 404.
-- 제목 160자/본문 10,000자 검증, HTML 자동 escape, 25건 pagination, no-store(오류/CSRF 포함).
+- 제목 160자/본문 10,000자 검증, HTML 자동 escape, 25건 ID cursor pagination (`before`, 상세 계약 `support-pagination.md`), no-store(오류/CSRF 포함).
 - CSRF POST 생성과 원자적 TicketAudit(created) 기록. 감사에는 제목/본문/접속 비밀을 저장하지 않음.
 - 사용자/API를 통한 작성자·tenant·본문·감사 변경/삭제 경로 없음. FK PROTECT로 작성자/티켓 삭제 시 이력 보호.
 - **불변 경계는 웹 애플리케이션 권한 경계**이며 DB 소유자/직접 SQL에 대한 변조 방지·WORM 보관은 아님. 운영 DB 계정 권한/외부 감사 보관 정책은 미완료.

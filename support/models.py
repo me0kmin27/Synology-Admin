@@ -3,6 +3,12 @@ from django.db import models
 
 
 class Ticket(models.Model):
+    class Meta:
+        indexes = [
+            models.Index(fields=['tenant', 'id'], name='ticket_tenant_cursor'),
+            models.Index(fields=['tenant', 'author', 'id'], name='ticket_owner_cursor'),
+        ]
+
     tenant = models.ForeignKey('membership.Tenant', on_delete=models.PROTECT)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     title = models.CharField(max_length=160)
@@ -11,6 +17,9 @@ class Ticket(models.Model):
 
 
 class TicketReply(models.Model):
+    class Meta:
+        indexes = [models.Index(fields=['ticket', 'id'], name='reply_ticket_cursor')]
+
     ticket = models.ForeignKey(Ticket, on_delete=models.PROTECT, related_name="replies")
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     body = models.TextField(max_length=10000)

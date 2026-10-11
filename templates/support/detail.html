@@ -1,5 +1,7 @@
 <!doctype html><html lang="ko"><meta charset="utf-8"><title>지원 티켓</title>
 <h1>{{ ticket.title }}</h1><p>{{ ticket.created_at }}</p><pre>{{ ticket.body }}</pre><h2>답변</h2>
 {% for reply in replies %}<article><p>{{ reply.author.username }} · {{ reply.created_at }}</p><pre>{{ reply.body }}</pre></article>{% empty %}<p>답변 없음</p>{% endfor %}
+<nav aria-label="답변 페이지"><a href="/support/{{ ticket.pk }}/">처음 답변</a>
+{% if next_cursor %}<a rel="next" href="/support/{{ ticket.pk }}/?after={{ next_cursor }}">다음 답변</a>{% endif %}</nav>
 <form method="post" action="/support/{{ ticket.pk }}/replies/">{% csrf_token %}{{ form.as_p }}<button type="submit">답변 등록</button></form>
 <a href="/support/">목록</a></html>

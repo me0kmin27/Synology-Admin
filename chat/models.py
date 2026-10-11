@@ -9,6 +9,7 @@ class Conversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        indexes = [models.Index(fields=['tenant', 'id'], name='conversation_tenant_cursor')]
         constraints = [models.UniqueConstraint(fields=['tenant', 'owner'], name='chat_unique_owner_tenant')]
 
 

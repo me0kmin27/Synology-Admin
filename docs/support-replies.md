@@ -3,7 +3,7 @@
 Base: merged PR #5, main `835d010c8be9fd5f5cf0767e559176f25c47fab1`.
 
 ## Scope
-- Ticket detail renders chronological replies (`created_at`, then `pk`) and a CSRF POST form. `/support/<id>/replies/` is POST-only.
+- Ticket detail now renders ID-ordered cursor pages of at most 25 replies with joined authors (see `support-pagination.md`) and a CSRF POST form. `/support/<id>/replies/` is POST-only.
 - Reuses ticket visibility: active approved owner in current company, approved company admin within own company, active global superuser. `is_staff` alone grants nothing. No company-wide member visibility or internal/private notes.
 - Server selects the visible ticket and authenticated author; tenant is inherited solely through the ticket FK, not duplicated or accepted from input. Replies do not change the ticket author.
 - Plain text, trimmed/nonempty, at most 10,000 characters, template autoescape; uploaded files explicitly rejected. No attachment storage, edit/delete, assignment, notification or state transitions.

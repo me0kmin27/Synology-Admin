@@ -1,0 +1,83 @@
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 1 test(s).
+Operations to perform:
+  Apply all migrations: auth, chat, contenttypes, membership, sessions, support
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying membership.0001_initial... OK
+  Applying membership.0002_auditevent... OK
+  Applying membership.0003_membership_session_version... OK
+  Applying membership.0004_nasbinding... OK
+  Applying membership.0005_authattempt... OK
+  Applying membership.0006_membership_membership_valid_status_and_more... OK
+  Applying membership.0007_tenant_signup_enabled... OK
+  Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+  Applying membership.0009_membership_quota_bytes... OK
+  Applying membership.0010_seed_existing_capacity... OK
+  Applying chat.0001_initial... OK
+  Applying chat.0002_message... OK
+  Applying chat.0003_ratewindow... OK
+  Applying sessions.0001_initial... OK
+  Applying support.0001_initial... OK
+  Applying support.0002_ticketreply...test_scope_and_cursor_columns_have_composite_indexes (tests.test_support_pagination.SupportPaginationTests.test_scope_and_cursor_columns_have_composite_indexes) ...
+  test_scope_and_cursor_columns_have_composite_indexes (tests.test_support_pagination.SupportPaginationTests.test_scope_and_cursor_columns_have_composite_indexes) (model='Ticket', columns=['tenant_id', 'id']) ... FAIL
+  test_scope_and_cursor_columns_have_composite_indexes (tests.test_support_pagination.SupportPaginationTests.test_scope_and_cursor_columns_have_composite_indexes) (model='Ticket', columns=['tenant_id', 'author_id', 'id']) ... FAIL
+  test_scope_and_cursor_columns_have_composite_indexes (tests.test_support_pagination.SupportPaginationTests.test_scope_and_cursor_columns_have_composite_indexes) (model='TicketReply', columns=['ticket_id', 'id']) ... FAIL
+  test_scope_and_cursor_columns_have_composite_indexes (tests.test_support_pagination.SupportPaginationTests.test_scope_and_cursor_columns_have_composite_indexes) (model='Conversation', columns=['tenant_id', 'id']) ... FAIL
+
+======================================================================
+FAIL: test_scope_and_cursor_columns_have_composite_indexes (tests.test_support_pagination.SupportPaginationTests.test_scope_and_cursor_columns_have_composite_indexes) (model='Ticket', columns=['tenant_id', 'id'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_support_pagination.py", line 33, in test_scope_and_cursor_columns_have_composite_indexes
+    self.assertTrue(any(c['index'] and c['columns'] == columns for c in constraints.values()))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_scope_and_cursor_columns_have_composite_indexes (tests.test_support_pagination.SupportPaginationTests.test_scope_and_cursor_columns_have_composite_indexes) (model='Ticket', columns=['tenant_id', 'author_id', 'id'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_support_pagination.py", line 33, in test_scope_and_cursor_columns_have_composite_indexes
+    self.assertTrue(any(c['index'] and c['columns'] == columns for c in constraints.values()))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_scope_and_cursor_columns_have_composite_indexes (tests.test_support_pagination.SupportPaginationTests.test_scope_and_cursor_columns_have_composite_indexes) (model='TicketReply', columns=['ticket_id', 'id'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_support_pagination.py", line 33, in test_scope_and_cursor_columns_have_composite_indexes
+    self.assertTrue(any(c['index'] and c['columns'] == columns for c in constraints.values()))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_scope_and_cursor_columns_have_composite_indexes (tests.test_support_pagination.SupportPaginationTests.test_scope_and_cursor_columns_have_composite_indexes) (model='Conversation', columns=['tenant_id', 'id'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_support_pagination.py", line 33, in test_scope_and_cursor_columns_have_composite_indexes
+    self.assertTrue(any(c['index'] and c['columns'] == columns for c in constraints.values()))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.012s
+
+FAILED (failures=4)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
+System check identified no issues (0 silenced).

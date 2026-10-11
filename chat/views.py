@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import connection
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-from django.core.paginator import Paginator
+from support.pagination import cursor_page
 from django.views.decorators.http import require_http_methods
 from membership.locking import policy_transaction
 from support.views import actor_membership
@@ -25,8 +25,14 @@ def index(request):
         if limited is not None:
             return limited
         if request.method == 'GET':
-            page = Paginator(visible_conversations(request).select_related('owner'), 25).get_page(request.GET.get('page'))
-            return render(request, 'chat/list.html', {'page': page, 'can_start': member and member.status == 'approved'})
+            conversations = visible_conversations(request).select_related('owner')
+            if 'page' in request.GET:
+                return HttpResponse('Use the before cursor, not page numbers.', status=400)
+            try:
+                page = cursor_page(conversations, request.GET.get('before'), descending=True)
+            except ValueError:
+                return HttpResponse('Invalid cursor.', status=400)
+            return render(request, 'chat/list.html', {**page, 'can_start': member and member.status == 'approved'})
         if request.FILES:
             return HttpResponse(status=400)
         conversation, _ = Conversation.objects.get_or_create(tenant_id=member.tenant_id, owner=request.user)

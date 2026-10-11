@@ -5,11 +5,11 @@ from django.core.exceptions import PermissionDenied
 from django.db import connection
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.core.paginator import Paginator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 from membership.locking import policy_transaction
 from membership.models import Membership
+from .pagination import cursor_page
 from .forms import TicketForm, ReplyForm
 from .models import Ticket, TicketAudit, TicketReply
 
@@ -40,15 +40,32 @@ def visible_tickets(request):
 @login_required
 @require_http_methods(['GET'])
 def index(request):
-    page = Paginator(visible_tickets(request), 25).get_page(request.GET.get('page'))
-    return render(request, 'support/list.html', {'page': page})
+    tickets = visible_tickets(request).only('id', 'title')
+    if 'page' in request.GET:
+        return HttpResponse('Use the before cursor, not page numbers.', status=400)
+    try:
+        page = cursor_page(tickets, request.GET.get('before'), descending=True)
+    except ValueError:
+        return HttpResponse('Invalid cursor.', status=400)
+    return render(request, 'support/list.html', page)
 
 
 @login_required
 @require_http_methods(['GET'])
 def detail(request, pk):
     ticket = get_object_or_404(visible_tickets(request), pk=pk)
-    return render(request, 'support/detail.html', {'ticket': ticket, 'replies': ticket.replies.order_by('created_at', 'pk'), 'form': ReplyForm()})
+    return render_replies(request, ticket, ReplyForm())
+
+
+def render_replies(request, ticket, form):
+    try:
+        page = cursor_page(ticket.replies.select_related('author'), request.GET.get('after', '0'))
+    except ValueError:
+        return HttpResponse('Invalid cursor.', status=400)
+    return render(request, 'support/detail.html', {
+        'ticket': ticket, 'replies': page['page'], 'form': form,
+        'next_cursor': page['next_cursor'],
+    })
 
 
 @sensitive_post_parameters('title', 'body')
@@ -88,4 +105,4 @@ def reply(request, pk):
             TicketReply.objects.create(ticket=ticket, author=request.user, **form.cleaned_data)
             TicketAudit.objects.create(ticket=ticket, actor=request.user, action='replied')
             return redirect(f'/support/{ticket.pk}/')
-        return render(request, 'support/detail.html', {'ticket': ticket, 'replies': ticket.replies.order_by('created_at', 'pk'), 'form': form})
+        return render_replies(request, ticket, form)
