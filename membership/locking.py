@@ -6,6 +6,7 @@ out-of-band auth mutations must acquire the same advisory lock first.
 PostgreSQL READ COMMITTED is required; SQLite is opt-in development only.
 """
 from functools import wraps
+from contextlib import contextmanager
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -16,15 +17,21 @@ from django.http import HttpResponse
 POLICY_LOCK_ID = 7310462901
 
 
+@contextmanager
+def policy_transaction():
+    with transaction.atomic():
+        if connection.vendor == 'postgresql':
+            with connection.cursor() as cursor:
+                cursor.execute('SELECT pg_advisory_xact_lock(%s)', [POLICY_LOCK_ID])
+        yield
+
+
 def authorized_mutation(view):
     @wraps(view)
     def wrapped(request, *args, **kwargs):
         if connection.vendor != 'postgresql' and not settings.MEMBERSHIP_ALLOW_UNSAFE_SQLITE:
             return HttpResponse('PostgreSQL is required for membership mutations.', status=503)
-        with transaction.atomic():
-            if connection.vendor == 'postgresql':
-                with connection.cursor() as cursor:
-                    cursor.execute('SELECT pg_advisory_xact_lock(%s)', [POLICY_LOCK_ID])
+        with policy_transaction():
             # Never trust the User cached by AuthenticationMiddleware before waiting.
             actor = get_user_model().objects.select_for_update().get(pk=request.user.pk)
             if not actor.is_active or not actor.check_password(request.POST.get('password', '')):

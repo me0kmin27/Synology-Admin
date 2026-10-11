@@ -60,6 +60,7 @@ class GroupTests(TestCase):
         self.assertContains(response, 'NAS 실제 quota 강제 집행 아님')
         self.client.force_login(manager.user)
         response = self.client.get('/manage/')
+        self.assertContains(response, '그룹 한도: 100 계정 / 0 bytes')
         self.assertNotContains(response, '/limits/')
         self.assertNotContains(response, '/role/')
         self.assertContains(response, f'/manage/{manager.pk}/quota/')

@@ -79,9 +79,10 @@ def revoke(request, pk):
 @login_required
 @require_http_methods(["GET"])
 def manage(request):
+    members = managed_members(request.user)
     return render(request, "membership/manage.html", {
-        "members": managed_members(request.user).select_related("user", "tenant").order_by("pk"),
-        "tenants": Tenant.objects.all() if request.user.is_superuser else [],
+        "members": members.select_related("user", "tenant").order_by("pk"),
+        "tenants": Tenant.objects.all() if request.user.is_superuser else Tenant.objects.filter(pk__in=members.values('tenant_id')),
         "global_admin": request.user.is_superuser,
     })
 

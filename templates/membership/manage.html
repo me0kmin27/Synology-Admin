@@ -1,11 +1,13 @@
 <!doctype html><html lang="ko"><meta charset="utf-8"><title>회원 관리</title><h1>회원 관리</h1>
 <p>포털 승인과 NAS 계정 연결은 별개입니다. 모든 변경에 포털 비밀번호 재인증이 필요합니다.</p>
 <p>포털 예약 용량 정책: NAS 실제 quota 강제 집행 아님. 폐기 시 NAS 파일과 예약 용량은 유지됩니다.</p>
-{% if global_admin %}{% for tenant in tenants %}<section><h2>{{ tenant.name }} 한도</h2>
+{% for tenant in tenants %}<section><h2>{{ tenant.name }} 한도</h2>
+<p>그룹 한도: {{ tenant.max_accounts }} 계정 / {{ tenant.storage_limit_bytes }} bytes</p>
+{% if global_admin %}
 <form method="post" action="/manage/groups/{{ tenant.pk }}/limits/">{% csrf_token %}
 <label>최대 활성 계정 수 (그룹관리자 포함)<input type="number" name="max_accounts" min="0" value="{{ tenant.max_accounts }}" required></label>
 <label>총 예약 용량 bytes<input type="number" name="storage_limit_bytes" min="0" value="{{ tenant.storage_limit_bytes }}" required></label>
-<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"><button>한도 설정</button></form></section>{% endfor %}{% endif %}
+<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"><button>한도 설정</button></form>{% endif %}</section>{% endfor %}
 {% for member in members %}<section><h2>{{ member.user.username }}</h2><p>{{ member.status }} / {{ member.tenant.name }}</p>
 {% if global_admin and not member.tenant_id %}<form method="post" action="/manage/{{ member.pk }}/assign/">{% csrf_token %}
 <select name="tenant">{% for tenant in tenants %}<option value="{{ tenant.pk }}">{{ tenant.name }}</option>{% endfor %}</select>
