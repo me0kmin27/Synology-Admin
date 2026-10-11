@@ -1,1 +1,19 @@
-<html lang="ko"><meta charset="utf-8"><h1>서비스 상태</h1><p>{{ member.tenant.name }}</p><p>NAS 연결 안 됨. 용량 미수집. 실제 NAS 연동은 제공하지 않습니다.</p></html>
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><title>스토리지 대시보드</title>
+<h1>스토리지 대시보드</h1>
+<p>NAS 미연결 · NAS 연결 안 됨. 용량 미수집. 실제 NAS 연동은 제공하지 않습니다.</p>
+<p>포털 배정 정책은 NAS 관측값이 아니며, 아래 수치에 사용하지 않습니다.</p>
+{% for card in cards %}
+<section data-usage="{{ card.kind }}">
+<h2>{% if card.kind == 'account' %}내 계정 · {{ member.user.username }}{% else %}그룹 사용량 · {{ member.tenant.name }}{% endif %}</h2>
+<dl>
+<dt>NAS 할당 용량</dt><dd>{{ card.values.assigned }}</dd>
+<dt>사용 용량 (관측값)</dt><dd>{{ card.values.used }}</dd>
+<dt>남은 용량 (관측값)</dt><dd>{{ card.values.remaining }}</dd>
+<dt>수집 상태</dt><dd>{{ card.values.status }}</dd>
+<dt>최종 관측 시각</dt><dd>{% if card.observed_at %}{{ card.observed_at|date:'c' }}{% else %}관측 없음{% endif %}</dd>
+<dt>출처</dt><dd>{{ card.source|default:'출처 없음' }}</dd>
+</dl></section>
+{% endfor %}
+<p>그룹 수치는 회원 용량의 합계 또는 NAS 물리 여유 공간을 의미하지 않습니다.</p>
+<a href="/account/">회원 상태</a></html>
