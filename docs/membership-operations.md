@@ -1,6 +1,6 @@
 # 회원 기능 운영 경계와 로컬 확인
 
-최신 결정: 2026-10-12 1A/2A/3A/4A 사용자 확정 (`next-decisions.md`). 관리자 OTP 등록·확인·강제의 첫 구현은 `admin-mfa.md` 참조. 배포 서버 `192.168.1.14`/계정 `me0kmin27`은 확정이나 접속·배포는 부모 별도 확인 전 금지. 단독/복수 전체Admin 모두 지원하며 복구 승인 정책 선택·키 백업/훈련은 별도 운영 게이트이고 이전 문구의 custody/hosting 미결정을 대체한다.
+최신 결정: 2026-10-12 1A/2A/3A/4A 사용자 확정 (`next-decisions.md`). 관리자 OTP 등록·확인·강제의 첫 구현은 `admin-mfa.md` 참조. 배포 서버 `192.168.1.14`/계정 `me0kmin27`은 확정이고 부모 SSH 접속 검증 성공. 원격 쓰기·설치·배포는 별도 권한 게이트로 금지. 단독/복수 전체Admin 모두 지원하며 복구 승인 정책 선택·키 백업/훈련은 별도 운영 게이트이고 이전 문구의 custody/hosting 미결정을 대체한다.
 
 포털 그룹 정책 구현/수용 기준은 `membership-group-acceptance.md`, TDD·실제 PostgreSQL 증거는 `evidence/groups-implementation.md` 참조. 이전 보안 리뷰(`evidence/membership-security-review.md`)는 당시 기준선 기록이다. 관리자 OTP 첫 slice 후에도 복구·운영 게이트가 남아 운영 공개와 3단계 전체 수용은 금지다.
 

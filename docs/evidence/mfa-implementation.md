@@ -30,3 +30,12 @@ Base: 801d3fe77f60efd079c6eae483fb2de72a7463de. Isolated feat/admin-otp worktree
   Final CI must be checked against the final head, not the earlier candidate.
 - Independent reviewer/parent owns merge decision. Implementer never merges.
   Recovery and full authentication-stage completion are NOT claimed.
+- Code head 5951654ec0c84bacb3fb6d02c116f36a689ff416: both push run
+  38181039343 and PR run 38181042415 passed verify + postgres-races. Inspected
+  actual logs: 113 SQLite tests, 113 PostgreSQL tests, 20 real concurrency tests
+  (3 explicit MFA tests), 3 Chromium tests. Code-head JSON and excerpt saved.
+  Subsequent evidence/host-status documentation commit needs its own green CI.
+- Parent confirmed read-only SSH connectivity to selected server, Debian 13;
+  docker/python3 absent from PATH and passwordless sudo unavailable. Connection
+  itself no longer a blocker; remote writes/install/deploy still not authorized.
+  No remote action was performed by this implementer.
