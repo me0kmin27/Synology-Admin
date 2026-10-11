@@ -49,8 +49,11 @@ jobs:
           python-version: '3.14'
           cache: pip
       - run: python -m pip install -r requirements.txt
+      - run: python -m pip install -r requirements-browser.txt
+      - run: python -m playwright install --with-deps chromium
       - name: Real PostgreSQL race tests
         run: |
           export DJANGO_SECRET_KEY=$(python -c 'import secrets; print(secrets.token_urlsafe(64))')
           python scripts/verify.py
-          python manage.py test concurrency.races concurrency.support_races.SupportRaces concurrency.reply_races.ReplyRaces -v 2
+          python manage.py test concurrency.races concurrency.support_races.SupportRaces concurrency.reply_races.ReplyRaces concurrency.chat_races.ChatRaces -v 2
+          python manage.py test browser_tests.chat -v 2

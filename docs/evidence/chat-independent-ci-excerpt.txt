@@ -1,0 +1,18 @@
+Source: gh run view 38146634248 --log (reviewed head cbdc2f302d28a9550f941162165c337ace910ecf)
+Original GitHub log line numbers retained below.
+
+/Users/myeong-gyeongmin/Synology-Admin/docs/evidence/chat-independent-ci.txt
+  349: verify	Run python scripts/verify.py	2026-10-11T14:19:27.0274940Z Ran 79 tests in 52.829s
+  392: verify	Run python scripts/verify.py	2026-10-11T14:19:28.2365043Z {"http_smoke": {"landing": 200, "health": 200, "invalid_host": 400}, "health_body": {"status": "ok", "database": "ok", "nas": "not_configured"}, "applied_migrations": 30, "deployment": "not_performed", "nas_access": "not_performed"}
+  1019: postgres-races	Real PostgreSQL race tests	2026-10-11T14:19:06.2149014Z ^[[36;1mpython manage.py test concurrency.races concurrency.support_races.SupportRaces concurrency.reply_races.ReplyRaces concurrency.chat_races.ChatRaces -v 2^[[0m
+  1150: postgres-races	Real PostgreSQL race tests	2026-10-11T14:19:58.9829383Z Ran 79 tests in 49.381s
+  1193: postgres-races	Real PostgreSQL race tests	2026-10-11T14:20:00.5699064Z {"http_smoke": {"landing": 200, "health": 200, "invalid_host": 400}, "health_body": {"status": "ok", "database": "ok", "nas": "not_configured"}, "applied_migrations": 30, "deployment": "not_performed", "nas_access": "not_performed"}
+  1238: postgres-races	Real PostgreSQL race tests	2026-10-11T14:20:17.6184807Z test_concurrent_idempotency_and_rate_limit (concurrency.chat_races.ChatRaces.test_concurrent_idempotency_and_rate_limit) ... ok
+  1239: postgres-races	Real PostgreSQL race tests	2026-10-11T14:20:18.5758337Z test_cursor_cannot_skip_an_uncommitted_lower_id (concurrency.chat_races.ChatRaces.test_cursor_cannot_skip_an_uncommitted_lower_id) ... ok
+  1240: postgres-races	Real PostgreSQL race tests	2026-10-11T14:20:19.7495540Z test_read_waiting_behind_retirement_rechecks_actor (concurrency.chat_races.ChatRaces.test_read_waiting_behind_retirement_rechecks_actor) ... ok
+  1241: postgres-races	Real PostgreSQL race tests	2026-10-11T14:20:20.9254506Z test_retirement_waits_for_read_serialization (concurrency.chat_races.ChatRaces.test_retirement_waits_for_read_serialization) ... ok
+  1242: postgres-races	Real PostgreSQL race tests	2026-10-11T14:20:22.1031439Z test_retirement_waits_for_send (concurrency.chat_races.ChatRaces.test_retirement_waits_for_send) ... ok
+  1243: postgres-races	Real PostgreSQL race tests	2026-10-11T14:20:23.2768161Z test_send_waiting_behind_retirement_rechecks_actor (concurrency.chat_races.ChatRaces.test_send_waiting_behind_retirement_rechecks_actor) ... ok
+  1246: postgres-races	Real PostgreSQL race tests	2026-10-11T14:20:23.3261685Z Ran 16 tests in 22.009s
+  1289: postgres-races	Real PostgreSQL race tests	2026-10-11T14:20:48.6303280Z Ran 1 test in 24.427s
+  1295: postgres-races	Real PostgreSQL race tests	2026-10-11T14:20:48.6468184Z BROWSER ACCEPTANCE: two independent HTTP cookie sessions; automatic delivery; offline reconnect; reload replay; plain-text XSS; lost-ack idempotent retry; retirement clears UI; no duplicates PASS

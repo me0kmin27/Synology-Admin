@@ -1,0 +1,14 @@
+Source: gh run view 38146299717 --log (selected acceptance lines; full logs retained by GitHub)
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:15:11.9900275Z Ran 79 tests in 42.418s
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:15:14.1074265Z {"http_smoke": {"landing": 200, "health": 200, "invalid_host": 400}, "health_body": {"status": "ok", "database": "ok", "nas": "not_configured"}, "applied_migrations": 30, "deployment": "not_performed", "nas_access": "not_performed"}
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:15:31.0714845Z test_concurrent_idempotency_and_rate_limit (concurrency.chat_races.ChatRaces.test_concurrent_idempotency_and_rate_limit) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:15:31.9382325Z test_cursor_cannot_skip_an_uncommitted_lower_id (concurrency.chat_races.ChatRaces.test_cursor_cannot_skip_an_uncommitted_lower_id) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:15:32.9782324Z test_read_waiting_behind_retirement_rechecks_actor (concurrency.chat_races.ChatRaces.test_read_waiting_behind_retirement_rechecks_actor) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:15:34.0685789Z test_retirement_waits_for_read_serialization (concurrency.chat_races.ChatRaces.test_retirement_waits_for_read_serialization) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:15:35.1828459Z test_retirement_waits_for_send (concurrency.chat_races.ChatRaces.test_retirement_waits_for_send) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:15:36.5414690Z test_send_waiting_behind_retirement_rechecks_actor (concurrency.chat_races.ChatRaces.test_send_waiting_behind_retirement_rechecks_actor) ... ok
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:15:36.5959610Z Ran 16 tests in 21.469s
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:16:03.0884614Z Ran 1 test in 25.591s
+postgres-races	Real PostgreSQL race tests	2026-10-11T14:16:03.1803957Z BROWSER ACCEPTANCE: two independent HTTP cookie sessions; automatic delivery; offline reconnect; reload replay; plain-text XSS; lost-ack idempotent retry; retirement clears UI; no duplicates PASS
+verify	Run python scripts/verify.py	2026-10-11T14:14:21.9874445Z Ran 79 tests in 48.143s
+verify	Run python scripts/verify.py	2026-10-11T14:14:23.1953164Z {"http_smoke": {"landing": 200, "health": 200, "invalid_host": 400}, "health_body": {"status": "ok", "database": "ok", "nas": "not_configured"}, "applied_migrations": 30, "deployment": "not_performed", "nas_access": "not_performed"}

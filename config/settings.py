@@ -10,7 +10,7 @@ MEMBERSHIP_ALLOW_UNSAFE_SQLITE = os.environ.get('DJANGO_ALLOW_UNSAFE_SQLITE') ==
 LOCAL_HTTP = os.environ.get("DJANGO_LOCAL_HTTP") == "1"
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 ROOT_URLCONF = "config.urls"
-INSTALLED_APPS = ["django.contrib.auth", "django.contrib.contenttypes", "django.contrib.sessions", "membership", "support"]
+INSTALLED_APPS = ["django.contrib.auth", "django.contrib.contenttypes", "django.contrib.sessions", "membership", "support", "chat"]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "support.middleware.SupportPrivacyMiddleware",
