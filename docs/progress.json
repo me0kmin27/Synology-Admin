@@ -206,7 +206,13 @@
     "raw_output": "docs/evidence/membership-local-verification.txt",
     "tdd": "docs/evidence/membership-tdd.md",
     "limitations": "docs/membership-operations.md",
-    "ci": "pending final head push verification",
+    "ci": {
+      "conclusion": "success",
+      "databaseId": 38138430346,
+      "headSha": "551b912c15083122a59c7fb57f21173b88186761",
+      "status": "completed",
+      "url": "https://github.com/me0kmin27/Synology-Admin/actions/runs/38138430346"
+    },
     "unmet_acceptance": [
       "administrator MFA",
       "independent review"
@@ -217,6 +223,7 @@
       "multi-tenant-per-user",
       "production database/concurrency/load verification"
     ],
-    "prohibited_actions_performed": []
+    "prohibited_actions_performed": [],
+    "ci_final_head_note": "Documentation-only subsequent head verified separately in parent handoff"
   }
 }
