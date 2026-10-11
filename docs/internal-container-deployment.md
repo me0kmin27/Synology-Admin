@@ -3,7 +3,8 @@
 Scope: the separately authorized Debian deployment server, never the NAS or
 RustDesk host. HTTP is published **only** on `127.0.0.1:18080`. No database host
 port, domain, TLS termination, public firewall rule, administrator seed, or NAS
-credential is created. This branch does not include the independent MFA PR.
+credential is created. Main merge `1e60ca457ed858ec63dfaefd99a0355f47e68733`
+(PR #12 administrator MFA) is integrated; no gate is disabled.
 
 ## Definitions and safety boundary
 
@@ -39,11 +40,12 @@ Run from that release, with a stable secret file one directory above `releases`:
 ```sh
 # Deployment root: run once. Refuses to overwrite an existing file.
 python3 releases/<SHA>/deploy/init-secrets.py
+python3 releases/<SHA>/deploy/init-mfa-key.py
 # .env is now mode 0600; do not print, commit, or render compose config to logs.
 cd releases/<SHA>
 export SOURCE_REVISION=<SHA> COMPOSE_FILE=compose.internal.json
 # All compose commands must select the same deployment-root secret file.
-export COMPOSE_ENV_FILES=../../.env
+export COMPOSE_ENV_FILES=../../.env,../../.mfa.env
 docker compose config --quiet
 docker compose build --pull
 docker compose up -d --wait db
@@ -54,8 +56,10 @@ curl --fail http://127.0.0.1:18080/health/
 
 No startup migration races: migration is an explicit single one-shot operation,
 not a command run by each Gunicorn worker. `up` alone does not apply migrations.
-No account is provisioned; never use default/admin passwords. Any future MFA key
-must be independently generated and preserved when the MFA branch is integrated.
+No account is provisioned; never use default/admin passwords. `.mfa.env` contains
+an independently random Fernet key, generated exclusively on the target host,
+separate from database and Django secrets. Never rerun/replace an existing key.
+Its backup/restore and operator recovery procedures are NOT verified.
 
 ## Verification and rollback
 
@@ -73,7 +77,7 @@ under a separate reviewed migration plan otherwise. Never roll back by deleting
 the volume. Preserve old image IDs and archives until rollback is no longer needed.
 
 Production remains blocked on domain/TLS, proxy review, mandatory administrator
-MFA integration, operator provisioning, separate least-privileged PostgreSQL
+MFA operational enrollment/recovery, operator provisioning, separate least-privileged PostgreSQL
 application/migration roles (the internal prototype currently uses its bootstrap
 owner), off-host backup/restore, and independent
 release review. A passing internal smoke does not complete roadmap stage 7.

@@ -75,6 +75,7 @@
       ],
       "environment": {
         "DJANGO_SECRET_KEY": "${DJANGO_SECRET_KEY:?Generate remote secrets first}",
+        "MFA_ENCRYPTION_KEYS": "${MFA_ENCRYPTION_KEYS:?Generate independent remote MFA key first}",
         "DJANGO_ALLOWED_HOSTS": "localhost,127.0.0.1",
         "DJANGO_LOCAL_HTTP": "1",
         "DJANGO_DB_ENGINE": "postgresql",

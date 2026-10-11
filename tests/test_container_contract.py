@@ -51,6 +51,29 @@ class ContainerContractTests(unittest.TestCase):
             for value in values.values():
                 self.assertNotIn(value.encode(), first.stdout + first.stderr + second.stdout + second.stderr)
 
+    def test_mfa_key_is_independent_private_and_not_overwritten(self):
+        import base64
+        import subprocess
+        import sys
+        import tempfile
+        with tempfile.TemporaryDirectory() as directory:
+            script = ROOT / 'deploy/init-mfa-key.py'
+            self.assertTrue(script.exists(), 'Independent MFA key initializer required')
+            command = [sys.executable, str(script)]
+            first = subprocess.run(command, cwd=directory, capture_output=True)
+            self.assertEqual(first.returncode, 0)
+            path = Path(directory) / '.mfa.env'
+            original = path.read_bytes()
+            self.assertEqual(path.stat().st_mode & 0o777, 0o600)
+            value = original.decode().strip().split('=', 1)[1]
+            self.assertEqual(len(base64.urlsafe_b64decode(value)), 32)
+            second = subprocess.run(command, cwd=directory, capture_output=True)
+            self.assertNotEqual(second.returncode, 0)
+            self.assertEqual(path.read_bytes(), original)
+            self.assertNotIn(value.encode(), first.stdout + first.stderr + second.stdout + second.stderr)
+        config = json.loads((ROOT / 'compose.internal.json').read_text())
+        self.assertIn('MFA_ENCRYPTION_KEYS', config['services']['web']['environment'])
+
     def test_image_runs_unprivileged_and_distrusts_proxy_headers(self):
         path = ROOT / 'Dockerfile'
         self.assertTrue(path.exists(), 'Container image definition must exist')

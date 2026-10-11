@@ -11,12 +11,14 @@ jobs:
     env:
       SOURCE_REVISION: ${{ github.sha }}
       COMPOSE_FILE: compose.internal.json
+      COMPOSE_ENV_FILES: .env,.mfa.env
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           persist-credentials: false
       - run: python3 -m unittest tests.test_container_contract -v
       - run: python3 deploy/init-secrets.py
+      - run: python3 deploy/init-mfa-key.py
       - run: docker compose config --quiet
       - run: docker compose build --pull
       - run: docker compose up -d --wait db
