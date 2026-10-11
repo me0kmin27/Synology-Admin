@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model
 
 from django.db import connection, transaction
 from django.http import HttpResponse
+from .models import Membership
 
 POLICY_LOCK_ID = 7310462901
 
@@ -35,6 +36,9 @@ def authorized_mutation(view):
             # Never trust the User cached by AuthenticationMiddleware before waiting.
             actor = get_user_model().objects.select_for_update().get(pk=request.user.pk)
             if not actor.is_active or not actor.check_password(request.POST.get('password', '')):
+                return HttpResponse(status=403)
+            version = Membership.objects.filter(user=actor).values_list('session_version', flat=True).first()
+            if request.session.get('membership_version') != version:
                 return HttpResponse(status=403)
             request.user = actor
             return view(request, *args, **kwargs)

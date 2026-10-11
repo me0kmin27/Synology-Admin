@@ -21,6 +21,21 @@ class GroupTests(TestCase):
     def post(self, path, **data):
         return self.client.post(path, {'password': PASSWORD, **data})
 
+    def test_inflight_stale_manager_session_cannot_write_after_role_epoch_change(self):
+        from django.test import RequestFactory
+        from membership.views import approve
+        manager = self.member('manager', status='approved', role='admin')
+        subject = self.member('subject')
+        request = RequestFactory().post('/', {'password': PASSWORD})
+        request.user = manager.user
+        request.session = {'membership_version': manager.session_version}
+        # Middleware has already admitted the request; a role change invalidates it.
+        manager.session_version += 1
+        manager.save(update_fields=['session_version'])
+        self.assertEqual(approve(request, subject.pk).status_code, 403)
+        subject.refresh_from_db()
+        self.assertEqual(subject.status, 'pending')
+
     def test_failed_audit_rolls_back_approval_and_account_count(self):
         from unittest.mock import patch
         from membership.groups import active_accounts

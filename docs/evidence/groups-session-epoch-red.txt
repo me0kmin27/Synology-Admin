@@ -1,0 +1,18 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_inflight_stale_manager_session_cannot_write_after_role_epoch_change (tests.test_groups.GroupTests.test_inflight_stale_manager_session_cannot_write_after_role_epoch_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin/tests/test_groups.py", line 35, in test_inflight_stale_manager_session_cannot_write_after_role_epoch_change
+    self.assertEqual(approve(request, subject.pk).status_code, 403)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 302 != 403
+
+----------------------------------------------------------------------
+Ran 1 test in 0.311s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).
