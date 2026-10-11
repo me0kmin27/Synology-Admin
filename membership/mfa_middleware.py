@@ -10,7 +10,7 @@ from django.utils import timezone
 from .locking import policy_transaction
 from .mfa import is_admin, device_binding, role_binding
 from .mfa_crypto import SeedUnavailable
-from .models import AdminOTPDevice
+from .models import AdminOTPDevice, BootstrapAdmin
 
 
 class AdminMFAMiddleware:
@@ -27,11 +27,16 @@ class AdminMFAMiddleware:
                 request.user = get_user_model().objects.get(pk=request.user.pk)
                 device = AdminOTPDevice.objects.filter(user=request.user).first()
                 previous = request.session.get('mfa_device')
-                if (not request.user.is_active
+                if (not request.session.exists(request.session.session_key)
+                        or request.session.get('_auth_user_hash') != request.user.get_session_auth_hash()
+                        or not request.user.is_active
                         or request.session.get('auth_scope') != role_binding(request.user)
                         or (previous and (not device or not device.confirmed or previous != device_binding(device)))):
                     logout(request)
                     response = redirect('/login/') if request.method in ('GET', 'HEAD') else HttpResponse(status=403)
+                elif (BootstrapAdmin.objects.filter(user=request.user, must_change_password=True).exists()
+                      and request.path not in self.safe_paths and request.path != '/account/settings/'):
+                    response = redirect('/account/settings/') if request.method in ('GET', 'HEAD') else HttpResponse(status=403)
                 elif request.path in self.safe_paths or not is_admin(request.user):
                     response = self.get_response(request)
                 else:

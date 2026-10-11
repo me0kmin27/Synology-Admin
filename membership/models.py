@@ -42,6 +42,18 @@ class AdminOTPDevice(TimestampMixin, ThrottlingMixin, Device):
 
 
 
+class CredentialAudit(models.Model):
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    username_changed = models.BooleanField()
+    password_changed = models.BooleanField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class BootstrapAdmin(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    must_change_password = models.BooleanField(default=True)
+
+
 class AuthAttempt(models.Model):
     key = models.CharField(max_length=64, unique=True)
     window = models.BigIntegerField()
