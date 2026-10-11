@@ -9,6 +9,7 @@ accesslog = None  # Do not log query strings or invitation credentials.
 errorlog = "-"
 forwarded_allow_ips = ""
 secure_scheme_headers = {}
+control_socket_disable = True  # No management socket/home writes in read-only image.
 limit_request_line = 4094
 limit_request_fields = 100
 limit_request_field_size = 8190

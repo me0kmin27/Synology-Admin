@@ -12,9 +12,12 @@ credential is created. This branch does not include the independent MFA PR.
   dropped capabilities, no-new-privileges, bounded temporary storage.
 - PostgreSQL 17 uses a persistent named volume, 768 MiB memory, 128 MiB shared
   buffers and 40 connections. Web gets 512 MiB; both have one CPU and 128 PIDs.
-- A Docker `internal` bridge prevents normal external egress. It is not a host
-  security boundary: host/docker administrators can access the containers and
-  their environment. Secrets are not protected from Docker administrators.
+- PostgreSQL has only a Docker `internal` bridge. The app additionally needs a
+  normal frontend bridge for Docker to create its loopback publication; an
+  internal-only endpoint silently omitted that mapping in the first real smoke.
+  This permits app egress: it is not an egress firewall. No NAS integration or
+  credential is configured. Host/docker administrators can access containers and
+  environment; secrets are not protected from Docker administrators.
 - `DJANGO_LOCAL_HTTP=1` deliberately disables HTTPS redirect/secure cookies for
   loopback validation. **Do not use this compose file for production.**
 - No proxy is trusted: Gunicorn `forwarded_allow_ips=''` and
@@ -70,7 +73,9 @@ under a separate reviewed migration plan otherwise. Never roll back by deleting
 the volume. Preserve old image IDs and archives until rollback is no longer needed.
 
 Production remains blocked on domain/TLS, proxy review, mandatory administrator
-MFA integration, operator provisioning, off-host backup/restore, and independent
+MFA integration, operator provisioning, separate least-privileged PostgreSQL
+application/migration roles (the internal prototype currently uses its bootstrap
+owner), off-host backup/restore, and independent
 release review. A passing internal smoke does not complete roadmap stage 7.
 
 ## Primary references consulted
@@ -80,6 +85,7 @@ release review. A passing internal smoke does not complete roadmap stage 7.
 - https://docs.docker.com/reference/compose-file/services/ — healthchecks,
   resource bounds, read-only roots, dependencies and logging.
 - https://docs.docker.com/reference/compose-file/networks/ — internal networks.
-- https://docs.gunicorn.org/en/stable/settings.html — forwarded header trust.
+- https://github.com/benoitc/gunicorn/blob/26.2.0/gunicorn/config.py — forwarded
+  header trust and `control_socket_disable` (the older settings URL returned 404).
 - https://pypi.org/project/gunicorn/26.2.0/ — pinned release (Python >=3.10).
 - https://hub.docker.com/_/postgres — PostgreSQL 17 data volume location.
