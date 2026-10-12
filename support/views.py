@@ -47,7 +47,9 @@ def index(request):
         page = cursor_page(tickets, request.GET.get('before'), descending=True)
     except ValueError:
         return HttpResponse('Invalid cursor.', status=400)
-    return render(request, 'support/list.html', page)
+    member = Membership.objects.filter(user=request.user).first()
+    can_create = bool(member and member.status == 'approved' and member.tenant_id)
+    return render(request, 'support/list.html', {**page, 'can_create': can_create})
 
 
 @login_required

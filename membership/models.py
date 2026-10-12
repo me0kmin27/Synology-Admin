@@ -79,6 +79,7 @@ class AuthAttempt(models.Model):
 
 
 class Tenant(models.Model):
+    slug = models.SlugField(max_length=100, unique=True, null=True, blank=True)
     name = models.CharField(max_length=100, unique=True)
     signup_enabled = models.BooleanField(default=True)
     max_accounts = models.PositiveBigIntegerField(default=0)

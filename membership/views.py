@@ -133,7 +133,7 @@ def link(request, pk):
 @login_required
 def account(request):
     member = Membership.objects.filter(user=request.user).first()
-    return render(request, "membership/account.html", {"member": member})
+    return render(request, "membership/account.html", {"member": member, "identity": request.user, "global_admin": request.user.is_superuser})
 
 
 @login_required
@@ -148,6 +148,10 @@ def service(request):
     with policy_transaction():
         actor = get_user_model().objects.get(pk=request.user.pk)
         member = Membership.objects.select_related('user', 'tenant').filter(user=actor).first()
+        if actor.is_active and actor.is_superuser and not member and request.session.get('membership_version') == (member.session_version if member else None):
+            return render(request, 'membership/service.html', {
+                'global_admin': True, 'tenants': Tenant.objects.order_by('pk'),
+            })
         if (not actor.is_active or not member or member.status != 'approved'
                 or not member.tenant_id
                 or request.session.get('membership_version') != member.session_version):

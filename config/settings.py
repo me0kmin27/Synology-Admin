@@ -22,6 +22,7 @@ INSTALLED_APPS = ["django.contrib.auth", "django.contrib.contenttypes", "django.
 MIDDLEWARE = [
     "config.proxy.TrustedProxyMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "config.errors.NavigationErrorMiddleware",
     "support.middleware.SupportPrivacyMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

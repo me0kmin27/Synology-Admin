@@ -5,9 +5,9 @@
 {% block content %}
 <div class="page-heading"><p class="eyebrow">YOUR WORKSPACE</p><h1>한곳에서 관리하는 포털</h1><p>계정 승인부터 스토리지 상태 확인, 지원 요청까지 필요한 작업을 시작하세요.</p></div>
 <div class="split">
-  <section class="panel intro-panel"><span class="badge neutral">개발 기반 검증 단계</span><h2 style="margin-top:24px">포털 계정으로 시작하세요.</h2><p class="muted">독립 포털 계정을 만들고 관리자 승인을 받은 뒤 서비스를 이용할 수 있습니다. DSM 비밀번호는 사용하지 마세요.</p><div class="actions"><a class="button" href="/login/">로그인</a><a class="button secondary" href="/signup/">포털 가입</a></div></section>
+  <section class="panel intro-panel"><span class="badge neutral">개발 기반 검증 단계</span><h2 style="margin-top:24px">포털 계정으로 시작하세요.</h2><p class="muted">독립 포털 계정을 만들고 관리자 승인을 받은 뒤 서비스를 이용할 수 있습니다. DSM 비밀번호는 사용하지 마세요.</p><div class="actions">{% if authenticated %}<a class="button" href="/account/">내 계정</a>{% else %}<a class="button" href="/login/">로그인</a><a class="button secondary" href="/signup/">포털 가입</a>{% endif %}</div></section>
   <section class="panel"><h2>이용 절차</h2><ol class="step-list"><li><strong>포털 가입</strong><p>가입 가능한 그룹을 선택합니다.</p></li><li><strong>관리자 승인</strong><p>회원 상태에서 승인 여부를 확인합니다.</p></li><li><strong>서비스 이용</strong><p>권한에 따라 지원 요청과 채팅을 이용합니다.</p></li></ol></section>
 </div>
 <div class="notice"><strong>NAS 연결 안 됨</strong><p>운영 서비스가 아닙니다. 표시할 실제 NAS 사용량이 없습니다. 원격지원 세션도 활성화되지 않았습니다.</p><p>NAS 용량·지원 기능은 아직 제공하지 않습니다. 포털의 지원 티켓과 메시지는 별도 기능입니다.</p></div>
-<section class="panel"><h2>이미 계정이 있나요?</h2><ul class="link-list"><li><a href="/account/"><span>회원 상태<small>승인 상태와 이용 가능한 서비스 확인</small></span><span aria-hidden="true">→</span></a></li><li><a href="/manage/"><span>회원 관리<small>관리자 전용 · 추가 OTP 인증 필요</small></span><span aria-hidden="true">→</span></a></li></ul></section>
+<section class="panel"><h2>이미 계정이 있나요?</h2><ul class="link-list"><li><a href="/account/"><span>회원 상태<small>승인 상태와 이용 가능한 서비스 확인</small></span><span aria-hidden="true">→</span></a></li><li><a href="/manage/"><span>회원 관리<small>관리자 전용 · OTP 정책 또는 등록 상태에 따라 추가 인증</small></span><span aria-hidden="true">→</span></a></li></ul></section>
 {% endblock %}
