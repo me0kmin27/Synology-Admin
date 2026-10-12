@@ -50,3 +50,5 @@ jobs:
           test "$(curl --noproxy '*' -s -o /dev/null -w '%{http_code}' "$base/")" = 200
           test "$(curl --noproxy '*' -s -o /dev/null -w '%{http_code}' -H 'Host: invalid.example' "$base/")" = 400
           test "$(curl --noproxy '*' -s -o /dev/null -w '%{http_code}' "$base/manage/")" = 302
+      - name: Peer trust through the Docker published port
+        run: python3 scripts/verify-proxy-container.py

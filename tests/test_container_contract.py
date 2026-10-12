@@ -32,6 +32,15 @@ class ContainerContractTests(unittest.TestCase):
         self.assertEqual(web['environment']['DJANGO_DB_ENGINE'], 'postgresql')
         self.assertNotIn('DJANGO_ALLOW_UNSAFE_SQLITE', web['environment'])
 
+    def test_proxy_overlay_requires_explicit_hosts_and_trust(self):
+        path = ROOT / 'compose.proxy.json'
+        self.assertTrue(path.exists(), 'Proxy overlay required')
+        environment = json.loads(path.read_text())['services']['web']['environment']
+        self.assertEqual(environment['DJANGO_ALLOWED_HOSTS'], '${DJANGO_ALLOWED_HOSTS:?Set exact allowed hosts}')
+        self.assertEqual(environment['DJANGO_CSRF_TRUSTED_ORIGINS'], '${DJANGO_CSRF_TRUSTED_ORIGINS:-}')
+        self.assertEqual(environment['DJANGO_TRUSTED_PROXY_IPS'], '${DJANGO_TRUSTED_PROXY_IPS:-}')
+        self.assertEqual(environment['DJANGO_LOCAL_HTTP'], '${DJANGO_LOCAL_HTTP:-0}')
+
     def test_secret_creation_is_private_and_never_overwrites(self):
         import subprocess
         import sys
@@ -88,5 +97,7 @@ class ContainerContractTests(unittest.TestCase):
         exec(compile(config.read_text(), str(config), 'exec'), namespace)
         self.assertEqual(namespace['forwarded_allow_ips'], '')
         self.assertEqual(namespace['secure_scheme_headers'], {})
+        self.assertEqual(namespace.get('forwarder_headers'), '')
+        self.assertEqual(namespace.get('proxy_protocol'), 'off')
         self.assertEqual(namespace['bind'], '0.0.0.0:8000')
         self.assertTrue(namespace.get('control_socket_disable', False))

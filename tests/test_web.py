@@ -39,6 +39,12 @@ class WebTests(TestCase):
         response = self.client.get("/health/")
         self.assertIn("no-store", response.get("Cache-Control", ""))
 
+    @override_settings(SECURE_SSL_REDIRECT=True)
+    def test_health_remains_http_but_auth_does_not(self):
+        self.assertEqual(self.client.get('/health/').status_code, 200)
+        self.assertEqual(self.client.get('/login/').status_code, 301)
+        self.assertEqual(self.client.get('/health/', HTTP_HOST='evil.invalid').status_code, 400)
+
     def test_health_checks_real_database(self):
         response = self.client.get("/health/")
         self.assertEqual(response.status_code, 200)

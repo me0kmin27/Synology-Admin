@@ -1,0 +1,12 @@
+{
+  "services": {
+    "web": {
+      "environment": {
+        "DJANGO_ALLOWED_HOSTS": "${DJANGO_ALLOWED_HOSTS:?Set exact allowed hosts}",
+        "DJANGO_CSRF_TRUSTED_ORIGINS": "${DJANGO_CSRF_TRUSTED_ORIGINS:-}",
+        "DJANGO_TRUSTED_PROXY_IPS": "${DJANGO_TRUSTED_PROXY_IPS:-}",
+        "DJANGO_LOCAL_HTTP": "${DJANGO_LOCAL_HTTP:-0}"
+      }
+    }
+  }
+}
