@@ -13,8 +13,9 @@ from django.shortcuts import render, redirect
 from django.views.decorators.debug import sensitive_post_parameters, sensitive_variables
 from django.views.decorators.http import require_http_methods
 from .locking import policy_transaction
-from .models import Membership, AdminOTPDevice, BootstrapAdmin, CredentialAudit
-from .mfa import is_admin, verified_session, role_binding
+from .models import Membership, AdminOTPDevice, BootstrapAdmin, CredentialAudit, AdminMFAPolicy
+from .mfa import is_admin, role_binding
+from .mfa_policy import admin_access
 from .mfa_crypto import SeedUnavailable
 
 
@@ -43,9 +44,9 @@ def settings_view(request):
             return HttpResponse(status=403)
         if is_admin(actor):
             try:
-                if not verified_session(request, actor, AdminOTPDevice.objects.filter(user=actor).first()):
+                if not admin_access(request, actor, AdminOTPDevice.objects.filter(user=actor).first()):
                     return HttpResponse(status=403)
-            except SeedUnavailable:
+            except (SeedUnavailable, AdminMFAPolicy.DoesNotExist):
                 return HttpResponse(status=503)
         original_name = actor.username
         form = CredentialsForm(request.POST if request.method == 'POST' else None, initial={'username': actor.username})

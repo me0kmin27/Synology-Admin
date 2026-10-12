@@ -4,6 +4,7 @@
 {% block breadcrumb %}관리 콘솔{% endblock %}
 {% block content %}
 <div class="page-heading"><p class="eyebrow">MEMBERS & GROUPS</p><h1>회원 관리</h1><p>그룹 한도와 회원 승인, 포털 예약 용량을 관리합니다.</p></div>
+<p><a href="/mfa/enroll/">내 OTP 등록</a>{% if global_admin %} · <a href="/manage/mfa-policy/">관리자 OTP 정책</a>{% endif %}</p>
 <p>포털 승인과 NAS 계정 연결은 별개입니다. 모든 변경에 포털 비밀번호 재인증이 필요합니다.</p>
 <p>포털 예약 용량 정책: NAS 실제 quota 강제 집행 아님. 폐기 시 NAS 파일과 예약 용량은 유지됩니다.</p>
 {% for tenant in tenants %}<section class="panel management-section"><h2>{{ tenant.name }} 한도</h2>

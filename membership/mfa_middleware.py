@@ -6,11 +6,12 @@ this transaction. Locks serialize reads too; this is a bounded-portal tradeoff.
 from django.contrib.auth import get_user_model, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from django.utils import timezone
+
 from .locking import policy_transaction
 from .mfa import is_admin, device_binding, role_binding
 from .mfa_crypto import SeedUnavailable
-from .models import AdminOTPDevice, BootstrapAdmin
+from .models import AdminOTPDevice, BootstrapAdmin, AdminMFAPolicy
+from .mfa_policy import admin_access, current_policy
 
 
 class AdminMFAMiddleware:
@@ -41,14 +42,17 @@ class AdminMFAMiddleware:
                     response = self.get_response(request)
                 else:
                     try:
-                        if device:
-                            device.bin_key  # Missing key/tampered envelope also denies existing sessions.
-                    except SeedUnavailable:
+                        allowed = admin_access(request, request.user, device)
+                    except (SeedUnavailable, AdminMFAPolicy.DoesNotExist):
                         response = HttpResponse(status=503)
                     else:
-                        age = timezone.now().timestamp() - request.session.get('mfa_at', 0)
-                        if not device or not device.confirmed or not previous or not 0 <= age <= 900:
-                            response = (redirect('/mfa/verify/' if device else '/mfa/enroll/')
+                        if not allowed:
+                            if not current_policy().required and not (device and device.confirmed):
+                                logout(request)
+                                destination = '/login/'
+                            else:
+                                destination = '/mfa/verify/' if device else '/mfa/enroll/'
+                            response = (redirect(destination)
                                         if request.method in ('GET', 'HEAD') else HttpResponse(status=403))
                         else:
                             response = self.get_response(request)

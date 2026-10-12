@@ -1,93 +1,108 @@
-# 관리자 OTP — 첫 수직 슬라이스 (운영 배포 아님)
+# 관리자 OTP와 전역 등록 정책
 
-사용자 3A 확정: 포털 자체 OTP, encrypted seed DB + DB 외부 전용 키.
-1A/2A/4A와 남은 운영 입력은 `next-decisions.md` 상단 참조.
+## 변경된 사용자 요구사항
 
-## 구현 계약
+관리자 OTP의 무조건 필수 등록 요구는 이번 사용자 지시로 대체됐다.
+DB singleton `AdminMFAPolicy(pk=1)`의 `required` 기본값은 **FALSE**다.
+환경변수나 프로세스 캐시가 아닌 DB 전역 정책이며 migration 0014가 한 번
+생성한다. 누락된 행을 런타임에서 선택 정책으로 자동 복구하지 않는다.
 
-- `django-otp==1.7.4`의 Device/ThrottlingMixin/TimestampMixin/TOTP 사용.
-  stock TOTPDevice/평문 key column은 설치하지 않음. SHA1, 6자리, 30초,
-  허용 ±1 step; 마지막 수용 timestep보다 큰 token만 수용한다. drift를
-  영구 자동 확대하지 않는다. 암호 구현은 django-otp에 위임한다.
-- cryptography 50.0.2 Fernet/MultiFernet으로 `{v,user,device UUID,seed}`
-  envelope를 인증 암호화. row/user 이식 거부. DB에는 ciphertext와 replay/
-  throttle metadata만 보관. `MFA_ENCRYPTION_KEYS`는 쉼표 구분된 Fernet 키를
-  보호된 런타임 환경/secret injector로 전달하며 첫 키로 암호화한다.
-  값은 Git/DB/이미지/명령행/로그에 두지 않는다. `DJANGO_SECRET_KEY`와
-  분리하며 기본/자동 생성 키 없음. 누락·오류·변조는 503 fail-closed.
-- 등록: 로그인 + 현재 비밀번호 POST 재인증 → 5분 unconfirmed device →
-  생성 세션에서 OTP 성공 후 confirmed. seed는 그 POST 응답의 same-origin
-  HTML에서 **직접 입력용**으로만 제공; 외부 QR/JS/이미지 호출 없음.
-  QR는 이 슬라이스에 없음. 새로고침/타 세션에 seed를 다시 공개하지 않음.
-  미확인 device는 만료 후 password 재인증으로 재시작 가능. 확인된 device의
-  overwrite/reset/delete 웹 경로 없음. 복구 우회 기능도 없음.
-- 확인/로그인 challenge: policy advisory lock → fresh User/scope → device
-  select_for_update → library TOTP 검증. 실패를 응답으로 반환하여 DB throttle
-  commit. device exponential throttle와 account/IP 15분 고정-window 제한 병행.
-- OTP 성공 시 session key 회전, device UUID+ciphertext HMAC 식별자와 검증
-  시각 저장. 관리자 access는 15분 내 OTP 필요; 각 관리 mutation은 여전히
-  현재 password POST도 필요. 새 로그인은 OTP stamp를 제거한다.
-- 전역/그룹 관리자 및 staff는 정확한 enroll/verify/login/logout/health 이외
-  **모든 경로**에 중앙 gate 적용. GET/HEAD는 setup/challenge redirect,
-  mutation은 403. 새 관리 URL도 기본 보호된다. 익명/일반 회원은 기존
-  scoped 권한 검사를 유지한다. 이 앱에는 Django admin URL이 없다.
-- fresh auth scope(active/staff/superuser/membership role/status/tenant/epoch)
-  또는 verified device 변경·삭제·unconfirm 때 기존 세션은 다음 요청에서
-  flush된다. DB 소유자가 상태를 원복하는 공격/WORM 보장은 아니다.
-  권한 writer와 gate 전체 synchronous response가 동일 policy lock 아래
-  실행되어 검증 이후 권한 철회와 경쟁하지 않음. 관리 mutation boundary는
-  별도로 MFA를 재검사한다. streaming/외부 I/O를 이 lock 안에 추가하지 말 것.
-- PostgreSQL READ COMMITTED + DB sessions 운영 계약. SQLite mutation은
-  기존 disposable opt-in 외 거부한다. 직접 SQL/CLI 권한·device writer도
-  반드시 같은 policy advisory lock을 먼저 취득해야 한다. global lock은
-  처리량 제한이며 대규모 서비스의 fine-grained 설계라고 주장하지 않는다.
-- MFA 응답은 no-store; CSRF 및 view 이전 sensitive POST redaction 적용.
-  runtime/APM/proxy는 request/response body 수집을 별도로 금지해야 한다.
-  seed는 등록 응답/검증 순간 메모리에 존재하므로 앱 호스트 탈취 방어 아님.
+- 선택 정책: OTP 미등록 관리자는 비밀번호 로그인과 초기 비밀번호 변경 후
+  관리 기능을 사용할 수 있다. OTP device를 자동 생성하지 않는다.
+- 확인 완료한 device가 있으면 선택 정책에서도 OTP는 계속 필수다.
+  정책 해제는 기존 등록·seed·replay 상태를 변경/삭제하지 않는다.
+- 필수 정책: superuser(globalAdmin), staff, 승인된 그룹관리자 모두 대상이다.
+  일반 회원의 기존 역할·tenant·승인 경계는 바뀌지 않는다.
+- bootstrap의 초기 비밀번호 변경은 여전히 필수다. 선택 정책에서 OTP 등록은
+  초기 로그인/비밀번호 변경의 선행조건이 아니다.
 
-## 배포 차단 / 별도 후속 복구
+## 전역 정책 설정
 
-그룹 관리자 복구에 globalAdmin 승인이 필요하다는 원칙은 확정이다.
-단독/복수 globalAdmin 모델을 모두 지원하며 수량을 하나로 고정하지 않는다.
-복구는 단독 운영의 지정 trustee/신뢰된 호스트 관리자 확인 또는 복수 운영의
-지정된 다른 globalAdmin 승인 중 명시적인 정책 선택 구조로 후속 구현한다.
-두 사람 승인을 모든 배포의 필수조건으로 강제하거나 단독 운영의 이중 승인을
-거짓 보장하지 않는다. **globalAdmin 복구 책임자, 신원 확인/승인 절차, 암호화 키 백업 책임자와
-별도 보관·복원 훈련은 미정**. 이번 PR에는 복구 명령/코드/reset endpoint가
-없다. 이를 self-service bypass로 대체하지 않는다. 실제 키 provisioning도
-하지 않았다. 키/DB 복구는 replay/session rollback 위험까지 검증해야 한다.
-키 회전 API 가능성과 운영 회전/재암호화 훈련 완료는 다르다.
+`/manage/mfa-policy/`는 활성 globalAdmin만 사용한다. 관리 콘솔에 링크가 있다.
+GET은 정책을 바꾸지 않으며 POST는 CSRF와 account/IP throttle로 보호한다.
 
-NAS와 분리된 포털/DB 서버는 `192.168.1.14`, 계정 `me0kmin27`로 확정.
-부모가 SSH 접속을 검증했으며 이 구현 작업자는 접속하지 않았다.
-초기 관측은 준비 전 상태였다. 후속 사용자 승인·prereq 실행 후 배포 작업자가
-Debian 13, Docker 29.9.0, Compose 5.6.0 및 sudo 없는 Docker 접근을 검증했다.
-해당 서버의 loopback Docker 검증 배포만 승인됐으며 공개/운영 개방은 금지다.
-실행 증거와 별도 MFA 키 경계는 `internal-container-deployment.md` 참조.
-로컬 SSH 키 내용/자격증명은 출력·커밋하지 않는다.
-NAS 기종/파일시스템은 정보표시·회원관리 개발의 선행조건이 아니다.
-특정 기종/Btrfs를 강제하지 않고 선택 메타데이터·연동 capability를 분리한다.
-관측 없는 NAS 실제 quota enforcement 성공 주장은 금지한다.
-운영 TLS/키·백업/복구 승인·부하 검증 전 공개 배포 금지. MFA 첫 slice의
-독립 검토와 전체 인증 단계·복구·운영 준비 완료는 별도이다.
+1. fresh DB 사용자·세션·역할·membership epoch·정책 version을 재검사한다.
+2. 현재 비밀번호를 실제 hash와 대조하고 Django 강도 검증도 통과해야 한다.
+3. 필수로 켜려면 행위자의 확인 완료 OTP device가 반드시 있어야 한다.
+4. 행위자에게 device가 있거나 이전 정책이 필수이면 **새로운 일회 OTP**를
+   검증한다. 최근 세션 OTP stamp만으로 정책 변경을 승인하지 않는다.
+5. 끄기도 이전 필수 정책 아래 새 OTP를 요구한다. replay 실패/throttle는
+   rollback하지 않고 commit한다. 미확인 device로 정책을 켤 수 없다.
+6. 변경 시 단조 증가하는 version과 metadata-only `MFAPolicyAudit`를 같은
+   트랜잭션에 기록한다. actor ID, 이전/현재 boolean, version, 시간만 보관한다.
 
-## 검증
+동일한 global PostgreSQL transaction advisory lock(7310462901)을 middleware의
+fresh DB 조회부터 synchronous response까지, 정책 변경, 계정 변경 및 관리
+mutation 내부 재검사에 사용한다. 활성화 전 세션은 모든 관리 경로에서 추가
+OTP 인증/등록을 요구한다. 행위자의 세션만 방금 소비한 OTP로 새 version을
+받는다. 직접 view 호출/대기 중 cached session도 mutation boundary에서 옛
+version으로 거부한다. 이후 선택 정책이 되더라도 옛 version을 조용히 신뢰하지
+않고 미등록 관리자는 재로그인, 등록 관리자는 OTP 재인증한다.
 
-`tests/test_mfa.py`는 password-only Django Client로 gate 부정을 검사한다.
-기존 관리 테스트는 `tests/mfa_helpers.py`의 synthetic encrypted device와
-**실제 HTTP OTP challenge**를 통과하는 명시적 fixture Client를 사용한다.
-production MFA disable 옵션/자동검증 middleware는 없다.
-`tests/test_membership_http.py`는 실제 cookie/CSRF 등록·확인 후 관리한다.
-`browser_tests/mfa.py` 및 기존 chat/storage Chromium도 실제 등록을 수행한다.
-`concurrency/mfa_races.py`는 PostgreSQL pg_blocking_pids로 실제 대기 overlap,
-단일 replay winner와 failure commit/등록 경쟁을 검증하며 SQLite skip 없음.
-RED/GREEN, 회귀, 브라우저 기록은 `evidence/mfa-*.txt` 참조.
+PostgreSQL READ COMMITTED + DB sessions 계약이다. SQLite 변경은 기존의
+명시적 disposable 개발 opt-in 외에는 503이다. 직접 SQL/CLI 역할·device·정책
+writer도 같은 advisory lock을 먼저 취득해야 한다. global lock은 처리량을
+제한한다. 이 경계 안에 외부 I/O나 streaming response를 추가하지 말 것.
 
-## 직접 확인한 공식 문서 (2026-10-12)
+## 등록과 로컬 QR
 
-- https://django-otp-official.readthedocs.io/en/stable/extend.html
-- https://django-otp-official.readthedocs.io/en/stable/_modules/django_otp/plugins/otp_totp/models.html
-- https://cryptography.io/en/latest/fernet/
+로그인한 관리자가 `/mfa/enroll/`에서 현재 비밀번호를 POST하여 5분짜리
+미확인 device를 생성한다. 생성 세션에서 OTP를 확인해야 opt-in이 완료된다.
+확인된 device를 덮어쓰기/초기화/삭제하는 웹 경로는 없다.
 
-공식 문서의 검증 primitive/mixin과 authenticated-encryption 계약만 재사용.
-라이브러리 기본 평문 seed 보관을 포털 저장 정책으로 오인하지 않는다.
+- `qrcode==8.2`의 `SvgPathFillImage`로 서버 내부에서 흰 배경/quiet border가
+  있는 SVG를 만든다. 외부 QR 서비스, 외부 이미지/JS, data-image 허용은 없다.
+- QR과 수동 입력용 seed는 인증된 생성 POST의 `no-store` 응답에서만 제공한다.
+  GET·다른 세션·재등록 응답에서는 재공개하지 않는다.
+- URI는 `otpauth://totp/` + URL 인코딩한 issuer/account label이며 query에는
+  base32 secret, issuer=`Synology-Admin`, algorithm=SHA1, digits=6, period=30을
+  명시한다. username은 SVG text/markup에 삽입하지 않고 QR geometry로만 변환한다.
+- seed/URI/비밀번호/OTP는 로그·감사·세션에 넣지 않는다. view 이전 CSRF/throttle
+  오류에도 POST redaction과 no-store를 적용한다. proxy/APM body 수집도 운영자가
+  금지해야 한다. synthetic test QR 외 운영 등록 화면은 캡처하지 않는다.
+
+## 기존 암호 및 OTP 계약 유지
+
+`django-otp==1.7.4`의 TOTP/Device/ThrottlingMixin/TimestampMixin을 사용한다.
+SHA1, 6자리, 30초, ±1 step, 마지막 수용 timestep 이후만 허용한다.
+OTP 성공 시 session key 회전과 device UUID+ciphertext HMAC, 15분 stamp를
+저장한다. 역할/활성/membership epoch/device 변경은 기존 세션을 거부한다.
+
+`cryptography==50.0.2` Fernet/MultiFernet은 user/device-bound seed envelope를
+암호화한다. 기존 외부 `MFA_ENCRYPTION_KEYS`를 그대로 보존한다. 기본 키나
+자동 키 생성은 없다. key 누락/변조는 fail-closed이며 선택 정책은 확인 완료
+device의 키 장애를 우회하지 않는다. DB에는 평문 seed column이 없다.
+
+## 검증과 작업 경계
+
+- `tests/test_optional_mfa.py`: 선택 bootstrap, 정책 활성화, 로컬 QR, UI 진입.
+- `tests/test_mfa_policy_security.py`: confirmed opt-in 유지, 강한 재인증,
+  globalAdmin/CSRF/replay/throttle, 모든 admin role/route, stale 내부 mutation,
+  계정 변경 downgrade 거부, 정책 누락 및 stale 선택 세션.
+- 이전 mandatory-negative 테스트는 명시적으로 DB 정책을 TRUE로 설정한다.
+  기존 테스트의 부정 assertion을 없애지 않는다. legacy transaction/browser
+  fixture도 필수 정책을 명시하며 새 선택 테스트는 FALSE를 명시한다.
+- `concurrency.optional_policy_races.OptionalPolicyRaces`: 실제 PostgreSQL
+  `pg_blocking_pids`로 session read/inner mutation과 toggle의 양방향 대기,
+  독립 globalAdmin들의 동시 toggle을 입증한다. 비PG는 skip 대신 실패한다.
+- `browser_tests.optional_qr.OptionalQRBrowserTests`: 실제 Chromium의 생성 POST
+  SVG 픽셀을 zxing-cpp로 decode하여 고정 **가짜 seed** URI 전 필드를 대조한다.
+  강화된 CSP, 외부 요청 없음, 생성 GET 비노출, 선택 등록 후 재로그인도 검사한다.
+- CI에 위 PG/QR label을 별도 이름의 필수 실행 step으로 등록했다.
+  실제 실행 결과는 `evidence/optional-otp-tdd.txt`와 최종 PR checks로 확인한다.
+
+이 작업은 서버/운영 계정/키/DB에 접근하거나 배포하지 않는다. 독립 검토·병합은
+부모 담당이며 작업자는 PR을 병합하지 않는다. 기존 `evidence/mfa-*`와 과거
+bootstrap/배포 문서는 **당시 mandatory 정책의 역사적 증거**이지 현 요구의
+등록 필수 조건이 아니다. 선택 bootstrap에 OTP를 가짜 차단조건으로 제시하지 않는다.
+TLS, 승인된 배포, 백업·복구 훈련 및 실제 NAS 연동 검증은 별도 운영 범위다.
+복구/reset 기능은 추가하지 않았다.
+
+## 직접 확인한 primary 문서
+
+- https://github.com/lincolnloop/python-qrcode/blob/v8.2/README.rst
+  SVG factories, white background, border, attrib 및 to_string API 확인.
+- 기존 OTP/암호 근거:
+  https://django-otp-official.readthedocs.io/en/stable/extend.html
+  https://django-otp-official.readthedocs.io/en/stable/_modules/django_otp/plugins/otp_totp/models.html
+  https://cryptography.io/en/latest/fernet/

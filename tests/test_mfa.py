@@ -7,6 +7,8 @@ from cryptography.fernet import Fernet
 @override_settings(SECURE_SSL_REDIRECT=False, MEMBERSHIP_ALLOW_UNSAFE_SQLITE=True)
 class MFATests(TestCase):
     def setUp(self):
+        from membership.models import AdminMFAPolicy
+        AdminMFAPolicy.objects.filter(pk=1).update(required=True)
         self.keys = override_settings(MFA_ENCRYPTION_KEYS=[Fernet.generate_key().decode()])
         self.keys.enable()
         self.addCleanup(self.keys.disable)

@@ -57,3 +57,11 @@ jobs:
           python scripts/verify.py
           python manage.py test concurrency.races concurrency.support_races.SupportRaces concurrency.reply_races.ReplyRaces concurrency.chat_races.ChatRaces concurrency.storage_races.StorageRaces concurrency.mfa_races.MFARaces concurrency.account_races.AccountRaces -v 2
           python manage.py test browser_tests.chat browser_tests.storage browser_tests.mfa browser_tests.portal_ui -v 2
+      - name: Optional OTP policy PostgreSQL blocking-PID acceptance (no skips)
+        env:
+          DJANGO_SECRET_KEY: disposable-ci-optional-policy-only-not-a-production-secret-1234567890
+        run: python manage.py test concurrency.optional_policy_races.OptionalPolicyRaces -v 2
+      - name: Decode actual synthetic enrollment QR in Chromium
+        env:
+          DJANGO_SECRET_KEY: disposable-ci-optional-qr-only-not-a-production-secret-1234567890
+        run: python manage.py test browser_tests.optional_qr.OptionalQRBrowserTests -v 2

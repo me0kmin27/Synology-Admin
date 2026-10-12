@@ -6,3 +6,4 @@ django-otp==1.7.4
 cryptography==50.0.2
 cffi==2.1.1
 pycparser==3.11
+qrcode==8.2

@@ -19,10 +19,14 @@ and password later at `/account/settings/`.
    password once and writes **only** to a new mode-0600 file; never to stdout.
    Its directory must be owned by the command's UID and have no group/other access.
    Existing files and symlinks are refused. There is no reset option.
-3. Login through TLS or an SSH tunnel, enroll and confirm mandatory administrator
-   OTP, then change the initial password at `/account/settings/`. No privileged
-   route is available until this change. The identifier may change at the same
-   time; privileges, membership, NAS mapping and the encrypted OTP device do not.
+3. Login through TLS or an SSH tunnel, then change the initial password at
+   `/account/settings/`. The global DB OTP enrollment policy defaults to FALSE:
+   first login and this mandatory password change work without OTP enrollment.
+   Confirmed devices still require OTP; when a globalAdmin enables required
+   enrollment, unenrolled administrators must enroll/confirm before proceeding.
+   No privileged route is available until the password change. The identifier
+   may change too; privileges, membership, NAS mapping and OTP device do not.
+   See `admin-mfa.md` for the globalAdmin policy UI and local enrollment QR.
 
 No setup bearer token is generated or sent over HTTP. Password-file mode is for
 a one-time remote owner handoff; interactive mode avoids a password file entirely.
@@ -34,7 +38,8 @@ must be preserved, not generated anew by this feature.
 
 Run from the deployed release with the **same** `SOURCE_REVISION`, `COMPOSE_FILE`,
 `COMPOSE_ENV_FILES` and `INTERNAL_BIND_HOST` used by that deployment. Do not print
-interpolated Compose configuration. Apply migrations 0012 and 0013 first. The
+interpolated Compose configuration. Apply all reviewed migrations, including
+0012–0015 (bootstrap, credential audit, optional policy and policy audit). The
 following commands are documentation, not authorization to execute remotely.
 
 ```sh
@@ -86,7 +91,10 @@ reviewed real TLS deployment remains necessary for general use.
 ## Credential change contract
 
 - Authenticated self only; CSRF-protected POST, current-password reauthentication,
-  shared account/IP throttle, and current confirmed MFA for all admin types.
+  shared account/IP throttle, and fresh DB session/role/policy-version checks.
+  All admin types require confirmed MFA when already opted in or when global
+  enrollment is required. Optional policy never downgrades confirmed-device
+  authentication or bypasses stale-session/credential-hash checks.
 - Django UsernameField NFKC normalization plus auth_user unique constraint and a
   serialized policy lock; duplicate claims cannot partially change a password.
 - Django password validators run against the proposed identifier; mismatch,
@@ -110,7 +118,7 @@ reviewed real TLS deployment remains necessary for general use.
 
 ## Verification and remaining release gates
 
-TDD execution observed missing route (404), unchanged password hash, missing
+Historical initial mandatory-OTP implementation evidence: TDD observed missing route (404), unchanged password hash, missing
 bootstrap command, missing activation/file option, missing first-change gate,
 missing throttle/redaction/audit, and stale-session acceptance before fixes.
 Unit/HTTP regression suite and PostgreSQL lock-contention CI are required at the

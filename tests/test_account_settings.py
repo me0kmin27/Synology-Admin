@@ -79,6 +79,8 @@ class AccountSettingsTests(TestCase):
             self.assertEqual((self.user.username, self.user.password), before)
 
     def test_admin_requires_mfa_and_cannot_edit_privileges(self):
+        from membership.models import AdminMFAPolicy
+        AdminMFAPolicy.objects.filter(pk=1).update(required=True)
         from django.test import Client as PlainClient
         self.user.is_superuser = True
         self.user.save()

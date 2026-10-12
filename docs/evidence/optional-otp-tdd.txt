@@ -1,0 +1,28 @@
+Optional OTP implementation TDD evidence (local disposable SQLite, not concurrency proof)
+Base: 822b4870ce5f3047a0ec76366451cfcb7862f038
+Runner: adjacent synology-account-settings/.venv/bin/python, Django 5.2.18.
+Slice 1 RED: tests.test_optional_mfa, 1 test; bootstrap redirect target returned 302 instead of 200 (mandatory enrollment prevented password-change page).
+Slice 1 GREEN: same label, Ran 1 test in 0.381s, OK.
+Slice 2 RED: tests.test_optional_mfa, 2 tests; policy POST returned 404 != 302.
+Slice 2 GREEN: same label, Ran 2 tests in 0.540s, OK.
+Initial harness mistake (not RED evidence): short disposable DJANGO_SECRET_KEY rejected before tests; rerun used >=50-character test-only value.
+Slice 3 RED: QR acceptance failed because enrollment response had no <svg>.
+Slice 3 GREEN: tests.test_optional_mfa, Ran 3 tests in 3.971s, OK.
+Slice 4 RED: CSRF policy denial exposed disposable password/token via SafeExceptionReporterFilter.
+Slice 4 GREEN: same test, Ran 1 test in 0.078s, OK after pre-view privacy coverage.
+Slice 5 RED: policy settings link missing from management response.
+Slice 5 GREEN: tests.test_optional_mfa, Ran 4 tests in 0.815s, OK.
+Slice 6 RED: stale optional session redirected to /mfa/enroll/ instead of /login/.
+Slice 6 GREEN: same test, Ran 1 test in 0.086s, OK; optional re-login creates no device.
+Slice 7 RED: deleted policy row raised DoesNotExist instead of controlled 503.
+Slice 7 GREEN: same test, Ran 1 test in 0.079s, OK; no permissive singleton recreation.
+Regression fixture corrections: old mandatory negative tests now explicitly set DB policy TRUE; TransactionTestCase/LiveServerTestCase recreate this explicit test-only fixture after flush. Initial override lacked @classmethod; corrected after actual fixture setup error. Production does not recreate missing policy.
+Local final verification at pre-commit source:
+- scripts/verify.py: Ran 164 tests in 35.770s, OK.
+- deploy checks: no issues; 37 applied migrations; makemigrations --check --dry-run: No changes detected.
+- loopback smoke: landing 200, health 200, untrusted host 400; NAS not_configured.
+- browser_tests.mfa browser_tests.optional_qr browser_tests.portal_ui: Ran 4 tests in 13.835s, OK.
+- Actual synthetic POST QR screenshot decoded with zxing-cpp; exact issuer/account/secret/SHA1/6/30 checked under restrictive CSP, no external requests. Screenshot inspected: full black-on-white QR plus quiet border. No production seeds used.
+- pip check: No broken requirements found.
+- No local PostgreSQL binaries/docker found; explicit PostgreSQL acceptance runs in CI, not claimed from SQLite.
+- No agents spawned, canonical checkout/server untouched. No merge/deploy.
