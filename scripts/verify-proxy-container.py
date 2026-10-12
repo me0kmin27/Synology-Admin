@@ -21,11 +21,13 @@ def main():
            'INTERNAL_BIND_HOST': host, 'DJANGO_ALLOWED_HOSTS': 'localhost,127.0.0.1,Test.keiminem.com',
            'DJANGO_CSRF_TRUSTED_ORIGINS': 'https://Test.keiminem.com', 'DJANGO_LOCAL_HTTP': '0'}
     image = 'synology-admin-internal:' + os.environ['SOURCE_REVISION']
-    probe = run('docker', 'run', '-d', '--network', 'synology-admin-internal_frontend',
+    # Model an ingress client outside the web bridge. A client on the same
+    # bridge hairpins through the published port and may be SNATed to a gateway;
+    # trusting that shared gateway would erase the source identity boundary.
+    probe = run('docker', 'run', '-d', '--network', 'host',
                 '--entrypoint', 'python', image, '-c', 'import time; time.sleep(180)')
     try:
-        peer = run('docker', 'inspect', '--format',
-                   '{{(index .NetworkSettings.Networks "synology-admin-internal_frontend").IPAddress}}', probe)
+        peer = host
         import ipaddress
         ipaddress.ip_address(peer)
         for trusted, expected in [('192.168.1.142', 301), (peer, 200), ('', 301)]:
@@ -36,7 +38,7 @@ def main():
 import http.client,sys
 host,expected=sys.argv[1],int(sys.argv[2])
 for value in ['https','https,http']:
-    conn=http.client.HTTPConnection(host,18080,timeout=10)
+    conn=http.client.HTTPConnection(host,18080,timeout=10,source_address=(host,0))
     conn.request('GET','/login/',headers={'Host':'Test.keiminem.com','X-Forwarded-Proto':value})
     response=conn.getresponse()
     want=400 if value=='https,http' and expected==200 else expected
