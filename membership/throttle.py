@@ -1,4 +1,4 @@
-"""Database-backed fixed-window guard; never trust forwarded headers."""
+"""DB guard using REMOTE_ADDR after the explicit transport-peer trust boundary."""
 import time
 from django.conf import settings
 from django.contrib.auth.forms import UsernameField

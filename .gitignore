@@ -1,6 +1,8 @@
 .venv/
 .env
 .mfa.env
+.proxy.env
+.proxy.env.*
 .env.*
 !.env.example
 __pycache__/

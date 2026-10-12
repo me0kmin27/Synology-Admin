@@ -8,10 +8,19 @@ if len(SECRET_KEY) < 50:
 DEBUG = False
 MEMBERSHIP_ALLOW_UNSAFE_SQLITE = os.environ.get('DJANGO_ALLOW_UNSAFE_SQLITE') == '1'
 LOCAL_HTTP = os.environ.get("DJANGO_LOCAL_HTTP") == "1"
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+from .proxy_settings import allowed_hosts, csrf_origins, trusted_networks
+
+ALLOWED_HOSTS = allowed_hosts()
+CSRF_TRUSTED_ORIGINS = csrf_origins(ALLOWED_HOSTS)
+TRUSTED_PROXY_NETWORKS = trusted_networks()
+# Only our first middleware authenticates the transport peer and scheme.
+SECURE_PROXY_SSL_HEADER = None
+USE_X_FORWARDED_HOST = False
+USE_X_FORWARDED_PORT = False
 ROOT_URLCONF = "config.urls"
 INSTALLED_APPS = ["django.contrib.auth", "django.contrib.contenttypes", "django.contrib.sessions", "membership", "support", "chat"]
 MIDDLEWARE = [
+    "config.proxy.TrustedProxyMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "support.middleware.SupportPrivacyMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -36,6 +45,8 @@ TEMPLATES = [{"BACKEND": "django.template.backends.django.DjangoTemplates", "DIR
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 SECURE_SSL_REDIRECT = not LOCAL_HTTP
+# Only the non-authenticated, non-sensitive DB liveness endpoint stays HTTP.
+SECURE_REDIRECT_EXEMPT = [r'^health/$']
 SESSION_COOKIE_SECURE = not LOCAL_HTTP
 CSRF_COOKIE_SECURE = not LOCAL_HTTP
 SECURE_HSTS_SECONDS = 0 if LOCAL_HTTP else 31536000

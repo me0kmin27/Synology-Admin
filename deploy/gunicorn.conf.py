@@ -1,4 +1,4 @@
-"""Internal HTTP only. No trusted proxy exists in this deployment."""
+"""HTTP transport; only Django's first middleware interprets proxy headers."""
 bind = "0.0.0.0:8000"
 workers = 2
 threads = 2
@@ -9,6 +9,8 @@ accesslog = None  # Do not log query strings or invitation credentials.
 errorlog = "-"
 forwarded_allow_ips = ""
 secure_scheme_headers = {}
+forwarder_headers = ''
+proxy_protocol = 'off'  # REMOTE_ADDR must remain the actual TCP peer.
 control_socket_disable = True  # No management socket/home writes in read-only image.
 limit_request_line = 4094
 limit_request_fields = 100
