@@ -42,6 +42,24 @@ class AdminOTPDevice(TimestampMixin, ThrottlingMixin, Device):
 
 
 
+class AdminMFAPolicy(models.Model):
+    """Singleton; absence is an error, never an implicit permissive policy."""
+    id = models.PositiveSmallIntegerField(primary_key=True, default=1, editable=False)
+    required = models.BooleanField(default=False)
+    version = models.PositiveBigIntegerField(default=1)
+
+    class Meta:
+        constraints = [models.CheckConstraint(condition=models.Q(id=1), name='single_admin_mfa_policy')]
+
+
+class MFAPolicyAudit(models.Model):
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    previous = models.BooleanField()
+    required = models.BooleanField()
+    version = models.PositiveBigIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class CredentialAudit(models.Model):
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     username_changed = models.BooleanField()

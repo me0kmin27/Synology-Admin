@@ -69,7 +69,19 @@ class TestCase(DjangoTestCase):
 class TransactionTestCase(DjangoTransactionTestCase):
     client_class = Client
 
+    @classmethod
+    def _fixture_setup(cls):
+        super()._fixture_setup()
+        from membership.models import AdminMFAPolicy
+        AdminMFAPolicy.objects.update_or_create(pk=1, defaults={'required': True, 'version': 1})
+
 
 @override_settings(MFA_ENCRYPTION_KEYS=[TEST_KEY])
 class LiveServerTestCase(DjangoLiveServerTestCase):
     client_class = Client
+
+    @classmethod
+    def _fixture_setup(cls):
+        super()._fixture_setup()
+        from membership.models import AdminMFAPolicy
+        AdminMFAPolicy.objects.update_or_create(pk=1, defaults={'required': True, 'version': 1})

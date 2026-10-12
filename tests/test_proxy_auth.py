@@ -22,6 +22,8 @@ class ProxyAuthTests(TestCase):
             self.assertEqual(response.status_code, expected)
 
     def test_csrf_login_enrollment_otp_and_secure_cookies(self):
+        from membership.models import AdminMFAPolicy
+        AdminMFAPolicy.objects.filter(pk=1).update(required=True)
         with override_settings(MFA_ENCRYPTION_KEYS=[Fernet.generate_key().decode()]):
             User.objects.create_superuser('proxy-admin', password='Disposable-proxy-test-823!')
             client = Client(enforce_csrf_checks=True,

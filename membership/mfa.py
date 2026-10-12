@@ -75,7 +75,10 @@ def enroll(request):
             except SeedUnavailable:
                 return HttpResponse(status=503)
             device.save()
-            response = render(request, 'membership/mfa.html', {'seed': base64.b32encode(seed).decode()})
+            from .mfa_qr import enrollment_qr
+            response = render(request, 'membership/mfa.html', {
+                'seed': base64.b32encode(seed).decode(), 'qr_svg': enrollment_qr(seed, actor.username),
+            })
         response['Cache-Control'] = 'no-store'
         return response
 
@@ -115,5 +118,7 @@ def verify(request):
         request.session.cycle_key()
         request.session['mfa_device'] = device_binding(device)
         request.session['mfa_at'] = timezone.now().timestamp()
+        from .mfa_policy import current_policy
+        request.session['mfa_policy_version'] = current_policy().version
         request.session.save()
         return redirect('/manage/')
