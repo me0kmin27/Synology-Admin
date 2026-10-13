@@ -5,6 +5,7 @@
 {% block content %}
 <div class="page-heading"><p class="eyebrow">STORAGE OVERVIEW</p><h1>스토리지 대시보드</h1><p>NAS에서 관측된 값과 포털의 배정 정책을 구분하여 표시합니다.</p></div>
 <div class="notice"><strong>NAS 미연결 · NAS 연결 안 됨</strong><p>용량 미수집. 실제 NAS 연동은 제공하지 않습니다.</p><p>포털 배정 정책은 NAS 관측값이 아니며, 아래 수치에 사용하지 않습니다.</p></div>
+{% if global_admin %}<section class="panel"><h2>전역 관리자 · 그룹 포털 정책</h2><p>아래 한도는 NAS 사용량이 아닌 포털 정책입니다.</p><ul>{% for tenant in tenants %}<li>{{ tenant.name }} — {{ tenant.max_accounts }} 계정 / {{ tenant.storage_limit_bytes }} bytes</li>{% empty %}<li>등록된 그룹 없음</li>{% endfor %}</ul><a href="/manage/">그룹 관리</a></section>{% endif %}
 {% for card in cards %}
 <section class="panel" data-usage="{{ card.kind }}"><div class="panel-header"><h2>{% if card.kind == 'account' %}내 계정 · {{ member.user.username }}{% else %}그룹 사용량 · {{ member.tenant.name }}{% endif %}</h2><span class="badge neutral">{{ card.values.status }}</span></div>
 <dl class="data-list"><dt>NAS 할당 용량</dt><dd>{{ card.values.assigned }}</dd><dt>사용 용량 (관측값)</dt><dd>{{ card.values.used }}</dd><dt>남은 용량 (관측값)</dt><dd>{{ card.values.remaining }}</dd><dt>수집 상태</dt><dd>{{ card.values.status }}</dd><dt>최종 관측 시각</dt><dd>{% if card.observed_at %}{{ card.observed_at|date:'c' }}{% else %}관측 없음{% endif %}</dd><dt>출처</dt><dd>{{ card.source|default:'출처 없음' }}</dd></dl></section>

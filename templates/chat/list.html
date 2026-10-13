@@ -4,6 +4,6 @@
 {% block breadcrumb %}메시지{% endblock %}
 {% block content %}
 <div class="page-heading heading-row"><div><p class="eyebrow">MESSAGES</p><h1>채팅 — 준실시간 자동 갱신</h1><p>일반적으로 3초 간격으로 갱신합니다. 접속/읽음 상태를 표시하지 않습니다.</p></div>{% if can_start %}<form method="post">{% csrf_token %}<button>내 대화 시작</button></form>{% endif %}</div>
-<section class="panel"><h2>대화 목록</h2><ul class="link-list">{% for conversation in page %}<li><a href="/chat/{{ conversation.pk }}/"><span>대화 #{{ conversation.pk }} — {{ conversation.owner.username }}</span><span aria-hidden="true">→</span></a></li>{% empty %}<li class="empty-state"><strong>대화가 없습니다.</strong><p>대화를 시작하면 메시지를 주고받을 수 있습니다.</p></li>{% endfor %}</ul></section>
+<section class="panel"><h2>대화 목록</h2><ul class="link-list">{% for conversation in page %}<li><a href="/chat/{{ conversation.pk }}/"><span>대화 #{{ conversation.pk }} — {{ conversation.owner.username }}</span><span aria-hidden="true">→</span></a></li>{% empty %}<li class="empty-state"><strong>대화가 없습니다.</strong><p>{% if can_start %}대화를 시작하면 메시지를 주고받을 수 있습니다.{% else %}회원이 시작한 대화를 이곳에서 검토하고 답변합니다.{% endif %}</p></li>{% endfor %}</ul></section>
 <nav class="pagination" aria-label="대화 페이지"><a href="/chat/">최신 목록</a>{% if next_cursor %}<a rel="next" href="?before={{ next_cursor }}">이전 대화</a>{% endif %}</nav><div class="actions"><a href="/account/">내 계정</a></div>
 {% endblock %}

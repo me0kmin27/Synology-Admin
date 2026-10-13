@@ -7,6 +7,13 @@
 <p><a href="/mfa/enroll/">내 OTP 등록</a>{% if global_admin %} · <a href="/manage/mfa-policy/">관리자 OTP 정책</a>{% endif %}</p>
 <p>포털 승인과 NAS 계정 연결은 별개입니다. 모든 변경에 포털 비밀번호 재인증이 필요합니다.</p>
 <p>포털 예약 용량 정책: NAS 실제 quota 강제 집행 아님. 폐기 시 NAS 파일과 예약 용량은 유지됩니다.</p>
+{% if global_admin %}<section class="panel"><h2>그룹 생성</h2><p>포털 그룹과 가입 경로를 생성합니다. NAS 프로비저닝은 수행하지 않습니다.</p>
+<form method="post" action="/manage/groups/new/">{% csrf_token %}
+<label>그룹 이름<input name="name" maxlength="100" required></label>
+<label>고유 slug (소문자 영문·숫자·하이픈)<input name="slug" maxlength="100" pattern="[a-z0-9]+(-[a-z0-9]+)*" required></label>
+<label>최대 활성 계정 수<input type="number" name="max_accounts" min="0" max="9223372036854775807" required></label>
+<label>총 예약 용량 bytes<input type="number" name="storage_limit_bytes" min="0" max="9223372036854775807" required></label>
+<label>현재 포털 비밀번호<input type="password" name="password" autocomplete="current-password" required></label><button>그룹 생성</button></form></section>{% endif %}
 {% for tenant in tenants %}<section class="panel management-section"><h2>{{ tenant.name }} 한도</h2>
 <p>그룹 한도: {{ tenant.max_accounts }} 계정 / {{ tenant.storage_limit_bytes }} bytes</p>
 {% if global_admin %}
@@ -22,7 +29,7 @@
 <label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button>승인</button></form>{% endif %}
 {% if member.status == 'approved' %}
 {% if global_admin %}<form method="post" action="/manage/{{ member.pk }}/role/">{% csrf_token %}
-<select name="role" aria-label="회원 역할"><option value="member">일반 회원</option><option value="admin">그룹관리자</option></select>
+<select name="role" aria-label="회원 역할"><option value="member"{% if member.role == 'member' %} selected{% endif %}>일반 회원</option><option value="admin"{% if member.role == 'admin' %} selected{% endif %}>그룹관리자</option></select>
 <label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button>관리자 지정/해제</button></form>{% endif %}
 <p>역할: {{ member.role }} / 예약 용량 {{ member.quota_bytes }} bytes</p>
 <form method="post" action="/manage/{{ member.pk }}/quota/">{% csrf_token %}

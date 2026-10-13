@@ -5,7 +5,7 @@ from django.views.decorators.cache import never_cache
 
 
 def landing(request):
-    return render(request, "landing.html")
+    return render(request, "landing.html", {"authenticated": request.user.is_authenticated})
 
 
 @never_cache

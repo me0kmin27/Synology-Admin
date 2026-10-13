@@ -4,9 +4,9 @@
 {% block breadcrumb %}내 계정{% endblock %}
 {% block content %}
 <div class="page-heading"><p class="eyebrow">MY ACCOUNT</p><h1>회원 상태</h1><p>계정 승인 상태와 이용할 수 있는 서비스를 확인하세요.</p></div>
-<div class="split"><section class="panel"><div class="panel-header"><h2>계정 정보</h2><span class="badge neutral">{% if member %}{{ member.status }}{% else %}회원 정보 없음{% endif %}</span></div>
-<dl class="data-list"><dt>사용자 이름</dt><dd>{{ member.user.username|default:'회원 정보 없음' }}</dd><dt>소속 그룹</dt><dd>{{ member.tenant.name|default:'미배정' }}</dd><dt>포털 역할</dt><dd>{% if member.role == 'admin' %}그룹관리자{% elif member %}일반 회원{% else %}회원 정보 없음{% endif %}</dd></dl>
-<div class="notice"><strong>{% if member.status == 'approved' %}포털 사용 승인됨{% elif member.status == 'pending' %}관리자 승인 대기 중{% else %}계정 상태를 확인하세요{% endif %}</strong><p>승인 전 서비스 접근 불가. NAS 연결은 별도 절차입니다.</p></div>
+<div class="split"><section class="panel"><div class="panel-header"><h2>계정 정보</h2><span class="badge neutral">{% if global_admin %}전역 관리자{% elif member %}{{ member.status }}{% else %}회원 정보 없음{% endif %}</span></div>
+<dl class="data-list"><dt>사용자 이름</dt><dd>{{ identity.username }}</dd><dt>소속 그룹</dt><dd>{{ member.tenant.name|default:'미배정' }}</dd><dt>포털 역할</dt><dd>{% if global_admin %}전역 관리자{% elif member.role == 'admin' %}그룹관리자{% elif member %}일반 회원{% else %}회원 정보 없음{% endif %}</dd></dl>
+<div class="notice"><strong>{% if global_admin %}전역 관리 권한으로 그룹과 지원 내역을 검토합니다{% elif member.status == 'approved' %}포털 사용 승인됨{% elif member.status == 'pending' %}관리자 승인 대기 중{% else %}계정 상태를 확인하세요{% endif %}</strong><p>{% if global_admin %}개인 회원 소속 없이 전역 관리가 가능합니다. NAS 연결은 별도 절차입니다.{% else %}승인 전 서비스 접근 불가. NAS 연결은 별도 절차입니다.{% endif %}</p></div>
 <div class="actions"><a class="button" href="/account/settings/">아이디·비밀번호 변경</a><form method="post" action="/logout/">{% csrf_token %}<button class="secondary">로그아웃</button></form></div></section>
 <section class="panel"><h2>서비스 바로가기</h2><ul class="link-list"><li><a href="/service/"><span>서비스 상태<small>NAS 관측값과 수집 상태 확인</small></span><span aria-hidden="true">→</span></a></li><li><a href="/support/"><span>고객지원 티켓<small>문의 등록과 답변 확인</small></span><span aria-hidden="true">→</span></a></li><li><a href="/chat/"><span>채팅 (준실시간)<small>3초 간격 자동 갱신</small></span><span aria-hidden="true">→</span></a></li></ul></section></div>
 {% endblock %}
