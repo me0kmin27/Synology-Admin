@@ -128,6 +128,8 @@ class PortalUIBrowserTests(LiveServerTestCase):
             settings_link = page.get_by_role('link', name='아이디·비밀번호 변경', exact=True)
             expect(settings_link).to_be_visible()
             settings_link.click()
+            expect(page.get_by_role('dialog')).to_be_visible()
+            page.get_by_role('link', name='전체 페이지에서 열기').click()
             capture('settings')
             page.locator('[name=username]').fill('ui-renamed-test')
             page.locator('[name=new_password1]').fill('UI-replacement-test-only-839!')

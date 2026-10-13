@@ -1,0 +1,630 @@
+{
+  "registered_routes": 26,
+  "role_route_checks": 104,
+  "checks": [
+    {
+      "role": "anonymous",
+      "route": "manage/mfa-policy/",
+      "path": "/manage/mfa-policy/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "account/settings/",
+      "path": "/account/settings/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "mfa/enroll/",
+      "path": "/mfa/enroll/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "mfa/verify/",
+      "path": "/mfa/verify/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "chat/<int:pk>/",
+      "path": "/chat/1/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "chat/<int:pk>/events/",
+      "path": "/chat/1/events/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "chat/",
+      "path": "/chat/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "support/<int:pk>/replies/",
+      "path": "/support/1/replies/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "support/",
+      "path": "/support/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "support/<int:pk>/",
+      "path": "/support/1/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "support/new/",
+      "path": "/support/new/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "role": "anonymous",
+      "route": "health/",
+      "path": "/health/",
+      "status": 200
+    },
+    {
+      "role": "anonymous",
+      "route": "signup/",
+      "path": "/signup/",
+      "status": 200
+    },
+    {
+      "role": "anonymous",
+      "route": "manage/",
+      "path": "/manage/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "manage/<int:pk>/link/",
+      "path": "/manage/1/link/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "manage/<int:pk>/assign/",
+      "path": "/manage/1/assign/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "manage/<int:pk>/approve/",
+      "path": "/manage/1/approve/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "manage/<int:pk>/revoke/",
+      "path": "/manage/1/revoke/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "manage/groups/<int:pk>/limits/",
+      "path": "/manage/groups/1/limits/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "manage/<int:pk>/role/",
+      "path": "/manage/1/role/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "manage/<int:pk>/quota/",
+      "path": "/manage/1/quota/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "login/",
+      "path": "/login/",
+      "status": 200
+    },
+    {
+      "role": "anonymous",
+      "route": "logout/",
+      "path": "/logout/",
+      "status": 405
+    },
+    {
+      "role": "anonymous",
+      "route": "account/",
+      "path": "/account/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
+      "route": "service/",
+      "path": "/service/",
+      "status": 302
+    },
+    {
+      "role": "user",
+      "route": "manage/mfa-policy/",
+      "path": "/manage/mfa-policy/",
+      "status": 403
+    },
+    {
+      "role": "user",
+      "route": "account/settings/",
+      "path": "/account/settings/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "mfa/enroll/",
+      "path": "/mfa/enroll/",
+      "status": 403
+    },
+    {
+      "role": "user",
+      "route": "mfa/verify/",
+      "path": "/mfa/verify/",
+      "status": 403
+    },
+    {
+      "role": "user",
+      "route": "chat/<int:pk>/",
+      "path": "/chat/1/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "chat/<int:pk>/events/",
+      "path": "/chat/1/events/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "chat/",
+      "path": "/chat/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "support/<int:pk>/replies/",
+      "path": "/support/1/replies/",
+      "status": 405
+    },
+    {
+      "role": "user",
+      "route": "support/",
+      "path": "/support/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "support/<int:pk>/",
+      "path": "/support/1/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "support/new/",
+      "path": "/support/new/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "health/",
+      "path": "/health/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "signup/",
+      "path": "/signup/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "manage/",
+      "path": "/manage/",
+      "status": 403
+    },
+    {
+      "role": "user",
+      "route": "manage/<int:pk>/link/",
+      "path": "/manage/1/link/",
+      "status": 405
+    },
+    {
+      "role": "user",
+      "route": "manage/<int:pk>/assign/",
+      "path": "/manage/1/assign/",
+      "status": 405
+    },
+    {
+      "role": "user",
+      "route": "manage/<int:pk>/approve/",
+      "path": "/manage/1/approve/",
+      "status": 405
+    },
+    {
+      "role": "user",
+      "route": "manage/<int:pk>/revoke/",
+      "path": "/manage/1/revoke/",
+      "status": 405
+    },
+    {
+      "role": "user",
+      "route": "manage/groups/<int:pk>/limits/",
+      "path": "/manage/groups/1/limits/",
+      "status": 405
+    },
+    {
+      "role": "user",
+      "route": "manage/<int:pk>/role/",
+      "path": "/manage/1/role/",
+      "status": 405
+    },
+    {
+      "role": "user",
+      "route": "manage/<int:pk>/quota/",
+      "path": "/manage/1/quota/",
+      "status": 405
+    },
+    {
+      "role": "user",
+      "route": "login/",
+      "path": "/login/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "logout/",
+      "path": "/logout/",
+      "status": 405
+    },
+    {
+      "role": "user",
+      "route": "account/",
+      "path": "/account/",
+      "status": 200
+    },
+    {
+      "role": "user",
+      "route": "service/",
+      "path": "/service/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "manage/mfa-policy/",
+      "path": "/manage/mfa-policy/",
+      "status": 403
+    },
+    {
+      "role": "group-admin",
+      "route": "account/settings/",
+      "path": "/account/settings/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "mfa/enroll/",
+      "path": "/mfa/enroll/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "mfa/verify/",
+      "path": "/mfa/verify/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "chat/<int:pk>/",
+      "path": "/chat/1/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "chat/<int:pk>/events/",
+      "path": "/chat/1/events/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "chat/",
+      "path": "/chat/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "support/<int:pk>/replies/",
+      "path": "/support/1/replies/",
+      "status": 405
+    },
+    {
+      "role": "group-admin",
+      "route": "support/",
+      "path": "/support/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "support/<int:pk>/",
+      "path": "/support/1/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "support/new/",
+      "path": "/support/new/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "health/",
+      "path": "/health/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "signup/",
+      "path": "/signup/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "manage/",
+      "path": "/manage/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "manage/<int:pk>/link/",
+      "path": "/manage/1/link/",
+      "status": 405
+    },
+    {
+      "role": "group-admin",
+      "route": "manage/<int:pk>/assign/",
+      "path": "/manage/1/assign/",
+      "status": 405
+    },
+    {
+      "role": "group-admin",
+      "route": "manage/<int:pk>/approve/",
+      "path": "/manage/1/approve/",
+      "status": 405
+    },
+    {
+      "role": "group-admin",
+      "route": "manage/<int:pk>/revoke/",
+      "path": "/manage/1/revoke/",
+      "status": 405
+    },
+    {
+      "role": "group-admin",
+      "route": "manage/groups/<int:pk>/limits/",
+      "path": "/manage/groups/1/limits/",
+      "status": 405
+    },
+    {
+      "role": "group-admin",
+      "route": "manage/<int:pk>/role/",
+      "path": "/manage/1/role/",
+      "status": 405
+    },
+    {
+      "role": "group-admin",
+      "route": "manage/<int:pk>/quota/",
+      "path": "/manage/1/quota/",
+      "status": 405
+    },
+    {
+      "role": "group-admin",
+      "route": "login/",
+      "path": "/login/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "logout/",
+      "path": "/logout/",
+      "status": 405
+    },
+    {
+      "role": "group-admin",
+      "route": "account/",
+      "path": "/account/",
+      "status": 200
+    },
+    {
+      "role": "group-admin",
+      "route": "service/",
+      "path": "/service/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "manage/mfa-policy/",
+      "path": "/manage/mfa-policy/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "account/settings/",
+      "path": "/account/settings/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "mfa/enroll/",
+      "path": "/mfa/enroll/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "mfa/verify/",
+      "path": "/mfa/verify/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "chat/<int:pk>/",
+      "path": "/chat/1/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "chat/<int:pk>/events/",
+      "path": "/chat/1/events/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "chat/",
+      "path": "/chat/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "support/<int:pk>/replies/",
+      "path": "/support/1/replies/",
+      "status": 405
+    },
+    {
+      "role": "global-admin",
+      "route": "support/",
+      "path": "/support/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "support/<int:pk>/",
+      "path": "/support/1/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "support/new/",
+      "path": "/support/new/",
+      "status": 403
+    },
+    {
+      "role": "global-admin",
+      "route": "",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "health/",
+      "path": "/health/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "signup/",
+      "path": "/signup/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "manage/",
+      "path": "/manage/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "manage/<int:pk>/link/",
+      "path": "/manage/1/link/",
+      "status": 405
+    },
+    {
+      "role": "global-admin",
+      "route": "manage/<int:pk>/assign/",
+      "path": "/manage/1/assign/",
+      "status": 405
+    },
+    {
+      "role": "global-admin",
+      "route": "manage/<int:pk>/approve/",
+      "path": "/manage/1/approve/",
+      "status": 405
+    },
+    {
+      "role": "global-admin",
+      "route": "manage/<int:pk>/revoke/",
+      "path": "/manage/1/revoke/",
+      "status": 405
+    },
+    {
+      "role": "global-admin",
+      "route": "manage/groups/<int:pk>/limits/",
+      "path": "/manage/groups/1/limits/",
+      "status": 405
+    },
+    {
+      "role": "global-admin",
+      "route": "manage/<int:pk>/role/",
+      "path": "/manage/1/role/",
+      "status": 405
+    },
+    {
+      "role": "global-admin",
+      "route": "manage/<int:pk>/quota/",
+      "path": "/manage/1/quota/",
+      "status": 405
+    },
+    {
+      "role": "global-admin",
+      "route": "login/",
+      "path": "/login/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "logout/",
+      "path": "/logout/",
+      "status": 405
+    },
+    {
+      "role": "global-admin",
+      "route": "account/",
+      "path": "/account/",
+      "status": 200
+    },
+    {
+      "role": "global-admin",
+      "route": "service/",
+      "path": "/service/",
+      "status": 403
+    }
+  ]
+}

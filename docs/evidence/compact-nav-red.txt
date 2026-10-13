@@ -1,0 +1,80 @@
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 2 test(s).
+Operations to perform:
+  Apply all migrations: auth, chat, contenttypes, membership, sessions, support
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying membership.0001_initial... OK
+  Applying membership.0002_auditevent... OK
+  Applying membership.0003_membership_session_version... OK
+  Applying membership.0004_nasbinding... OK
+  Applying membership.0005_authattempt... OK
+  Applying membership.0006_membership_membership_valid_status_and_more... OK
+  Applying membership.0007_tenant_signup_enabled... OK
+  Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+  Applying membership.0009_membership_quota_bytes... OK
+  Applying membership.0010_seed_existing_capacity... OK
+  Applying chat.0001_initial... OK
+  Applying chat.0002_message... OK
+  Applying chat.0003_ratewindow... OK
+  Applying chat.0004_conversation_conversation_tenant_cursor... OK
+  Applying membership.0011_adminotpdevice... OK
+  Applying membership.0012_bootstrap_admin... OK
+  Applying membership.0013_credential_audit... OK
+  Applying membership.0014_admin_mfa_policy... OK
+  Applying membership.0015_mfa_policy_audit... OK
+  Applying sessions.0001_initial... OK
+  Applying support.0001_initial... OK
+  Applying support.0002_ticketreply... OK
+  Applying support.0003_ticket_ticket_tenant_cursor_and_more...test_navigation_only_offers_accessible_workspaces (tests.test_compact_ui.CompactUITests.test_navigation_only_offers_accessible_workspaces) ... FAIL
+test_unassigned_global_admin_not_offered_member_only_actions (tests.test_compact_ui.CompactUITests.test_unassigned_global_admin_not_offered_member_only_actions) ... FAIL
+
+======================================================================
+FAIL: test_navigation_only_offers_accessible_workspaces (tests.test_compact_ui.CompactUITests.test_navigation_only_offers_accessible_workspaces)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/tests/test_compact_ui.py", line 56, in test_navigation_only_offers_accessible_workspaces
+    self.assertEqual(self.links(response).primary, expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['/', '/account/', '/service/', '/support/', '/chat/', '/manage/'] != ['/', '/login/', '/signup/']
+
+First differing element 1:
+'/account/'
+'/login/'
+
+First list contains 3 additional elements.
+First extra element 3:
+'/support/'
+
+- ['/', '/account/', '/service/', '/support/', '/chat/', '/manage/']
++ ['/', '/login/', '/signup/']
+
+======================================================================
+FAIL: test_unassigned_global_admin_not_offered_member_only_actions (tests.test_compact_ui.CompactUITests.test_unassigned_global_admin_not_offered_member_only_actions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/tests/test_compact_ui.py", line 68, in test_unassigned_global_admin_not_offered_member_only_actions
+    self.assertNotIn('/service/', self.links(self.client.get('/account/')).links)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '/service/' unexpectedly found in ['#main-content', '/', '/', '/account/', '/service/', '/support/', '/chat/', '/manage/', '/account/settings/', '/service/', '/support/', '/chat/']
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.018s
+
+FAILED (failures=2)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
+System check identified no issues (0 silenced).
