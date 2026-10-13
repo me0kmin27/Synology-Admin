@@ -82,6 +82,10 @@ def manage(request):
         "tenants": tenants,
         "global_admin": request.user.is_superuser,
     }
+    if request.GET.get("new") == "group":
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return render(request, "membership/group_create.html", context)
     for key, queryset in (("member", members), ("group", tenants)):
         if key in request.GET:
             value = request.GET[key]
@@ -146,7 +150,7 @@ def link(request, pk):
 @login_required
 def account(request):
     member = Membership.objects.filter(user=request.user).first()
-    return render(request, "membership/account.html", {"member": member})
+    return render(request, "membership/account.html", {"member": member, "identity": request.user, "global_admin": request.user.is_superuser})
 
 
 @login_required
@@ -161,6 +165,10 @@ def service(request):
     with policy_transaction():
         actor = get_user_model().objects.get(pk=request.user.pk)
         member = Membership.objects.select_related('user', 'tenant').filter(user=actor).first()
+        if actor.is_active and actor.is_superuser and not member and request.session.get('membership_version') == (member.session_version if member else None):
+            return render(request, 'membership/service.html', {
+                'global_admin': True, 'tenants': Tenant.objects.order_by('pk'),
+            })
         if (not actor.is_active or not member or member.status != 'approved'
                 or not member.tenant_id
                 or request.session.get('membership_version') != member.session_version):

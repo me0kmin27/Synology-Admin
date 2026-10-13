@@ -1,6 +1,6 @@
 {
-  "registered_routes": 26,
-  "role_route_checks": 104,
+  "registered_routes": 27,
+  "role_route_checks": 108,
   "checks": [
     {
       "role": "anonymous",
@@ -118,6 +118,12 @@
     },
     {
       "role": "anonymous",
+      "route": "manage/groups/new/",
+      "path": "/manage/groups/new/",
+      "status": 302
+    },
+    {
+      "role": "anonymous",
       "route": "manage/groups/<int:pk>/limits/",
       "path": "/manage/groups/1/limits/",
       "status": 302
@@ -274,6 +280,12 @@
     },
     {
       "role": "user",
+      "route": "manage/groups/new/",
+      "path": "/manage/groups/new/",
+      "status": 405
+    },
+    {
+      "role": "user",
       "route": "manage/groups/<int:pk>/limits/",
       "path": "/manage/groups/1/limits/",
       "status": 405
@@ -430,6 +442,12 @@
     },
     {
       "role": "group-admin",
+      "route": "manage/groups/new/",
+      "path": "/manage/groups/new/",
+      "status": 405
+    },
+    {
+      "role": "group-admin",
       "route": "manage/groups/<int:pk>/limits/",
       "path": "/manage/groups/1/limits/",
       "status": 405
@@ -586,6 +604,12 @@
     },
     {
       "role": "global-admin",
+      "route": "manage/groups/new/",
+      "path": "/manage/groups/new/",
+      "status": 405
+    },
+    {
+      "role": "global-admin",
       "route": "manage/groups/<int:pk>/limits/",
       "path": "/manage/groups/1/limits/",
       "status": 405
@@ -624,7 +648,7 @@
       "role": "global-admin",
       "route": "service/",
       "path": "/service/",
-      "status": 403
+      "status": 200
     }
   ]
 }

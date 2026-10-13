@@ -103,3 +103,32 @@ def limits(request, pk):
         tenant.save(update_fields=list(data))
         GroupAudit.objects.create(actor=request.user, tenant=tenant, action='limits', details=data)
     return redirect('/manage/')
+
+
+@sensitive_post_parameters()
+@login_required
+@require_POST
+@authorized_mutation
+def create(request):
+    """Create portal policy only, under the shared authorization lock."""
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    name = request.POST.get('name', '').strip()
+    slug = request.POST.get('slug', '')
+    if (not name or len(name) > 100 or any(ord(char) < 32 for char in name)
+            or not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', slug) or len(slug) > 100):
+        return HttpResponse(status=400)
+    try:
+        data = {field: unsigned_integer(request.POST.get(field, ''))
+                for field in ('max_accounts', 'storage_limit_bytes')}
+    except ValueError:
+        return HttpResponse(status=400)
+    from django.db import IntegrityError
+    try:
+        with transaction.atomic():
+            tenant = Tenant.objects.create(name=name, slug=slug, **data)
+            GroupAudit.objects.create(actor=request.user, tenant=tenant, action='create',
+                                      details={'name': name, 'slug': slug, **data})
+    except IntegrityError:
+        return HttpResponse(status=409)
+    return redirect('/manage/')

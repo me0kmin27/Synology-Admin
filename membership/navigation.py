@@ -12,6 +12,7 @@ def navigation(request):
         'authenticated': authenticated,
         'username': user.username if authenticated else '',
         'member': approved,
+        'storage': approved or (global_admin and not member),
         'services': approved or global_admin,
         'manage': global_admin or (approved and member.role == 'admin'),
         'global_admin': global_admin,

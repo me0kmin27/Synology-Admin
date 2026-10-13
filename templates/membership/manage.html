@@ -3,7 +3,7 @@
 {% block nav_manage %}aria-current="page"{% endblock %}
 {% block breadcrumb %}관리 콘솔{% endblock %}
 {% block content %}
-<div class="page-heading heading-row"><div><h1>회원 관리</h1><p>회원을 선택하여 승인·권한·예약 용량을 변경하세요.</p></div><div class="actions"><a href="/mfa/enroll/">내 OTP 등록</a>{% if global_admin %}<a data-modal href="/manage/mfa-policy/">OTP 정책</a>{% endif %}</div></div>
+<div class="page-heading heading-row"><div><h1>회원 관리</h1><p>회원을 선택하여 승인·권한·예약 용량을 변경하세요.</p></div><div class="actions"><a href="/mfa/enroll/">내 OTP 등록</a>{% if global_admin %}<a data-modal href="/manage/?new=group">그룹 생성</a><a data-modal href="/manage/mfa-policy/">OTP 정책</a>{% endif %}</div></div>
 {% csrf_token %}
 <section class="panel"><h2>그룹</h2><ul class="compact-list">{% for tenant in tenants %}<li><span><strong>{{ tenant.name }}</strong><small>최대 {{ tenant.max_accounts }} 계정 · 예약 한도 {{ tenant.storage_limit_bytes }} bytes</small></span><a data-modal href="/manage/?group={{ tenant.pk }}">그룹 상세</a></li>{% empty %}<li>배정된 그룹 없음</li>{% endfor %}</ul></section>
 <section class="panel"><h2>회원</h2><ul class="compact-list">{% for member in members %}<li><span><strong>{{ member.user.username }}</strong><small>{{ member.tenant.name|default:'미배정' }} · {{ member.get_status_display }} · {{ member.get_role_display }}</small></span><a data-modal href="/manage/?member={{ member.pk }}">상세·변경<span class="sr-only"> — {{ member.user.username }}</span></a></li>{% empty %}<li>회원 없음</li>{% endfor %}</ul></section>

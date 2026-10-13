@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}그룹 생성{% endblock %}
+{% block nav_manage %}aria-current="page"{% endblock %}
+{% block breadcrumb %}관리 콘솔 / 그룹 생성{% endblock %}
+{% block content %}
+<div class="page-heading"><h1>그룹 생성</h1></div>
+<a href="/manage/">회원 목록으로</a>
+{% if global_admin %}<section class="panel"><h2>그룹 생성</h2><p>포털 그룹과 가입 경로를 생성합니다. NAS 프로비저닝은 수행하지 않습니다.</p>
+<form method="post" action="/manage/groups/new/">{% csrf_token %}
+<label>그룹 이름<input name="name" maxlength="100" required></label>
+<label>고유 slug (소문자 영문·숫자·하이픈)<input name="slug" maxlength="100" pattern="[a-z0-9]+(-[a-z0-9]+)*" required></label>
+<label>최대 활성 계정 수<input type="number" name="max_accounts" min="0" max="9223372036854775807" required></label>
+<label>총 예약 용량 bytes<input type="number" name="storage_limit_bytes" min="0" max="9223372036854775807" required></label>
+<label>현재 포털 비밀번호<input type="password" name="password" autocomplete="current-password" required></label><button>그룹 생성</button></form></section>{% endif %}
+{% endblock %}

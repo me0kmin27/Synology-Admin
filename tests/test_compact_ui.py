@@ -121,5 +121,5 @@ class CompactUITests(TestCase):
 
     def test_unassigned_global_admin_not_offered_member_only_actions(self):
         self.client.force_login(self.root)
-        self.assertNotIn('/service/', self.links(self.client.get('/account/')).links)
+        self.assertIn('/service/', self.links(self.client.get('/account/')).links)
         self.assertNotIn('/support/new/', self.links(self.client.get('/support/')).links)

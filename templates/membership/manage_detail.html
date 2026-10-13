@@ -23,7 +23,7 @@
 <label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button>승인</button></form>{% endif %}
 {% if member.status == 'approved' %}
 {% if global_admin %}<form method="post" action="/manage/{{ member.pk }}/role/">{% csrf_token %}
-<select name="role" aria-label="회원 역할"><option value="member">일반 회원</option><option value="admin">그룹관리자</option></select>
+<select name="role" aria-label="회원 역할"><option value="member"{% if member.role == 'member' %} selected{% endif %}>일반 회원</option><option value="admin"{% if member.role == 'admin' %} selected{% endif %}>그룹관리자</option></select>
 <label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button>관리자 지정/해제</button></form>{% endif %}
 <p>역할: {{ member.role }} / 예약 용량 {{ member.quota_bytes }} bytes</p>
 <form method="post" action="/manage/{{ member.pk }}/quota/">{% csrf_token %}
