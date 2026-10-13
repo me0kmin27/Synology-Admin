@@ -14,12 +14,17 @@
     <a class="brand" href="/" aria-label="Synology-Admin 홈"><span class="brand-mark" aria-hidden="true">S</span><span>Synology-Admin<small>관리 포털</small></span></a>
     <p class="nav-label">WORKSPACE</p>
     <nav class="primary-nav" aria-label="주 메뉴">
+      {% if not portal_nav.authenticated %}
       <a href="/" {% block nav_home %}{% endblock %}><span aria-hidden="true">01</span> 포털 안내</a>
+      <a href="/login/">로그인</a><a href="/signup/">가입</a>
+      {% else %}
       <a href="/account/" {% block nav_account %}{% endblock %}><span aria-hidden="true">02</span> 내 계정</a>
-      <a href="/service/" {% block nav_service %}{% endblock %}><span aria-hidden="true">03</span> 스토리지</a>
+      {% if portal_nav.services %}
       <a href="/support/" {% block nav_support %}{% endblock %}><span aria-hidden="true">04</span> 지원 요청</a>
       <a href="/chat/" {% block nav_chat %}{% endblock %}><span aria-hidden="true">05</span> 메시지</a>
+      {% endif %}{% if portal_nav.manage %}
       <a href="/manage/" {% block nav_manage %}{% endblock %}><span aria-hidden="true">06</span> 관리 콘솔</a>
+      {% endif %}{% endif %}
     </nav>
     <div class="sidebar-note"><span class="badge neutral">개발 검증 단계</span><p>계정별 승인과 권한에 따라<br>서비스 접근이 제한됩니다.</p></div>
   </aside>
@@ -29,6 +34,7 @@
     <footer class="page-footer"><span>Synology-Admin</span><span>포털 계정과 DSM 계정은 별도로 관리됩니다.</span></footer>
   </div>
 </div>
+{% include "ui/dialog.html" %}
 {% block scripts %}{% endblock %}
 </body>
 </html>

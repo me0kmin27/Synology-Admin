@@ -3,8 +3,8 @@
 {% block nav_support %}aria-current="page"{% endblock %}
 {% block breadcrumb %}지원 요청{% endblock %}
 {% block content %}
-<div class="page-heading heading-row"><div><p class="eyebrow">SUPPORT DESK</p><h1>지원 티켓</h1><p>문의 내역과 담당자의 답변을 확인하세요.</p></div>{% if can_create %}<a class="button" href="/support/new/">새 지원 요청</a>{% endif %}</div>
+<div class="page-heading heading-row"><div><p class="eyebrow">SUPPORT DESK</p><h1>지원 티켓</h1><p>문의 내역과 담당자의 답변을 확인하세요.</p></div>{% if can_create %}<a class="button" data-modal href="/support/new/">새 지원 요청</a>{% endif %}</div>
 {% if not can_create %}<p class="notice">전역 검토 역할로 회원의 지원 요청을 확인하고 답변합니다. 승인된 그룹 회원만 새 요청을 등록할 수 있습니다.</p>{% endif %}
-<section class="panel"><h2>문의 내역</h2><ul class="link-list">{% for ticket in page %}<li><a href="/support/{{ ticket.pk }}/"><span>{{ ticket.title }}<small>#{{ ticket.pk }}</small></span><span aria-hidden="true">→</span></a></li>{% empty %}<li class="empty-state"><strong>티켓 없음</strong><p>{% if can_create %}새 지원 요청을 등록하면 이곳에서 확인할 수 있습니다.{% else %}회원의 지원 요청이 등록되면 이곳에서 확인할 수 있습니다.{% endif %}</p></li>{% endfor %}</ul></section>
+<section class="panel"><h2>문의 내역</h2><ul class="link-list">{% for ticket in page %}<li><a data-modal href="/support/{{ ticket.pk }}/"><span>{{ ticket.title }}<small>#{{ ticket.pk }}</small></span><span aria-hidden="true">→</span></a></li>{% empty %}<li class="empty-state"><strong>티켓 없음</strong><p>{% if can_create %}새 지원 요청을 등록하면 이곳에서 확인할 수 있습니다.{% else %}회원의 지원 요청이 등록되면 이곳에서 확인할 수 있습니다.{% endif %}</p></li>{% endfor %}</ul></section>
 <nav class="pagination" aria-label="티켓 페이지"><a href="/support/">최신 목록</a>{% if next_cursor %}<a rel="next" href="?before={{ next_cursor }}">이전 티켓</a>{% endif %}</nav>
 {% endblock %}

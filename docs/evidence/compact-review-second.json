@@ -1,0 +1,25 @@
+{
+  "passed": false,
+  "security_concerns": [],
+  "logic_errors": [
+    {
+      "severity": "medium",
+      "location": "templates/ui/dialog.html:65-67,89",
+      "issue": "The redirect path calls location.assign(), then finally clears busy and submitting before the document navigation completes. If that navigation stalls, the old form remains usable and can submit another POST.",
+      "recommendation": "Keep submission locked after handing off to navigation. Test with the destination document request delayed and verify that another submit cannot create another audit."
+    },
+    {
+      "severity": "medium",
+      "location": "templates/ui/dialog.html:16-18,57-62",
+      "issue": "Pending navigation protection covers dialog link clicks only. Browser Back, reload, or another document navigation can still discard the pending POST observation, recreating commit ambiguity.",
+      "recommendation": "Add a pending-operation departure warning where browsers support it; use server-side idempotency if duplicate prevention must survive document departure."
+    }
+  ],
+  "suggestions": [
+    {
+      "location": "browser_tests/compact_ui.py:26-51",
+      "suggestion": "The route holds the POST before it reaches Django, then verifies one audit after release. Add coverage for a committed POST whose response is lost, uncertain-outcome repeat blocking, fallback-link blocking, and delayed redirect navigation."
+    }
+  ],
+  "summary": "Independently reviewed all staged changes and relevant staged authorization, CSRF, middleware, and privacy code. No introduced authorization bypass, cross-tenant disclosure, CSRF regression, or unsafe fallback URL was found. Close/Escape and concurrent-submit guards work during the fetch, but navigation lifecycle gaps remain. Static review only; tests were not executed. No files or git state were modified, and unstaged evidence was excluded."
+}

@@ -49,7 +49,8 @@ class MenuFixTests(TestCase):
         return dict(password=PASSWORD, name='New group', slug='new-group', max_accounts='3', storage_limit_bytes='4096', **overrides)
 
     def test_group_creation_ui_endpoint_and_audit(self):
-        self.assertContains(self.client.get('/manage/'), '/manage/groups/new/')
+        self.assertContains(self.client.get('/manage/'), '/manage/?new=group')
+        self.assertContains(self.client.get('/manage/?new=group'), '/manage/groups/new/')
         self.assertEqual(self.client.get('/manage/groups/new/').status_code, 405)
         self.assertEqual(self.client.post('/manage/groups/new/', self.payload()).status_code, 302)
         tenant = Tenant.objects.get(name='New group')
@@ -85,7 +86,8 @@ class MenuFixTests(TestCase):
         user = User.objects.create_user('manager', password=PASSWORD)
         Membership.objects.create(user=user, tenant=tenant, status='approved', role='admin')
         self.client.force_login(user)
-        self.assertNotContains(self.client.get('/manage/'), '/manage/groups/new/')
+        self.assertNotContains(self.client.get('/manage/'), '/manage/?new=group')
+        self.assertEqual(self.client.get('/manage/?new=group').status_code, 403)
         self.assertEqual(self.client.post('/manage/groups/new/', self.payload()).status_code, 403)
         self.assertContains(self.client.get('/service/'), '용량 미수집')
 
@@ -127,7 +129,7 @@ class MenuFixTests(TestCase):
         tenant = Tenant.objects.create(name='Role selection')
         user = User.objects.create_user('role-manager', password=PASSWORD)
         member = Membership.objects.create(user=user, tenant=tenant, status='approved', role='admin')
-        response = self.client.get('/manage/')
+        response = self.client.get(f'/manage/?member={member.pk}')
         from html.parser import HTMLParser
         class Options(HTMLParser):
             def __init__(self):

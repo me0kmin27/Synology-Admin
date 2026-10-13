@@ -1,0 +1,58 @@
+Creating test database for alias 'default'...
+Exception in callback Connection.dispatch.<locals>._done_callback() at /Users/myeong-gyeongmin/synology-site-compact-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_connection.py:466
+handle: <Handle Connection.dispatch.<locals>._done_callback() at /Users/myeong-gyeongmin/synology-site-compact-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_connection.py:466>
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/browser_tests/compact_ui.py", line 43, in test_inflight_mutation_cannot_be_closed_or_submitted_twice
+    self.assertTrue(page.evaluate("""(() => {
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+        const event = new Event('beforeunload', {cancelable: true});
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        window.dispatchEvent(event); return event.defaultPrevented;
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    })()"""))
+    ^^^^^^^^^
+  File "/Users/myeong-gyeongmin/.hermes/tools/python-3.14.7+20260901-darwin-arm64/lib/python3.14/unittest/case.py", line 762, in assertTrue
+    raise self.failureException(msg)
+AssertionError: False is not true
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/.hermes/tools/python-3.14.7+20260901-darwin-arm64/lib/python3.14/asyncio/events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 467, in _done_callback
+    exc = future.exception()
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_page.py", line 297, in _on_route
+    handled = await route_handler.handle(route)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_helper.py", line 422, in handle
+    return await self._handle_internal(route)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_helper.py", line 464, in _handle_internal
+    return await handled_future
+           ^^^^^^^^^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+F
+======================================================================
+FAIL: test_inflight_mutation_cannot_be_closed_or_submitted_twice (browser_tests.compact_ui.CompactBrowserTests.test_inflight_mutation_cannot_be_closed_or_submitted_twice)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/browser_tests/compact_ui.py", line 43, in test_inflight_mutation_cannot_be_closed_or_submitted_twice
+    self.assertTrue(page.evaluate("""(() => {
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+        const event = new Event('beforeunload', {cancelable: true});
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        window.dispatchEvent(event); return event.defaultPrevented;
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    })()"""))
+    ^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.903s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).

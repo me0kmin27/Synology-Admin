@@ -76,11 +76,28 @@ def revoke(request, pk):
 @require_http_methods(["GET"])
 def manage(request):
     members = managed_members(request.user)
-    return render(request, "membership/manage.html", {
+    tenants = Tenant.objects.all() if request.user.is_superuser else Tenant.objects.filter(pk__in=members.values('tenant_id'))
+    context = {
         "members": members.select_related("user", "tenant").order_by("pk"),
-        "tenants": Tenant.objects.all() if request.user.is_superuser else Tenant.objects.filter(pk__in=members.values('tenant_id')),
+        "tenants": tenants,
         "global_admin": request.user.is_superuser,
-    })
+    }
+    if request.GET.get("new") == "group":
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return render(request, "membership/group_create.html", context)
+    for key, queryset in (("member", members), ("group", tenants)):
+        if key in request.GET:
+            value = request.GET[key]
+            if not re.fullmatch(r"[0-9]{1,18}", value):
+                from django.http import Http404
+                raise Http404
+            selected = get_object_or_404(queryset, pk=int(value))
+            context["members"] = [selected] if key == "member" else []
+            context["tenants"] = tenants if key == "member" else [selected]
+            context["member_detail"] = key == "member"
+            return render(request, "membership/manage_detail.html", context)
+    return render(request, "membership/manage.html", context)
 
 
 @sensitive_post_parameters()

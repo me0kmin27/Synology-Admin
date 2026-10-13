@@ -3,44 +3,9 @@
 {% block nav_manage %}aria-current="page"{% endblock %}
 {% block breadcrumb %}관리 콘솔{% endblock %}
 {% block content %}
-<div class="page-heading"><p class="eyebrow">MEMBERS & GROUPS</p><h1>회원 관리</h1><p>그룹 한도와 회원 승인, 포털 예약 용량을 관리합니다.</p></div>
-<p><a href="/mfa/enroll/">내 OTP 등록</a>{% if global_admin %} · <a href="/manage/mfa-policy/">관리자 OTP 정책</a>{% endif %}</p>
-<p>포털 승인과 NAS 계정 연결은 별개입니다. 모든 변경에 포털 비밀번호 재인증이 필요합니다.</p>
-<p>포털 예약 용량 정책: NAS 실제 quota 강제 집행 아님. 폐기 시 NAS 파일과 예약 용량은 유지됩니다.</p>
-{% if global_admin %}<section class="panel"><h2>그룹 생성</h2><p>포털 그룹과 가입 경로를 생성합니다. NAS 프로비저닝은 수행하지 않습니다.</p>
-<form method="post" action="/manage/groups/new/">{% csrf_token %}
-<label>그룹 이름<input name="name" maxlength="100" required></label>
-<label>고유 slug (소문자 영문·숫자·하이픈)<input name="slug" maxlength="100" pattern="[a-z0-9]+(-[a-z0-9]+)*" required></label>
-<label>최대 활성 계정 수<input type="number" name="max_accounts" min="0" max="9223372036854775807" required></label>
-<label>총 예약 용량 bytes<input type="number" name="storage_limit_bytes" min="0" max="9223372036854775807" required></label>
-<label>현재 포털 비밀번호<input type="password" name="password" autocomplete="current-password" required></label><button>그룹 생성</button></form></section>{% endif %}
-{% for tenant in tenants %}<section class="panel management-section"><h2>{{ tenant.name }} 한도</h2>
-<p>그룹 한도: {{ tenant.max_accounts }} 계정 / {{ tenant.storage_limit_bytes }} bytes</p>
-{% if global_admin %}
-<form method="post" action="/manage/groups/{{ tenant.pk }}/limits/">{% csrf_token %}
-<label>최대 활성 계정 수 (그룹관리자 포함)<input type="number" name="max_accounts" min="0" value="{{ tenant.max_accounts }}" required></label>
-<label>총 예약 용량 bytes<input type="number" name="storage_limit_bytes" min="0" value="{{ tenant.storage_limit_bytes }}" required></label>
-<label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button>한도 설정</button></form>{% endif %}</section>{% endfor %}
-{% for member in members %}<section class="panel management-section"><h2>{{ member.user.username }}</h2><p>{{ member.status }} / {{ member.tenant.name }}</p>
-{% if global_admin and not member.tenant_id %}<form method="post" action="/manage/{{ member.pk }}/assign/">{% csrf_token %}
-<select name="tenant" aria-label="배정할 그룹">{% for tenant in tenants %}<option value="{{ tenant.pk }}">{{ tenant.name }}</option>{% endfor %}</select>
-<label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button>테넌트 배정</button></form>{% endif %}
-{% if member.status == 'pending' %}<form method="post" action="/manage/{{ member.pk }}/approve/">{% csrf_token %}
-<label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button>승인</button></form>{% endif %}
-{% if member.status == 'approved' %}
-{% if global_admin %}<form method="post" action="/manage/{{ member.pk }}/role/">{% csrf_token %}
-<select name="role" aria-label="회원 역할"><option value="member"{% if member.role == 'member' %} selected{% endif %}>일반 회원</option><option value="admin"{% if member.role == 'admin' %} selected{% endif %}>그룹관리자</option></select>
-<label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button>관리자 지정/해제</button></form>{% endif %}
-<p>역할: {{ member.role }} / 예약 용량 {{ member.quota_bytes }} bytes</p>
-<form method="post" action="/manage/{{ member.pk }}/quota/">{% csrf_token %}
-<label>예약 용량 bytes<input type="number" name="quota_bytes" min="0" value="{{ member.quota_bytes }}" required></label>
-<label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button>예약 용량 배정</button></form>
-<p>NAS 식별자 매핑: {{ member.nasbinding.external_id|default:"미등록" }} (NAS 검증/프로비저닝 아님)</p>
-<form method="post" action="/manage/{{ member.pk }}/link/">{% csrf_token %}
-<label>NAS 외부 식별자 <input name="external_id" maxlength="128" required></label>
-<label><input type="checkbox" name="ownership_confirmed" required>관리자가 별도 경로로 소유 관계를 확인했습니다 (앱 자동 검증 아님)</label>
-<label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button>식별자 매핑 등록</button></form>
-{% endif %}{% if member.user.is_active %}<form class="danger-zone" method="post" action="/manage/{{ member.pk }}/revoke/">{% csrf_token %}
-<label>포털 비밀번호 재확인<input type="password" name="password" required autocomplete="current-password" aria-label="포털 비밀번호"></label><button class="danger">포털 계정 폐기 (NAS 삭제 없음)</button></form>{% endif %}</section>{% empty %}<p class="empty-state">회원 없음</p>{% endfor %}
-
+<div class="page-heading heading-row"><div><h1>회원 관리</h1><p>회원을 선택하여 승인·권한·예약 용량을 변경하세요.</p></div><div class="actions"><a href="/mfa/enroll/">내 OTP 등록</a>{% if global_admin %}<a data-modal href="/manage/?new=group">그룹 생성</a><a data-modal href="/manage/mfa-policy/">OTP 정책</a>{% endif %}</div></div>
+{% csrf_token %}
+<section class="panel"><h2>그룹</h2><ul class="compact-list">{% for tenant in tenants %}<li><span><strong>{{ tenant.name }}</strong><small>최대 {{ tenant.max_accounts }} 계정 · 예약 한도 {{ tenant.storage_limit_bytes }} bytes</small></span><a data-modal href="/manage/?group={{ tenant.pk }}">그룹 상세</a></li>{% empty %}<li>배정된 그룹 없음</li>{% endfor %}</ul></section>
+<section class="panel"><h2>회원</h2><ul class="compact-list">{% for member in members %}<li><span><strong>{{ member.user.username }}</strong><small>{{ member.tenant.name|default:'미배정' }} · {{ member.get_status_display }} · {{ member.get_role_display }}</small></span><a data-modal href="/manage/?member={{ member.pk }}">상세·변경<span class="sr-only"> — {{ member.user.username }}</span></a></li>{% empty %}<li>회원 없음</li>{% endfor %}</ul></section>
+<p class="supporting-text">포털 예약 용량은 NAS 실제 quota가 아닙니다. 계정 폐기는 NAS 파일을 삭제하지 않습니다.</p>
 {% endblock %}

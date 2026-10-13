@@ -23,7 +23,7 @@ class ChatBrowserTests(LiveServerTestCase):
                 page.goto(self.live_server_url + '/login/')
                 page.locator('[name=username]').fill(user.username)
                 page.locator('[name=password]').fill(password)
-                page.locator('button').click()
+                page.locator('main button').click()
                 if user == manager:
                     from tests.mfa_helpers import browser_enroll
                     browser_enroll(page, password)

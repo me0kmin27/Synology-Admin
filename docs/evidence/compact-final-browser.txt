@@ -1,0 +1,13 @@
+Creating test database for alias 'default'...
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 17.370s
+
+OK
+Destroying test database for alias 'default'...
+Found 7 test(s).
+System check identified no issues (0 silenced).
+PORTAL UI: 22 page states, 44 desktop/mobile captures; real signup/login/OTP/ticket/reply/chat/logout; no external requests or JS errors
+STORAGE BROWSER PASS: real login/HTTP; no-I/O reader unknown; own account; restricted group; forged scope ignored; no-store; no portal quotas presented as NAS data
+MFA BROWSER PASS: password login gated; enrollment seed only on protected response; OTP confirms; logout/new login requires fresh OTP
+OPTIONAL QR BROWSER PASS: actual POST SVG pixels decoded; exact synthetic URI; CSP; no external requests; confirmed opt-in challenges new login

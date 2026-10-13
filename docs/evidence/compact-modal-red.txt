@@ -1,0 +1,38 @@
+Creating test database for alias 'default'...
+F
+======================================================================
+FAIL: test_modal_focus_validation_escape_and_fallback (browser_tests.compact_ui.CompactBrowserTests.test_modal_focus_validation_escape_and_fallback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/browser_tests/compact_ui.py", line 38, in test_modal_focus_validation_escape_and_fallback
+    expect(dialog).to_be_visible()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/.venv/lib/python3.14/site-packages/playwright/sync_api/_generated.py", line 20523, in to_be_visible
+    self._sync(self._impl_obj.to_be_visible(visible=visible, timeout=timeout))
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_assertions.py", line 765, in to_be_visible
+    await self._expect_impl(
+    ...<5 lines>...
+    )
+  File "/Users/myeong-gyeongmin/synology-site-compact-ui/.venv/lib/python3.14/site-packages/playwright/_impl/_assertions.py", line 85, in _expect_impl
+    raise AssertionError(
+        f"{out_message}\nActual value: {actual}{error_message} {format_call_log(result.get('log'))}"
+    )
+AssertionError: Locator expected to be visible
+Actual value: None
+Error: element(s) not found
+Call log:
+  - Expect "to_be_visible" with timeout 5000ms
+  - waiting for get_by_role("dialog")
+
+
+----------------------------------------------------------------------
+Ran 1 test in 7.347s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).
