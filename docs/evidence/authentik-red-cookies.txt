@@ -1,0 +1,27 @@
+Creating test database for alias 'default'...
+FF
+======================================================================
+FAIL: test_insecure_cookie_configuration_disables_sso_not_local_login (tests.test_oidc.OIDCFlowTests.test_insecure_cookie_configuration_disables_sso_not_local_login) (overrides={'SESSION_COOKIE_SECURE': False})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/tests/test_oidc.py", line 171, in test_insecure_cookie_configuration_disables_sso_not_local_login
+    self.assertEqual(self.client.post('/auth/oidc/login/', secure=True).status_code, 503)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 302 != 503
+
+======================================================================
+FAIL: test_insecure_cookie_configuration_disables_sso_not_local_login (tests.test_oidc.OIDCFlowTests.test_insecure_cookie_configuration_disables_sso_not_local_login) (overrides={'CSRF_COOKIE_SECURE': False})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/tests/test_oidc.py", line 171, in test_insecure_cookie_configuration_disables_sso_not_local_login
+    self.assertEqual(self.client.post('/auth/oidc/login/', secure=True).status_code, 503)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 302 != 503
+
+----------------------------------------------------------------------
+Ran 1 test in 0.018s
+
+FAILED (failures=2)
+Destroying test database for alias 'default'...
+Found 1 test(s).
+System check identified no issues (0 silenced).

@@ -6,5 +6,15 @@
 <div class="page-heading"><p class="eyebrow">ACCOUNT ACCESS</p><h1>{{ title }}</h1><p>독립 포털 계정입니다. DSM 비밀번호를 사용하지 마세요.</p></div>
 <section class="panel auth-panel"><form method="post">{% csrf_token %}{% include "ui/fields.html" %}<button type="submit">제출</button></form>
 <div class="auth-footer">{% if title == '포털 가입' %}이미 계정이 있나요? <a href="/login/">로그인</a>{% else %}처음 방문하셨나요? <a href="/signup/">포털 가입</a>{% endif %}</div></section>
+{% if oidc_available %}
+<section class="panel auth-panel" aria-label="authentik SSO">
+<h2>authentik 로그인</h2>
+<form method="post" action="/auth/oidc/login/">{% csrf_token %}
+<label for="oidc-tenant">신규 가입 그룹 (기존 계정의 그룹은 변경되지 않습니다)</label>
+<select id="oidc-tenant" name="tenant"><option value="">관리자 배정 대기</option>{% for tenant in oidc_tenants %}<option value="{{ tenant.pk }}">{{ tenant.name }}</option>{% endfor %}</select>
+<button type="submit">authentik으로 계속</button>
+</form><p>최초 로그인 후 포털 관리자 승인이 필요합니다. 기존 로컬 계정과 자동 연결하지 않습니다.</p>
+</section>
+{% endif %}
 <p class="supporting-text">가입 후 관리자 승인이 필요합니다. 포털 가입은 NAS 계정을 자동으로 생성하지 않습니다.</p>
 {% endblock %}

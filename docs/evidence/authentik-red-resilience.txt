@@ -1,0 +1,116 @@
+Creating test database for alias 'default'...
+.....EE..F.....
+======================================================================
+ERROR: test_malformed_discovery_fails_closed (tests.test_oidc.OIDCFlowTests.test_malformed_discovery_fails_closed) (document=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/tests/test_oidc.py", line 159, in test_malformed_discovery_fails_closed
+    self.assertEqual(self.client.post('/auth/oidc/login/', secure=True).status_code, 503)
+                     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/client.py", line 1156, in post
+    response = super().post(
+        path,
+    ...<5 lines>...
+        **extra,
+    )
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/client.py", line 499, in post
+    return self.generic(
+           ~~~~~~~~~~~~^
+        "POST",
+        ^^^^^^^
+    ...<6 lines>...
+        **extra,
+        ^^^^^^^^
+    )
+    ^
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/client.py", line 671, in generic
+    return self.request(**r)
+           ~~~~~~~~~~~~^^^^^
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/client.py", line 1090, in request
+    self.check_exception(response)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/client.py", line 805, in check_exception
+    raise exc_value
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/views/decorators/cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/views/decorators/debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/views/decorators/debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/membership/oidc.py", line 101, in start
+    document = metadata(config[0])
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/membership/oidc.py", line 59, in metadata
+    if document['issuer'] != issuer:
+       ~~~~~~~~^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+
+======================================================================
+ERROR: test_malformed_discovery_fails_closed (tests.test_oidc.OIDCFlowTests.test_malformed_discovery_fails_closed) (document=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/tests/test_oidc.py", line 159, in test_malformed_discovery_fails_closed
+    self.assertEqual(self.client.post('/auth/oidc/login/', secure=True).status_code, 503)
+                     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/client.py", line 1156, in post
+    response = super().post(
+        path,
+    ...<5 lines>...
+        **extra,
+    )
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/client.py", line 499, in post
+    return self.generic(
+           ~~~~~~~~~~~~^
+        "POST",
+        ^^^^^^^
+    ...<6 lines>...
+        **extra,
+        ^^^^^^^^
+    )
+    ^
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/client.py", line 671, in generic
+    return self.request(**r)
+           ~~~~~~~~~~~~^^^^^
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/client.py", line 1090, in request
+    self.check_exception(response)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/client.py", line 805, in check_exception
+    raise exc_value
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/views/decorators/cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/views/decorators/debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/views/decorators/debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/membership/oidc.py", line 101, in start
+    document = metadata(config[0])
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/membership/oidc.py", line 59, in metadata
+    if document['issuer'] != issuer:
+       ~~~~~~~~^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+
+======================================================================
+FAIL: test_sso_throttle_does_not_share_anonymous_identity (tests.test_oidc.OIDCFlowTests.test_sso_throttle_does_not_share_anonymous_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/.venv/lib/python3.14/site-packages/django/test/utils.py", line 456, in inner
+    return func(*args, **kwargs)
+  File "/Users/myeong-gyeongmin/Synology-Admin-authentik/tests/test_oidc.py", line 165, in test_sso_throttle_does_not_share_anonymous_identity
+    self.assertEqual(Client(REMOTE_ADDR='192.0.2.99').post('/auth/oidc/login/', secure=True).status_code, 302)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 302
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.356s
+
+FAILED (failures=1, errors=2)
+Destroying test database for alias 'default'...
+Found 14 test(s).
+System check identified no issues (0 silenced).

@@ -5,6 +5,7 @@ Synology NAS 고객 포털·운영자 관리 시스템의 **초기 개발 기반
 별도 저장소 `me0kmin27/Rustdesk-Quicksupport`는 변경하지 않습니다.
 
 ## 구현된 범위
+- authentik OIDC 선택 인증 (기본 OFF): code+S256 PKCE, issuer+subject 매핑, 신규 pending 승인, 기존 로컬 비상 관리자 유지. 설정/운영 활성화 게이트는 `docs/authentik-oidc.md` 참조. Synology SSO 제안은 대체되었으며 NAS backend 인증은 별도입니다.
 - Django 5.2.18 / Python 3.14 최소 웹 앱, 사실에 기반한 한국어 안내 페이지
 - 실제 DB 연결 `/health/` (NAS는 `not_configured`), Django 기본 및 회원 도메인 DB migrations
 - 공개 그룹 선택 가입 pending → 범위 내 그룹관리자 승인 → 외부 ID 매핑; 폐기 시 로그인 비활성화·세션 폐기·감사 유지
@@ -58,4 +59,4 @@ SECRET_KEY는 재시작 간 유지가 필요한 실제 서비스에서 secret st
 
 Git에는 소스/문서/비밀 없는 설정만 저장합니다. 회원·티켓·채팅·NAS 파일·운영 DB·접속 비밀은 금지입니다.
 NAS 모델/DSM/API, 그룹 quota 의미, 배포 호스트, NAS 연결 상세 절차, RustDesk 웹 capability/라이선스는 미확정입니다.
-인증 방식은 독립 포털 계정 → 관리자 승인 → NAS 연결로 사용자 확정했습니다. DSM 비밀번호 포털 로그인은 제공하지 않습니다. `docs/membership-auth-decision.md` 참조.
+인증 방식은 authentik 선택 SSO + 기존 로컬 계정 유지 → 포털 관리자 승인 → NAS 연결입니다. IdP 이메일 자동 연결/그룹 권한 승격은 하지 않습니다. DSM 비밀번호 포털 로그인은 제공하지 않습니다. `docs/authentik-oidc.md`와 `docs/membership-auth-decision.md` 참조.

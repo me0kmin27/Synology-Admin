@@ -14,7 +14,8 @@ Django 내장 auth 테이블 설치는 회원 승인 기능 완성을 뜻하지 
 구현: Django 단일 앱, 일회 개발 SQLite. 그룹 정책 동시성의 운영 계약은 PostgreSQL READ COMMITTED + DB sessions 필수이며 SQLite 관리 변경은 기본 fail-closed. NAS 연결은 별도 adapter/worker 제안.
 미결정: NAS 모델·DSM·파일시스템·API capability, 사용자/그룹 quota 지원 및 중복 그룹 집계,
 갱신 주기·SLO, 그룹 사용량 열람 범위, NAS 연결 상세 절차, 보존기한·RPO/RTO·과금.
-인증 방식 확정: 독립 포털 계정으로 웹 가입·관리자 승인 후 NAS 계정 연결. DSM 비밀번호로 포털 로그인하지 않는다. `membership-auth-decision.md` 참조.
+인증 방식 확정: authentik 선택 OIDC + 기존 로컬 비상 로그인 유지 → 포털 관리자 승인 → NAS 계정 연결. Synology SSO 제안은 대체되었다. issuer+subject 고유 매핑, 이메일 자동 연결 금지, IdP 그룹에 의한 권한 승격 금지, 신규 pending 승인, 기존 MFA/재인증 경계 유지. DSM 비밀번호로 포털 로그인하지 않는다. `authentik-oidc.md`와 `membership-auth-decision.md` 참조.
+구현 데이터: OIDCIdentity(issuer, subject, unique user), OIDCLoginAttempt(state hash, browser/config binding, 5분 만료, 원자적 1회 소비, 서버측 tenant/PKCE/nonce). 토큰은 저장하지 않으며 IdP provider 설정/운영 활성화는 별도 게이트이다.
 어떠한 API 지원이나 웹 원격지원 가능 여부도 아직 입증되지 않았다.
 
 ## 역할과 격리 수용 기준 (회원 일부 구현, 전체 수용 미완료)
