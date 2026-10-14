@@ -98,7 +98,10 @@ class CompactUITests(TestCase):
                 pk = (ticket.pk if pattern.startswith('support/') else conversation.pk if pattern.startswith('chat/') else self.tenant.pk if pattern.startswith('manage/groups/') else self.membership.pk)
                 path = '/' + pattern.replace('<int:pk>', str(pk))
                 response = self.client.get(path)
-                self.assertIn(response.status_code, (200, 302, 403, 405), (role, path))
+                if path in ('/auth/oidc/login/', '/auth/oidc/callback/'):
+                    self.assertIn(response.status_code, (302, 503), (role, path))  # Disabled feature; MFA may redirect admins.
+                else:
+                    self.assertIn(response.status_code, (200, 302, 403, 405), (role, path))
                 records.append({'role': role, 'route': pattern, 'path': path, 'status': response.status_code})
                 if response.status_code == 200 and 'text/html' in response.get('Content-Type', ''):
                     for href in set(self.links(response).links):

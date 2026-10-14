@@ -1,5 +1,15 @@
 # 회원 단계 인증 결정
 
+## 현재 결정: authentik 선택 SSO
+
+사용자의 후속 결정으로 Synology SSO 제안 대신 `sso.keiminem.com`의 authentik OIDC를 사용합니다.
+기본 OFF인 선택 인증이며 기존 로컬 계정/비상 관리자/OTP/재인증은 유지합니다.
+외부 주체는 issuer+subject로만 매핑하고 이메일 자동 연결이나 IdP 그룹 권한 승격은 하지 않습니다.
+신규 주체도 포털 pending 승인과 tenant 권한 경계를 거칩니다. NAS backend 자격증명은 별개입니다.
+구현/정확한 callback/미확정 provider/활성화 게이트는 `authentik-oidc.md`를 따릅니다.
+아래 날짜별 결정은 역사적 경위이며 현재 SSO 요구를 대체하지 않습니다.
+
+
 현재 관리자 OTP 등록 요구는 `admin-mfa.md`의 선택 기본(FALSE) DB 정책으로
 갱신됐다. 아래 2026-10-12의 무조건 강제 등록 관련 내용은 역사적 결정이며,
 선택 bootstrap의 OTP 미등록을 차단조건으로 사용하지 않는다. 확인 완료한

@@ -1,0 +1,66 @@
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 14 test(s).
+Operations to perform:
+  Apply all migrations: auth, chat, contenttypes, membership, sessions, support
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying membership.0001_initial... OK
+  Applying membership.0002_auditevent... OK
+  Applying membership.0003_membership_session_version... OK
+  Applying membership.0004_nasbinding... OK
+  Applying membership.0005_authattempt... OK
+  Applying membership.0006_membership_membership_valid_status_and_more... OK
+  Applying membership.0007_tenant_signup_enabled... OK
+  Applying membership.0008_tenant_max_accounts_tenant_storage_limit_bytes_and_more... OK
+  Applying membership.0009_membership_quota_bytes... OK
+  Applying membership.0010_seed_existing_capacity... OK
+  Applying chat.0001_initial... OK
+  Applying chat.0002_message... OK
+  Applying chat.0003_ratewindow... OK
+  Applying chat.0004_conversation_conversation_tenant_cursor... OK
+  Applying membership.0011_adminotpdevice... OK
+  Applying membership.0012_bootstrap_admin... OK
+  Applying membership.0013_credential_audit... OK
+  Applying membership.0014_admin_mfa_policy... OK
+  Applying membership.0015_mfa_policy_audit... OK
+  Applying membership.0016_tenant_slug... OK
+  Applying membership.0017_oidcloginattempt... OK
+  Applying membership.0018_oidcidentity... OK
+  Applying sessions.0001_initial... OK
+  Applying support.0001_initial... OK
+  Applying support.0002_ticketreply... OK
+  Applying support.0003_ticket_ticket_tenant_cursor_and_more...test_disabled_endpoints_fail_closed_local_login_survives (tests.test_oidc.OIDCDisabledTests.test_disabled_endpoints_fail_closed_local_login_survives) ... ok
+test_closed_tenant_and_callback_injection (tests.test_oidc.OIDCFlowTests.test_closed_tenant_and_callback_injection) ... ok
+test_existing_principal_reused_without_tenant_reassignment (tests.test_oidc.OIDCFlowTests.test_existing_principal_reused_without_tenant_reassignment) ... ok
+test_invalid_tokens_fail_closed (tests.test_oidc.OIDCFlowTests.test_invalid_tokens_fail_closed) ... ok
+test_login_ui_exposes_only_enabled_sso (tests.test_oidc.OIDCFlowTests.test_login_ui_exposes_only_enabled_sso) ... ok
+test_malformed_discovery_fails_closed (tests.test_oidc.OIDCFlowTests.test_malformed_discovery_fails_closed) ... ok
+test_outage_consumes_state_and_local_login_remains (tests.test_oidc.OIDCFlowTests.test_outage_consumes_state_and_local_login_remains) ... ok
+test_provider_error_is_not_a_server_error (tests.test_oidc.OIDCFlowTests.test_provider_error_is_not_a_server_error) ... ok
+test_sso_throttle_does_not_share_anonymous_identity (tests.test_oidc.OIDCFlowTests.test_sso_throttle_does_not_share_anonymous_identity) ... ok
+test_start_is_throttled (tests.test_oidc.OIDCFlowTests.test_start_is_throttled) ... ok
+test_start_uses_pkce_nonce_and_csrf (tests.test_oidc.OIDCFlowTests.test_start_uses_pkce_nonce_and_csrf) ... ok
+test_state_browser_expiry_and_configuration_binding (tests.test_oidc.OIDCFlowTests.test_state_browser_expiry_and_configuration_binding) ... ok
+test_suspended_user_cannot_return (tests.test_oidc.OIDCFlowTests.test_suspended_user_cannot_return) ... ok
+test_verified_identity_creates_pending_user_without_email_linking (tests.test_oidc.OIDCFlowTests.test_verified_identity_creates_pending_user_without_email_linking) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.312s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
+System check identified no issues (0 silenced).

@@ -5,6 +5,29 @@ from django_otp.models import Device, ThrottlingMixin, TimestampMixin
 from django.views.decorators.debug import sensitive_variables
 
 
+class OIDCIdentity(models.Model):
+    """Immutable external principal; never resolved through mutable email."""
+    issuer = models.CharField(max_length=512)
+    subject = models.CharField(max_length=255)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['issuer', 'subject'], name='oidc_unique_principal')]
+
+
+class OIDCLoginAttempt(models.Model):
+    """Short-lived server-side PKCE transaction, atomically consumed once."""
+    state_hash = models.CharField(max_length=64, primary_key=True)
+    browser_hash = models.CharField(max_length=64)
+    configuration_hash = models.CharField(max_length=64)
+    nonce = models.CharField(max_length=128)
+    verifier = models.CharField(max_length=128)
+    tenant = models.ForeignKey('Tenant', null=True, on_delete=models.CASCADE)
+    expires_at = models.DateTimeField(db_index=True)
+    consumed = models.BooleanField(default=False)
+
+
 class AdminOTPDevice(TimestampMixin, ThrottlingMixin, Device):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     confirmed = models.BooleanField(default=False)

@@ -42,7 +42,7 @@ if os.environ.get('DJANGO_DB_ENGINE') == 'postgresql':
         'HOST': os.environ.get('PGHOST', '127.0.0.1'),
         'PORT': os.environ.get('PGPORT', '5432'),
     }}
-TEMPLATES = [{"BACKEND": "django.template.backends.django.DjangoTemplates", "DIRS": [BASE_DIR / "templates"], "APP_DIRS": True, "OPTIONS": {"context_processors": ["membership.navigation.navigation"]}}]
+TEMPLATES = [{"BACKEND": "django.template.backends.django.DjangoTemplates", "DIRS": [BASE_DIR / "templates"], "APP_DIRS": True, "OPTIONS": {"context_processors": ["membership.navigation.navigation", "membership.oidc.login_context"]}}]
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 SECURE_SSL_REDIRECT = not LOCAL_HTTP
@@ -69,3 +69,10 @@ MFA_ENCRYPTION_KEYS = [key for key in os.environ.get("MFA_ENCRYPTION_KEYS", "").
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/account/"
 LOGOUT_REDIRECT_URL = "/login/"
+
+# Optional authentik integration. No defaults infer or activate a live provider.
+OIDC_ENABLED = os.environ.get('OIDC_ENABLED') == '1'
+OIDC_ISSUER = os.environ.get('OIDC_ISSUER', '')
+OIDC_CLIENT_ID = os.environ.get('OIDC_CLIENT_ID', '')
+OIDC_CLIENT_SECRET = os.environ.get('OIDC_CLIENT_SECRET', '')
+OIDC_REDIRECT_URI = os.environ.get('OIDC_REDIRECT_URI', '')
